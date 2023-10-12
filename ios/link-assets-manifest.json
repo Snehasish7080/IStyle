@@ -1,0 +1,97 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Kalam-Bold.ttf",
+      "sha1": "2a559015d425e2197d24dd64ec5f575b713c008f"
+    },
+    {
+      "path": "src/assets/fonts/Kalam-Light.ttf",
+      "sha1": "309afbdc02fed52d623f9870114f826f43623da7"
+    },
+    {
+      "path": "src/assets/fonts/Kalam-Regular.ttf",
+      "sha1": "8780563680372a86968c46c50cba05143654fe49"
+    },
+    {
+      "path": "src/assets/fonts/Lato-Black.ttf",
+      "sha1": "a001eb827743636e04f8efa7d4aeedf0541c46ac"
+    },
+    {
+      "path": "src/assets/fonts/Lato-BlackItalic.ttf",
+      "sha1": "b490ec02c69bb74f5b4f487c59e984891c8da71c"
+    },
+    {
+      "path": "src/assets/fonts/Lato-Bold.ttf",
+      "sha1": "542498221d97bee5bdbccf86ee8890bf8e8005c9"
+    },
+    {
+      "path": "src/assets/fonts/Lato-BoldItalic.ttf",
+      "sha1": "6bf491e78e16d3b9c8a55752e1bd658e15ed7f19"
+    },
+    {
+      "path": "src/assets/fonts/Lato-Italic.ttf",
+      "sha1": "190187b720ec2f2ff2e4281237e301000e09673f"
+    },
+    {
+      "path": "src/assets/fonts/Lato-Light.ttf",
+      "sha1": "ad0d178564445a535b15d417f5b18019923d3bab"
+    },
+    {
+      "path": "src/assets/fonts/Lato-LightItalic.ttf",
+      "sha1": "34388d9a3b64380c9f08d424d0adaa88a0d1650a"
+    },
+    {
+      "path": "src/assets/fonts/Lato-Regular.ttf",
+      "sha1": "e923c72eda5e50a87e18ff5c71e9ef4b3b6455a3"
+    },
+    {
+      "path": "src/assets/fonts/Lato-Thin.ttf",
+      "sha1": "07290446bee3f81ce501a3c3dbfde6097c70ca15"
+    },
+    {
+      "path": "src/assets/fonts/Lato-ThinItalic.ttf",
+      "sha1": "ff4a1a9fe2dcc41d993f4c5067a3baa1c456ff97"
+    },
+    {
+      "path": "src/assets/fonts/MarckScript-Regular.ttf",
+      "sha1": "254431c73407e4cd8f02055223ed812d20a99414"
+    },
+    {
+      "path": "src/assets/fonts/OFL.txt",
+      "sha1": "dced1a41948e9968f9026cbc7ddabbf88e65423b"
+    },
+    {
+      "path": "src/assets/fonts/Oswald-Bold.ttf",
+      "sha1": "6e78c90d65a6133d979daebc1255d2f560a97c79"
+    },
+    {
+      "path": "src/assets/fonts/Oswald-ExtraLight.ttf",
+      "sha1": "ac9323c6f3e5965bbeee4c57db7b78d8d67c9d1b"
+    },
+    {
+      "path": "src/assets/fonts/Oswald-Light.ttf",
+      "sha1": "18b6fe10677763e882985371a015bdc45ec2943c"
+    },
+    {
+      "path": "src/assets/fonts/Oswald-Medium.ttf",
+      "sha1": "70e75da33d777c839cf59cb042adf7fc5fa0235a"
+    },
+    {
+      "path": "src/assets/fonts/Oswald-Regular.ttf",
+      "sha1": "06aae8f5a28908ba8eca0d5bdc01cedc2a184a5f"
+    },
+    {
+      "path": "src/assets/fonts/Oswald-SemiBold.ttf",
+      "sha1": "10d1c319ab0685f35f3c9eb87a9524de0560345e"
+    },
+    {
+      "path": "src/assets/fonts/Satisfy-Regular.ttf",
+      "sha1": "fd2f096e9d0cd82b9f8e191d7f73167176d0f729"
+    },
+    {
+      "path": "src/assets/fonts/ShadowsIntoLight-Regular.ttf",
+      "sha1": "e512d65b44398e83907215402d477643751c1dfa"
+    }
+  ]
+}
