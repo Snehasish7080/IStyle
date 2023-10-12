@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 30,
+    paddingHorizontal: 90,
     justifyContent: 'space-between',
     height: 60,
     backgroundColor: Colors.black,

@@ -96,7 +96,7 @@ const AppButton: React.FC<AppButtonProps> = ({
             <LinearGradient
               start={vec(gradientDiff, gradientDiff)}
               end={vec(0, 0)}
-              colors={[Colors.secondaryLight, Colors.primary]}
+              colors={[Colors.secondary, Colors.primary]}
             />
           </Box>
         </Canvas>
