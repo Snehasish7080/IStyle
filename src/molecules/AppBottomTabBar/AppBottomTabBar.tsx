@@ -8,7 +8,7 @@ import {
   TabNavigationState,
 } from '@react-navigation/native';
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, Vibration, View} from 'react-native';
 import {EdgeInsets} from 'react-native-safe-area-context';
 import {Colors} from '../../utils/theme';
 import {styles} from './AppBottomTabBarStyles';
@@ -54,7 +54,10 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
           };
           return (
             <TouchableOpacity
-              onPress={onPress}
+              onPress={() => {
+                onPress();
+                Vibration.vibrate(1);
+              }}
               key={route.name}
               style={[
                 styles.tab,

@@ -14,6 +14,6 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
     flex: 1,
-    borderRadius: 20,
+    borderRadius: 35,
   },
 });

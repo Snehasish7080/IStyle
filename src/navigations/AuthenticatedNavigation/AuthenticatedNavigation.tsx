@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import HomeScreen from '../../screens/HomeScreen/HomeScreen';
 import TabNavigation from '../TabNavigation/TabNavigation';
 import {AuthenticatedRouteList} from './AuthenticatedNavigationTypes';
 
