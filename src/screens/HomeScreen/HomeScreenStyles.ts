@@ -13,10 +13,11 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     flex: 1,
     borderRadius: 35,
+    overflow: 'hidden',
   },
-  contentContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+  tagLineContainer: {
+    paddingTop: 20,
+    paddingBottom: 30,
   },
   tagLine: {
     fontFamily: FontFamily.LatoBold,

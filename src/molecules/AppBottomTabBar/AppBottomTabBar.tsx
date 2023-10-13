@@ -7,9 +7,11 @@ import {
   ParamListBase,
   TabNavigationState,
 } from '@react-navigation/native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {TouchableOpacity, Vibration, View} from 'react-native';
+import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {EdgeInsets} from 'react-native-safe-area-context';
+import {MainContext} from '../../../App';
 import {Colors} from '../../utils/theme';
 import {styles} from './AppBottomTabBarStyles';
 
@@ -24,8 +26,22 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
   navigation,
   state,
 }) => {
+  const {isScrolling} = useContext(MainContext);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    if (isScrolling) {
+      return {
+        height: Boolean(isScrolling?.value) ? withTiming(0) : withTiming(60),
+      };
+    } else {
+      return {
+        height: 60,
+      };
+    }
+  }, [isScrolling]);
+
   return (
-    <View style={styles.mainContainer}>
+    <Animated.View style={[styles.mainContainer, animatedStyle]}>
       <View style={styles.container}>
         {state.routes.map((route, index) => {
           const {options} = descriptors[route.key];
@@ -71,7 +87,7 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
           );
         })}
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

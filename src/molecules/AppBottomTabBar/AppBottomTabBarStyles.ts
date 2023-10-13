@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
     height: 60,
     width: '100%',
     alignItems: 'center',
-    zIndex: 10,
     backgroundColor: Colors.black,
   },
   container: {

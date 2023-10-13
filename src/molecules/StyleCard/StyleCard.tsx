@@ -15,7 +15,11 @@ import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 
-const StyleCard = () => {
+type StyleCardProps = {
+  image: string;
+  links: {image: string}[];
+};
+const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
   const width = horizontalScale(320);
   const height = horizontalScale(320);
   return (
@@ -42,7 +46,7 @@ const StyleCard = () => {
       </View>
       <ImageBackground
         source={{
-          uri: `https://images.unsplash.com/photo-1603217041431-9a99375beab0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80`,
+          uri: image,
           width: PixelRatio.getPixelSizeForLayoutSize(width),
           height: PixelRatio.getPixelSizeForLayoutSize(height),
         }}
@@ -76,23 +80,23 @@ const StyleCard = () => {
           </AppText>
         </View>
       </ImageBackground>
-      <ScrollView horizontal contentContainerStyle={{paddingVertical: 10}}>
-        <Image
-          source={{
-            uri: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
-            width: PixelRatio.getPixelSizeForLayoutSize(50),
-            height: PixelRatio.getPixelSizeForLayoutSize(50),
-          }}
-          style={styles.link}
-        />
-        <Image
-          source={{
-            uri: 'https://plus.unsplash.com/premium_photo-1665664652383-2308d742943c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80',
-            width: PixelRatio.getPixelSizeForLayoutSize(50),
-            height: PixelRatio.getPixelSizeForLayoutSize(50),
-          }}
-          style={styles.link}
-        />
+      <ScrollView
+        horizontal
+        contentContainerStyle={{paddingVertical: 10}}
+        showsHorizontalScrollIndicator={false}>
+        {links.map((item, index) => {
+          return (
+            <Image
+              source={{
+                uri: item.image,
+                width: PixelRatio.getPixelSizeForLayoutSize(50),
+                height: PixelRatio.getPixelSizeForLayoutSize(50),
+              }}
+              style={styles.link}
+              key={index}
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );

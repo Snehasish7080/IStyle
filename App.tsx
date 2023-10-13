@@ -5,29 +5,29 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {createContext} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import ParentNavigation from './src/navigations/ParentNavigation/ParentNavigation';
+import {SharedValue, useSharedValue} from 'react-native-reanimated';
+
+type State = {
+  isScrolling?: SharedValue<number>;
+};
+const initialValue: State = {
+  isScrolling: undefined,
+};
+export const MainContext = createContext<State>(initialValue);
 
 function App(): JSX.Element {
+  const isScrolling = useSharedValue<number>(0);
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -36,16 +36,21 @@ function App(): JSX.Element {
   };
 
   return (
-    <NavigationContainer>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
+    <MainContext.Provider
+      value={{
+        isScrolling,
+      }}>
+      <NavigationContainer>
+        <SafeAreaView style={backgroundStyle}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
 
-        <ParentNavigation />
-      </SafeAreaView>
-    </NavigationContainer>
+          <ParentNavigation />
+        </SafeAreaView>
+      </NavigationContainer>
+    </MainContext.Provider>
   );
 }
 
