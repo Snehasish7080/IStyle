@@ -1,4 +1,4 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, useWindowDimensions} from 'react-native';
 import React, {useContext} from 'react';
 import {styles} from './HomeScreenStyles';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
@@ -7,11 +7,14 @@ import StyleCard from '../../molecules/StyleCard/StyleCard';
 import {data} from '../../utils/dummyData';
 import Animated, {
   useAnimatedScrollHandler,
+  useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 import {MainContext} from '../../../App';
 
 const HomeScreen = () => {
+  const {height} = useWindowDimensions();
   const {isScrolling} = useContext(MainContext);
   const previousScrollValue = useSharedValue(0);
   const onScroll = useAnimatedScrollHandler({
@@ -25,15 +28,24 @@ const HomeScreen = () => {
           isScrolling.value = 1;
         }
       }
-      previousScrollValue.value = Math.max(e.contentOffset.y, 0);
-    },
-    onEndDrag: e => {
-      previousScrollValue.value = Math.max(e.contentOffset.y, 0);
+      if (e.contentOffset.y > 0) {
+        previousScrollValue.value = Math.max(e.contentOffset.y, 0);
+      } else {
+        previousScrollValue.value = 0;
+      }
     },
   });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: Boolean(isScrolling?.value)
+        ? withTiming(height - 10)
+        : withTiming(height - 72),
+    };
+  }, [isScrolling]);
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, animatedStyle]}>
         <AppHeader />
         <Animated.FlatList
           showsVerticalScrollIndicator={false}
@@ -54,7 +66,7 @@ const HomeScreen = () => {
           }}
           contentContainerStyle={{
             flexGrow: 1,
-            paddingBottom: 80,
+            paddingBottom: 100,
             paddingHorizontal: 20,
           }}
           ItemSeparatorComponent={() => (
@@ -67,7 +79,7 @@ const HomeScreen = () => {
           onScroll={onScroll}
           scrollEventThrottle={16}
         />
-      </View>
+      </Animated.View>
     </View>
   );
 };

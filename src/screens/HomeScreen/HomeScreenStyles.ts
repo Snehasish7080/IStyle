@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {horizontalScale} from '../../utils/scale';
 import {Colors, FontFamily} from '../../utils/theme';
 
@@ -11,9 +11,9 @@ export const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: Colors.white,
-    flex: 1,
     borderRadius: 35,
     overflow: 'hidden',
+    // flex: 1,
   },
   tagLineContainer: {
     paddingTop: 20,

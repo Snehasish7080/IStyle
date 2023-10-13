@@ -7,6 +7,8 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     backgroundColor: Colors.black,
+    position: 'absolute',
+    bottom: 0,
   },
   container: {
     width: '100%',
