@@ -5,6 +5,7 @@ import ExploreIcon from '../../atoms/ExploreIcon/ExploreIcon';
 import HomeIcon from '../../atoms/HomeIcon/HomeIcon';
 import ProfileIcon from '../../atoms/ProfileIcon/ProfileIcon';
 import AppBottomTabBar from '../../molecules/AppBottomTabBar/AppBottomTabBar';
+import ExploreScreen from '../../screens/ExploreScreen/ExploreScreen';
 // import AppHeader from '../../molecules/AppHeader/AppHeader';
 import HomeScreen from '../../screens/HomeScreen/HomeScreen';
 import {TabNavigationRouteList} from './TabNavigationTypes';
@@ -30,7 +31,7 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="ExploreScreen"
-        component={HomeScreen}
+        component={ExploreScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => {

@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     width: 60,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   leftSection: {
     flexDirection: 'row',

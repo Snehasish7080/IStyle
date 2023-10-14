@@ -16,13 +16,16 @@ const Icon = Skia.SVG.MakeFromString(
     </svg>`,
 )!;
 
-const SearchIcon = () => {
+type SearchIconProps = {
+  color?: string;
+};
+const SearchIcon: React.FC<SearchIconProps> = ({color = Colors.dark}) => {
   const src = rect(0, 0, 24, 24);
   const dst = rect(0, 0, 18, 18);
 
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.dark), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(color), BlendMode.SrcIn),
   );
   return (
     <Canvas style={{width: 18, height: 18}}>

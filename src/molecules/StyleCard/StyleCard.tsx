@@ -84,7 +84,7 @@ const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
         horizontal
         contentContainerStyle={{paddingVertical: 10}}
         showsHorizontalScrollIndicator={false}>
-        {links.map((item, index) => {
+        {links?.map((item, index) => {
           return (
             <Image
               source={{
