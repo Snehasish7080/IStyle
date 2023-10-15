@@ -78,6 +78,7 @@ const HomeScreen = () => {
           )}
           onScroll={onScroll}
           scrollEventThrottle={16}
+          decelerationRate="fast"
         />
       </Animated.View>
     </View>
