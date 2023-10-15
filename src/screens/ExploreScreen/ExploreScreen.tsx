@@ -1,28 +1,25 @@
+import React, {useContext, useState} from 'react';
 import {
-  View,
-  Text,
-  FlatList,
-  useWindowDimensions,
-  TouchableOpacity,
   NativeScrollEvent,
   ScrollView,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-import {styles} from './ExploreScreenStyles';
-import AppHeader from '../../molecules/AppHeader/AppHeader';
-import AppText from '../../atoms/AppText/AppText';
-import StyleCard from '../../molecules/StyleCard/StyleCard';
-import {data} from '../../utils/dummyData';
 import Animated, {
-  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import {MainContext} from '../../../App';
+import AppText from '../../atoms/AppText/AppText';
 import SearchIcon from '../../atoms/SearchIcon/SearchIcon';
-import {Colors} from '../../utils/theme';
+import AppHeader from '../../molecules/AppHeader/AppHeader';
 import ExploreCard from '../../molecules/ExploreCard/ExploreCard';
+import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
+import {data} from '../../utils/dummyData';
+import {Colors} from '../../utils/theme';
+import {styles} from './ExploreScreenStyles';
 import SyncedScrollView from './SyncedScrollView';
 import {SyncedScrollViewContext} from './SyncedScrollViewContext';
 
@@ -35,7 +32,9 @@ const tagList = [
   'Wedding',
   'Birthday',
 ];
-const ExploreScreen = () => {
+const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
+  navigation,
+}) => {
   const [selectedTag, setSelectedTag] = useState('Trending Now');
   const activeScrollView = useSharedValue('');
   const offsetPercent = useSharedValue(0);
@@ -150,7 +149,17 @@ const ExploreScreen = () => {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
                 return (
-                  <ExploreCard image={item.image} isSmall={index % 2 === 0} />
+                  <ExploreCard
+                    id={index.toString() + 'first'}
+                    image={item.image}
+                    isSmall={index % 2 === 0}
+                    onPress={() => {
+                      navigation.navigate('StyleViewScreen', {
+                        image: item.image,
+                        key: index.toString() + 'first',
+                      });
+                    }}
+                  />
                 );
               }}
               ItemSeparatorComponent={() => <View style={{height: 10}} />}
@@ -170,7 +179,17 @@ const ExploreScreen = () => {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
                 return (
-                  <ExploreCard image={item.image} isSmall={index % 2 !== 0} />
+                  <ExploreCard
+                    id={index.toString() + 'second'}
+                    image={item.image}
+                    isSmall={index % 2 !== 0}
+                    onPress={() => {
+                      navigation.navigate('StyleViewScreen', {
+                        image: item.image,
+                        key: index.toString() + 'second',
+                      });
+                    }}
+                  />
                 );
               }}
               ItemSeparatorComponent={() => <View style={{height: 10}} />}

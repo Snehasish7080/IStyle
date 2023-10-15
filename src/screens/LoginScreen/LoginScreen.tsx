@@ -1,13 +1,12 @@
-import {View, Text, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {UnAuthenticatedNavProps} from '../../navigations/UnAuthenticatedNavigation/UnAuthenticatedNavigationTypes';
-import BackButton from '../../atoms/BackButton/BackButton';
-import AppText from '../../atoms/AppText/AppText';
-import {styles} from './LoginScreenStyles';
-import AppInputBox from '../../atoms/AppInputBox/AppInputBox';
 import {StackActions} from '@react-navigation/native';
+import React from 'react';
+import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 import AppButton from '../../atoms/AppButton/AppButton';
+import AppInputBox from '../../atoms/AppInputBox/AppInputBox';
+import AppText from '../../atoms/AppText/AppText';
+import {UnAuthenticatedNavProps} from '../../navigations/UnAuthenticatedNavigation/UnAuthenticatedNavigationTypes';
 import {horizontalScale} from '../../utils/scale';
+import {styles} from './LoginScreenStyles';
 
 const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
   navigation,

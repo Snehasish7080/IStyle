@@ -18,6 +18,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({hideSearch = false}) => {
           IStyle
         </AppText>
       </View>
+
       <View style={styles.rightSection}>
         {!hideSearch && <SearchIcon />}
         <TouchableOpacity style={{marginLeft: 25}}>

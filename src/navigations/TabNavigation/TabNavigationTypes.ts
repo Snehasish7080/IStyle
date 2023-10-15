@@ -2,7 +2,7 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 
 export type TabNavigationRouteList = {
   HomeScreen: undefined;
-  ExploreScreen: undefined;
+  ExploreNavigation: undefined;
   ProfileScreen: undefined;
 };
 export type TabNavigationProp<T extends keyof TabNavigationRouteList> =

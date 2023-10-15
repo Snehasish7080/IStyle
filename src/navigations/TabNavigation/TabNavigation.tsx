@@ -1,13 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {View} from 'react-native';
 import ExploreIcon from '../../atoms/ExploreIcon/ExploreIcon';
 import HomeIcon from '../../atoms/HomeIcon/HomeIcon';
 import ProfileIcon from '../../atoms/ProfileIcon/ProfileIcon';
 import AppBottomTabBar from '../../molecules/AppBottomTabBar/AppBottomTabBar';
-import ExploreScreen from '../../screens/ExploreScreen/ExploreScreen';
-// import AppHeader from '../../molecules/AppHeader/AppHeader';
 import HomeScreen from '../../screens/HomeScreen/HomeScreen';
+import ExploreNavigation from '../ExploreNavigation/ExploreNavigation';
 import {TabNavigationRouteList} from './TabNavigationTypes';
 
 const Tab = createBottomTabNavigator<TabNavigationRouteList>();
@@ -24,14 +22,12 @@ const TabNavigation = () => {
           tabBarIcon: ({focused}) => {
             return <HomeIcon isFocused={focused} />;
           },
-          title: 'Feed',
-          // header: () => <AppHeader hideBack={true} mainTitle="Feed" />,
           headerShown: false,
         }}
       />
       <Tab.Screen
-        name="ExploreScreen"
-        component={ExploreScreen}
+        name="ExploreNavigation"
+        component={ExploreNavigation}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => {
