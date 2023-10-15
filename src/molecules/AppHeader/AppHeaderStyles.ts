@@ -11,6 +11,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 20,
     justifyContent: 'space-between',
+    zIndex: 10,
+    backgroundColor: Colors.white,
   },
   rightSection: {
     flexDirection: 'row',

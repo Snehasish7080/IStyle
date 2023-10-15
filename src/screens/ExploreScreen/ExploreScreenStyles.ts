@@ -23,10 +23,29 @@ export const styles = StyleSheet.create({
     borderColor: Colors.dark,
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 20,
+    marginHorizontal: 20,
   },
   search: {
     color: Colors.placeholder,
     marginLeft: 10,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+  },
+  tag: {
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.dark,
+    borderWidth: 1,
+    borderColor: Colors.dark,
+    marginRight: 5,
+  },
+  tagText: {
+    color: Colors.white,
+    fontSize: 12,
   },
 });

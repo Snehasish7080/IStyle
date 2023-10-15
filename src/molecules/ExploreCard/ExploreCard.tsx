@@ -1,21 +1,21 @@
-import {View, Text, TouchableOpacity, Image, PixelRatio} from 'react-native';
 import React from 'react';
-import {styles} from './ExploreCardStyles';
+import {Image, PixelRatio, TouchableOpacity, View} from 'react-native';
 import {horizontalScale} from '../../utils/scale';
+import {styles} from './ExploreCardStyles';
 
 type ExploreCardProps = {
   image: string;
-  index: number;
+  isSmall: boolean;
 };
-const ExploreCard: React.FC<ExploreCardProps> = ({image, index}) => {
-  const height = index === 1 ? horizontalScale(250) : horizontalScale(250);
+const ExploreCard: React.FC<ExploreCardProps> = ({image, isSmall}) => {
+  const height = isSmall ? horizontalScale(150) : horizontalScale(250);
   return (
-    <TouchableOpacity activeOpacity={1}>
+    <TouchableOpacity activeOpacity={1} style={{position: 'relative'}}>
       <Image
         source={{
           uri: image,
           width: PixelRatio.getPixelSizeForLayoutSize(150),
-          height: PixelRatio.getPixelSizeForLayoutSize(250),
+          height: height,
         }}
         style={[styles.image, {height}]}
       />
