@@ -6,7 +6,6 @@ export interface syncedScrollViewContextState {
   offsetPercent: SharedValue<number> | undefined;
   scrollY: SharedValue<number> | undefined;
   prevScrollY: SharedValue<number> | undefined;
-  previousScrollValue: SharedValue<number> | undefined;
 }
 
 const defaultState: syncedScrollViewContextState = {
@@ -14,7 +13,6 @@ const defaultState: syncedScrollViewContextState = {
   offsetPercent: undefined,
   scrollY: undefined,
   prevScrollY: undefined,
-  previousScrollValue: undefined,
 };
 
 export const SyncedScrollViewContext =

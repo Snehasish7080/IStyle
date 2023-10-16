@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     borderRadius: 35,
     overflow: 'hidden',
     // flex: 1,
+    height: Dimensions.get('window').height - 72,
   },
   tagLineContainer: {
     paddingTop: 20,

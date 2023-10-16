@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').height - 72,
     alignItems: 'flex-end',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   backBtn: {
     position: 'absolute',
@@ -38,5 +39,29 @@ export const styles = StyleSheet.create({
     height: 60,
     borderRadius: 12,
     marginBottom: 10,
+  },
+  iconCountContainer: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  count: {
+    fontSize: 14,
+    fontFamily: FontFamily.LatoBlack,
+    color: Colors.offWhite,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    borderRadius: 15,
+    marginBottom: 5,
+  },
+  actionContainer: {
+    marginBottom: 20,
+    marginRight: 20,
+    height: '60%',
   },
 });

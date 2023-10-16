@@ -41,34 +41,7 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
   const scrollY = useSharedValue(0);
   const prevScrollY = useSharedValue(0);
 
-  const {height} = useWindowDimensions();
-  const {isScrolling} = useContext(MainContext);
   const previousScrollValue = useSharedValue(0);
-
-  const onScroll = (e: NativeScrollEvent) => {
-    if (e.contentOffset.y < previousScrollValue.value) {
-      if (isScrolling) {
-        isScrolling.value = 0;
-      }
-    } else if (e.contentOffset.y > previousScrollValue.value) {
-      if (isScrolling) {
-        isScrolling.value = 1;
-      }
-    }
-    if (e.contentOffset.y > 0) {
-      previousScrollValue.value = Math.max(e.contentOffset.y, 0);
-    } else {
-      previousScrollValue.value = 0;
-    }
-  };
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      height: Boolean(isScrolling?.value)
-        ? withTiming(height - 10)
-        : withTiming(height - 72),
-    };
-  }, [isScrolling]);
 
   const animatedSearch = useAnimatedStyle(() => {
     return {
@@ -78,10 +51,10 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
         },
       ],
     };
-  }, [isScrolling]);
+  }, [scrollY]);
   return (
     <View style={styles.mainContainer}>
-      <Animated.View style={[styles.container, animatedStyle]}>
+      <Animated.View style={[styles.container]}>
         <AppHeader hideSearch={true} />
         <Animated.View
           style={[
@@ -141,7 +114,6 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
             offsetPercent,
             scrollY,
             prevScrollY,
-            previousScrollValue,
           }}>
           <View style={styles.listContainer}>
             <SyncedScrollView

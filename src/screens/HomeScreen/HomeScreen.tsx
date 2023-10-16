@@ -1,51 +1,16 @@
-import {View, Text, FlatList, useWindowDimensions} from 'react-native';
-import React, {useContext} from 'react';
-import {styles} from './HomeScreenStyles';
-import AppHeader from '../../molecules/AppHeader/AppHeader';
+import React from 'react';
+import {View} from 'react-native';
+import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
+import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
 import {data} from '../../utils/dummyData';
-import Animated, {
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import {MainContext} from '../../../App';
+import {styles} from './HomeScreenStyles';
 
 const HomeScreen = () => {
-  const {height} = useWindowDimensions();
-  const {isScrolling} = useContext(MainContext);
-  const previousScrollValue = useSharedValue(0);
-  const onScroll = useAnimatedScrollHandler({
-    onScroll: e => {
-      if (e.contentOffset.y < previousScrollValue.value) {
-        if (isScrolling) {
-          isScrolling.value = 0;
-        }
-      } else if (e.contentOffset.y > previousScrollValue.value) {
-        if (isScrolling) {
-          isScrolling.value = 1;
-        }
-      }
-      if (e.contentOffset.y > 0) {
-        previousScrollValue.value = Math.max(e.contentOffset.y, 0);
-      } else {
-        previousScrollValue.value = 0;
-      }
-    },
-  });
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      height: Boolean(isScrolling?.value)
-        ? withTiming(height - 10)
-        : withTiming(height - 72),
-    };
-  }, [isScrolling]);
   return (
     <View style={styles.mainContainer}>
-      <Animated.View style={[styles.container, animatedStyle]}>
+      <Animated.View style={[styles.container]}>
         <AppHeader />
         <Animated.FlatList
           showsVerticalScrollIndicator={false}
@@ -76,7 +41,6 @@ const HomeScreen = () => {
               }}
             />
           )}
-          onScroll={onScroll}
           scrollEventThrottle={16}
           decelerationRate="fast"
         />

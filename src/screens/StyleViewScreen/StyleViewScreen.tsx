@@ -8,7 +8,11 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import AppText from '../../atoms/AppText/AppText';
 import BackIcon from '../../atoms/BackIcon/BackIcon';
+import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
+import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
+import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 import {data} from '../../utils/dummyData';
 import {styles} from './StyleViewScreenStyles';
@@ -100,6 +104,32 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
                 );
               })}
             </ScrollView>
+          </View>
+          <View style={styles.actionContainer}>
+            <View style={styles.iconCountContainer}>
+              <View style={styles.icon}>
+                <HeartIcon />
+              </View>
+              <AppText lineHeight={14} style={styles.count}>
+                1.1k
+              </AppText>
+            </View>
+            <View style={styles.iconCountContainer}>
+              <View style={styles.icon}>
+                <CommentIcon />
+              </View>
+              <AppText lineHeight={14} style={styles.count}>
+                1.1k
+              </AppText>
+            </View>
+            <View style={styles.iconCountContainer}>
+              <View style={styles.icon}>
+                <ShareIcon />
+              </View>
+              <AppText lineHeight={14} style={styles.count}>
+                1.1k
+              </AppText>
+            </View>
           </View>
         </ImageBackground>
       </View>

@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 35,
     overflow: 'hidden',
+    height: Dimensions.get('window').height - 72,
     // flex: 1,
   },
   searchBox: {

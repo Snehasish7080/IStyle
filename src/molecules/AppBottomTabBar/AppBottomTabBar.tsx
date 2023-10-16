@@ -46,13 +46,6 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
         {state.routes.map((route, index) => {
           const {options} = descriptors[route.key];
 
-          const label =
-            options.tabBarLabel !== undefined
-              ? options.tabBarLabel
-              : options.title !== undefined
-              ? options.title
-              : route.name;
-
           const onPress = () => {
             navigation.navigate(route.name, {...route.params});
           };
