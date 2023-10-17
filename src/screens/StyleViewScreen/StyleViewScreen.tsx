@@ -13,6 +13,7 @@ import BackIcon from '../../atoms/BackIcon/BackIcon';
 import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
+import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 import {data} from '../../utils/dummyData';
 import {styles} from './StyleViewScreenStyles';
@@ -108,7 +109,7 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
           <View style={styles.actionContainer}>
             <View style={styles.iconCountContainer}>
               <View style={styles.icon}>
-                <HeartIcon />
+                <TrendIcon />
               </View>
               <AppText lineHeight={14} style={styles.count}>
                 1.1k

@@ -14,6 +14,7 @@ import AppText from '../../atoms/AppText/AppText';
 import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
+import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 
 type StyleCardProps = {
   image: string;
@@ -57,7 +58,7 @@ const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
         resizeMode="cover">
         <View style={styles.iconCountContainer}>
           <View style={styles.icon}>
-            <HeartIcon />
+            <TrendIcon />
           </View>
           <AppText lineHeight={14} style={styles.count}>
             1.1k
