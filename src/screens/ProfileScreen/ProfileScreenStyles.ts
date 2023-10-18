@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   mainContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    // paddingVertical: 20,
   },
   profileContainer: {
     flexDirection: 'row',
@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginLeft: 20,
   },
   infoBox: {
     width: 80,
@@ -57,9 +56,55 @@ export const styles = StyleSheet.create({
     marginRight: 10,
   },
   styleImage: {
-    height: horizontalScale(250),
-    width: horizontalScale(152),
-    borderRadius: 25,
+    height: Dimensions.get('window').width / 3.6,
+    // width: horizontalScale(152),
+    width: Dimensions.get('window').width / 3.6,
+    borderRadius: 10,
     resizeMode: 'cover',
+  },
+  separatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  separator: {
+    width: 100,
+    height: 1,
+    backgroundColor: Colors.lightDark,
+  },
+  separatorText: {
+    fontSize: 12,
+    fontFamily: FontFamily.KalamLight,
+    paddingHorizontal: 10,
+  },
+  nameContainer: {
+    marginTop: 15,
+  },
+  name: {
+    fontSize: 16,
+    marginTop: 5,
+  },
+  userName: {
+    fontFamily: FontFamily.LatoBold,
+  },
+  desc: {
+    fontSize: 12,
+    marginTop: 10,
+  },
+  buttonContainer: {
+    marginLeft: 20,
+  },
+  editBtn: {
+    borderWidth: 1,
+    paddingVertical: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+    borderColor: Colors.dark,
+    marginLeft: 15,
+  },
+  editText: {
+    fontFamily: FontFamily.LatoBold,
   },
 });

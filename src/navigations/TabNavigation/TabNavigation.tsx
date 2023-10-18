@@ -5,8 +5,8 @@ import HomeIcon from '../../atoms/HomeIcon/HomeIcon';
 import ProfileIcon from '../../atoms/ProfileIcon/ProfileIcon';
 import AppBottomTabBar from '../../molecules/AppBottomTabBar/AppBottomTabBar';
 import HomeScreen from '../../screens/HomeScreen/HomeScreen';
-import ProfileScreen from '../../screens/ProfileScreen/ProfileScreen';
 import ExploreNavigation from '../ExploreNavigation/ExploreNavigation';
+import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 import {TabNavigationRouteList} from './TabNavigationTypes';
 
 const Tab = createBottomTabNavigator<TabNavigationRouteList>();
@@ -38,8 +38,8 @@ const TabNavigation = () => {
       />
 
       <Tab.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
+        name="ProfileNavigation"
+        component={ProfileNavigation}
         options={{
           headerShown: false,
           title: 'Profile',

@@ -9,10 +9,11 @@ export const Colors = {
   placeholder: 'rgba(0, 0, 0, 0.4)',
   white: '#FFFFFF',
   offWhite: '#FBFCFC',
+  dark: '#272829',
+  lightDark: 'rgba(39, 40, 41,0.2)',
 
   error: '#CC002E',
   textInputBackground: 'rgba(0, 0, 0, 0.03)',
-  dark: '#272829',
   shadow: 'rgba(20, 102, 204, 0.2)',
   polaroidShadow: 'rgba(0, 0, 0, 0.1)',
   tabShadow: 'rgba(0, 0, 0, 0.2)',
