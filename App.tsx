@@ -17,6 +17,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import ParentNavigation from './src/navigations/ParentNavigation/ParentNavigation';
 import {SharedValue, useSharedValue} from 'react-native-reanimated';
+import {Provider} from 'react-redux';
+import {store} from './src/feature/store';
 
 type State = {
   isScrolling?: SharedValue<number>;
@@ -36,21 +38,23 @@ function App(): JSX.Element {
   };
 
   return (
-    <MainContext.Provider
-      value={{
-        isScrolling,
-      }}>
-      <NavigationContainer>
-        <SafeAreaView style={backgroundStyle}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={backgroundStyle.backgroundColor}
-          />
+    <Provider store={store}>
+      <MainContext.Provider
+        value={{
+          isScrolling,
+        }}>
+        <NavigationContainer>
+          <SafeAreaView style={backgroundStyle}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              backgroundColor={backgroundStyle.backgroundColor}
+            />
 
-          <ParentNavigation />
-        </SafeAreaView>
-      </NavigationContainer>
-    </MainContext.Provider>
+            <ParentNavigation />
+          </SafeAreaView>
+        </NavigationContainer>
+      </MainContext.Provider>
+    </Provider>
   );
 }
 
