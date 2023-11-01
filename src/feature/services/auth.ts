@@ -1,7 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 type loginBody = {
-  mobile: string;
+  email: string;
+  password: string;
 };
 
 type loginResponse = {
@@ -21,7 +22,7 @@ type verifyResponse = {
   message: string;
 };
 export const authApi = createApi({
-  baseQuery: fetchBaseQuery({baseUrl: 'http://192.168.1.38:3000/auth'}),
+  baseQuery: fetchBaseQuery({baseUrl: 'http://192.168.1.9:3000/auth'}),
   tagTypes: ['Auth'],
   endpoints: build => ({
     login: build.mutation<loginResponse, loginBody>({
