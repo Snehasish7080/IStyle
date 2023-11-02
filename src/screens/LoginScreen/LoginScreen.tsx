@@ -18,13 +18,16 @@ type LoginData = {
   password: string;
 };
 
+const EMAIL_REGEX =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const schema = yup
   .object({
     email: yup
       .string()
-      .required('email is required')
-      .email('please enter a valid email'),
-    password: yup.string().required('password is required'),
+      .required('required')
+      .matches(EMAIL_REGEX, 'please enter a valid email'),
+    password: yup.string().required('required'),
   })
   .required();
 
@@ -33,11 +36,7 @@ const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
 }) => {
   const [login] = useLoginMutation();
 
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm<LoginData>({
+  const {control, handleSubmit} = useForm<LoginData>({
     defaultValues: {
       email: '',
       password: '',
@@ -45,18 +44,19 @@ const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
     resolver: yupResolver(schema),
   });
   const onSubmit = (data: LoginData) => {
-    try {
-      login({
-        email: data.email,
-        password: data.password,
-      })
-        .unwrap()
-        .then(res => {
-          if (res.success) {
-            navigation.dispatch(StackActions.replace('Authenticated'));
-          }
-        });
-    } catch (error) {}
+    // try {
+    //   login({
+    //     email: data.email,
+    //     password: data.password,
+    //   })
+    //     .unwrap()
+    //     .then(res => {
+    //       if (res.success) {
+    //         navigation.dispatch(StackActions.replace('Authenticated'));
+    //       }
+    //     });
+    // } catch (error) {}
+    console.log('running ...', data);
   };
 
   return (
@@ -67,24 +67,29 @@ const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
       </AppText>
       <KeyboardAvoidingView>
         <AppInputBox
+          name="email"
+          control={control}
           style={styles.inputBox}
           placeholder={'Enter Email Address'}
           label={'Email'}
           labelStyle={{
             fontSize: 14,
           }}
+          containerStyle={{
+            marginBottom: 20,
+          }}
         />
         <AppInputBox
-          style={[
-            styles.inputBox,
-            {
-              marginTop: 16,
-            },
-          ]}
+          name="password"
+          control={control}
+          style={[styles.inputBox]}
           placeholder={'Enter Password'}
           label={'Password'}
           labelStyle={{
             fontSize: 14,
+          }}
+          containerStyle={{
+            marginBottom: 60,
           }}
         />
         <AppButton

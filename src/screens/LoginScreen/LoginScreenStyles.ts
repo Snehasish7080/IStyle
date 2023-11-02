@@ -12,11 +12,10 @@ export const styles = StyleSheet.create({
   inputBox: {
     width: horizontalScale(302),
     height: 56,
-    marginBottom: 30,
   },
   logoTitle: {
     fontSize: 40,
-    marginBottom: 80,
+    marginBottom: 60,
     fontFamily: FontFamily.SatisfyRegular,
   },
   notRegistered: {
