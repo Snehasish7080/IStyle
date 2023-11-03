@@ -1,15 +1,16 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ParentRouteList} from './ParentNavigationTypes';
 import UnAuthenticatedNavigation from '../UnAuthenticatedNavigation/UnAuthenticatedNavigation';
 import AuthenticatedNavigation from '../AuthenticatedNavigation/AuthenticatedNavigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator<ParentRouteList>();
 
 const ParentNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName="UnAuthenticated">
+    <Stack.Navigator initialRouteName={'UnAuthenticated'}>
       <Stack.Screen
         name="UnAuthenticated"
         component={UnAuthenticatedNavigation}

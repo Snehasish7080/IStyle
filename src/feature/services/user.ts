@@ -1,5 +1,4 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {API_BASE_URL} from '@env';
 
 type loginBody = {
   email: string;
@@ -23,8 +22,8 @@ type verifyResponse = {
   message: string;
 };
 export const authApi = createApi({
-  baseQuery: fetchBaseQuery({baseUrl: `${API_BASE_URL}/auth`}),
-  tagTypes: ['Auth'],
+  baseQuery: fetchBaseQuery({baseUrl: 'http://192.168.1.9:3000/auth'}),
+  tagTypes: ['User'],
   endpoints: build => ({
     login: build.mutation<loginResponse, loginBody>({
       query: body => ({

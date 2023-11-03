@@ -1,17 +1,19 @@
-import {StackActions} from '@react-navigation/native';
-import React from 'react';
-import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {StackActions} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 
+import {useForm} from 'react-hook-form';
+import * as yup from 'yup';
 import AppButton from '../../atoms/AppButton/AppButton';
 import AppInputBox from '../../atoms/AppInputBox/AppInputBox';
 import AppText from '../../atoms/AppText/AppText';
 import {useLoginMutation} from '../../feature/services/auth';
 import {UnAuthenticatedNavProps} from '../../navigations/UnAuthenticatedNavigation/UnAuthenticatedNavigationTypes';
 import {horizontalScale} from '../../utils/scale';
+import {storeToken} from '../../utils/storeToken';
 import {styles} from './LoginScreenStyles';
-import * as yup from 'yup';
-import {useForm} from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LoginData = {
   email: string;
@@ -44,20 +46,39 @@ const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
     resolver: yupResolver(schema),
   });
   const onSubmit = (data: LoginData) => {
-    // try {
-    //   login({
-    //     email: data.email,
-    //     password: data.password,
-    //   })
-    //     .unwrap()
-    //     .then(res => {
-    //       if (res.success) {
-    //         navigation.dispatch(StackActions.replace('Authenticated'));
-    //       }
-    //     });
-    // } catch (error) {}
-    console.log('running ...', data);
+    try {
+      login({
+        email: data.email,
+        password: data.password,
+      })
+        .unwrap()
+        .then(res => {
+          if (res.success) {
+            try {
+              storeToken(res.token).then(() => {
+                navigation.dispatch(StackActions.replace('Authenticated'));
+              });
+            } catch (e) {
+              // saving error
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err, err.data.success);
+        });
+    } catch (error) {}
   };
+
+  const getAuthToken = async () => {
+    const value = await AsyncStorage.getItem('token');
+    if (Boolean(value)) {
+      navigation.dispatch(StackActions.replace('Authenticated'));
+    }
+  };
+
+  useEffect(() => {
+    getAuthToken();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -78,6 +99,7 @@ const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
           containerStyle={{
             marginBottom: 20,
           }}
+          keyboardType="email-address"
         />
         <AppInputBox
           name="password"
