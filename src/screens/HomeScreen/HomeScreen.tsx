@@ -2,12 +2,19 @@ import React from 'react';
 import {View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
+import {useAppSelector} from '../../feature/hooks';
+import {useGetUserQuery} from '../../feature/services/user';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
 import {data} from '../../utils/dummyData';
 import {styles} from './HomeScreenStyles';
 
 const HomeScreen = () => {
+  useGetUserQuery(undefined);
+
+  const user = useAppSelector(state => state.userSlice.user);
+
+  console.log('user', user);
   return (
     <View style={styles.mainContainer}>
       <Animated.View style={[styles.container]}>

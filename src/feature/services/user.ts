@@ -1,50 +1,47 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {API_BASE_URL} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type loginBody = {
-  email: string;
-  password: string;
-};
-
-type loginResponse = {
-  token: string;
+type userResponse = {
+  data: {
+    firstName: string;
+    lastName: string;
+    userName: string;
+  };
   success: boolean;
   message: string;
 };
 
-type verifyBody = {
-  otp: string;
-  token: string;
-};
-
-type verifyResponse = {
-  token: string;
-  success: boolean;
-  message: string;
-};
-export const authApi = createApi({
-  baseQuery: fetchBaseQuery({baseUrl: 'http://192.168.1.9:3000/auth'}),
+export const userApi = createApi({
+  reducerPath: 'userApi',
+  baseQuery: fetchBaseQuery({baseUrl: `${API_BASE_URL}/auth`}),
   tagTypes: ['User'],
   endpoints: build => ({
-    login: build.mutation<loginResponse, loginBody>({
-      query: body => ({
-        url: '/login',
-        method: 'Post',
-        body,
-      }),
-    }),
-    verify: build.mutation<verifyResponse, verifyBody>({
-      query: body => ({
-        url: '/verify',
-        method: 'Post',
-        headers: {
-          Authorization: body.token,
-        },
-        body: {
-          otp: body.otp,
-        },
-      }),
+    getUser: build.query<userResponse, undefined>({
+      query: () => {
+        const headers: {Authorization: string} = {Authorization: ''};
+        AsyncStorage.getItem('token')
+          .then(value => {
+            if (value) {
+              console.log('value', value);
+              headers.Authorization = value;
+              console.log('headers', headers);
+            }
+          })
+          .catch(e => {});
+
+        console.log('headers', headers);
+        return {
+          url: '/user',
+          headers: headers,
+        };
+      },
+      transformResponse: (
+        rawResult: {result: {response: userResponse}},
+        meta,
+      ) => rawResult.result.response,
     }),
   }),
 });
 
-export const {useLoginMutation, useVerifyMutation} = authApi;
+export const {useGetUserQuery} = userApi;

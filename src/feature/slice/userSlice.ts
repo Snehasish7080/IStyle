@@ -1,26 +1,33 @@
-import {createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from '../store';
-
+import {createSlice} from '@reduxjs/toolkit';
+import {IUser} from '../../interface/userInterface';
+import {userApi} from '../services/user';
 export interface UserState {
-  user: string;
+  user: IUser | undefined;
 }
 
 const initialState: UserState = {
-  user: '',
+  user: undefined,
 };
 
 export const userSlice = createSlice({
   name: 'userSlice',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<string>) => {
+    setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addMatcher(
+      userApi.endpoints.getUser.matchFulfilled,
+      (state, action) => {
+        state.user = action.payload.data;
+      },
+    );
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {setUser} = userSlice.actions;
-export const selectUser = (state: RootState) => state.userSlice.user;
 export default userSlice.reducer;
