@@ -21,8 +21,10 @@ export const userSlice = createSlice({
   extraReducers: builder => {
     builder.addMatcher(
       userApi.endpoints.getUser.matchFulfilled,
-      (state, action) => {
-        state.user = action.payload.data;
+      (state, {payload}) => {
+        if (payload.success) {
+          state.user = payload.data;
+        }
       },
     );
   },

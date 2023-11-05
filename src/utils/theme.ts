@@ -11,6 +11,8 @@ export const Colors = {
   offWhite: '#FBFCFC',
   dark: '#272829',
   lightDark: 'rgba(39, 40, 41,0.2)',
+  bottomBorderDark: 'rgba(39, 40, 41,0.3)',
+  link: '#2E86C1',
 
   error: '#CC002E',
   textInputBackground: 'rgba(0, 0, 0, 0.03)',

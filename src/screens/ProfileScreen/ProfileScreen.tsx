@@ -16,10 +16,12 @@ import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {data} from '../../utils/dummyData';
 import {horizontalScale} from '../../utils/scale';
 import {ProfileNavProps} from '../../navigations/ProfileNavigation/ProfileNavigationTypes';
+import {useAppSelector} from '../../feature/hooks';
 
 const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
   navigation,
 }) => {
+  const user = useAppSelector(state => state.userSlice.user);
   return (
     <Container>
       <AppHeader hideSearch={true} hideSetting={false} hideChat={true} />
@@ -64,7 +66,11 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
                       </AppText>
                     </View>
                   </View>
-                  <TouchableOpacity style={styles.editBtn}>
+                  <TouchableOpacity
+                    style={styles.editBtn}
+                    onPress={() => {
+                      navigation.navigate('UpdateProfileScreen');
+                    }}>
                     <AppText lineHeight={14} style={styles.editText}>
                       Edit
                     </AppText>
@@ -73,10 +79,10 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
               </View>
               <View style={styles.nameContainer}>
                 <AppText lineHeight={14} style={styles.userName}>
-                  @laurachautee
+                  @{user?.userName}
                 </AppText>
                 <AppText lineHeight={16} style={styles.name}>
-                  Laura Chautee
+                  {user?.firstName} {user?.lastName}
                 </AppText>
                 <AppText lineHeight={16} style={styles.desc}>
                   PIVOTGANG 🏀 CARE FOR ME TOUR OUT NOW 🎙 #CHI-TOWN This remind

@@ -16,7 +16,8 @@ const AppText: React.FC<AppTextProps> = ({lineHeight, ...props}) => {
           color: Colors.black,
         },
         props.style,
-      ]}>
+      ]}
+      allowFontScaling={false}>
       {props.children}
     </Text>
   );

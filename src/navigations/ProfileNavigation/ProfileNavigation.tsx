@@ -2,6 +2,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import ProfileScreen from '../../screens/ProfileScreen/ProfileScreen';
 import StyleViewScreen from '../../screens/StyleViewScreen/StyleViewScreen';
+import UpdateNameScreen from '../../screens/UpdateNameScreen/UpdateNameScreen';
+import UpdateProfileScreen from '../../screens/UpdateProfileScreen/UpdateProfileScreen';
 import {ProfileNavigationRouteList} from './ProfileNavigationTypes';
 
 const Stack = createStackNavigator<ProfileNavigationRouteList>();
@@ -12,6 +14,20 @@ const ProfileNavigation = () => {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UpdateProfileScreen"
+        component={UpdateProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UpdateNameScreen"
+        component={UpdateNameScreen}
         options={{
           headerShown: false,
         }}
