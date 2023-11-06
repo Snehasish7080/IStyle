@@ -62,16 +62,16 @@ const UpdateProfileScreen: React.FC<ProfileNavProps<'UpdateProfileScreen'>> = ({
               {user?.userName}
             </AppText>
           </View>
-          <View style={styles.info}>
+          <TouchableOpacity
+            style={styles.info}
+            onPress={() => navigation.navigate('UpdateBioScreen')}>
             <AppText lineHeight={14} style={styles.infoTitle}>
               Bio
             </AppText>
             <AppText lineHeight={14} style={styles.infoContent}>
-              PIVOTGANG 🏀 CARE FOR ME TOUR OUT NOW 🎙 #CHI-TOWN This remind me
-              of before we had insomnia Sleepin' peacefully, never needed a pile
-              of drugs
+              {user?.bio ? user?.bio : '< add bio >'}
             </AppText>
-          </View>
+          </TouchableOpacity>
           <View style={styles.info}>
             <AppText lineHeight={14} style={styles.infoTitle}>
               Gender

@@ -2,6 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import ProfileScreen from '../../screens/ProfileScreen/ProfileScreen';
 import StyleViewScreen from '../../screens/StyleViewScreen/StyleViewScreen';
+import UpdateBioScreen from '../../screens/UpdateBioScreen/UpdateBioScreen';
 import UpdateNameScreen from '../../screens/UpdateNameScreen/UpdateNameScreen';
 import UpdateProfileScreen from '../../screens/UpdateProfileScreen/UpdateProfileScreen';
 import {ProfileNavigationRouteList} from './ProfileNavigationTypes';
@@ -28,6 +29,13 @@ const ProfileNavigation = () => {
       <Stack.Screen
         name="UpdateNameScreen"
         component={UpdateNameScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UpdateBioScreen"
+        component={UpdateBioScreen}
         options={{
           headerShown: false,
         }}
