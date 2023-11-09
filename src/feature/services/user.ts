@@ -1,6 +1,7 @@
 import {API_BASE_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {IFile} from '../../interface/fileInterface';
 
 type userResponse = {
   data: {
@@ -24,6 +25,20 @@ type updateUserResponse = {
   message: string;
 };
 
+type getPictureUrlResponse = {
+  data: {
+    url: string;
+    key: string;
+  };
+  success: boolean;
+  message: string;
+};
+
+type uploadPictureBody = {
+  url: string;
+  body: IFile;
+};
+
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
@@ -45,6 +60,18 @@ export const userApi = createApi({
       query: () => '/user',
       providesTags: ['User'],
     }),
+    getPictureUrl: build.query<getPictureUrlResponse, undefined>({
+      query: () => '/user/picture/url',
+    }),
+    uploadPicture: build.mutation<undefined, uploadPictureBody>({
+      query: body => {
+        return {
+          url: body.url,
+          body: body.body,
+          method: 'Put',
+        };
+      },
+    }),
     updateUser: build.mutation<updateUserResponse, updateUserBody>({
       query: body => {
         return {
@@ -58,4 +85,9 @@ export const userApi = createApi({
   }),
 });
 
-export const {useGetUserQuery, useUpdateUserMutation} = userApi;
+export const {
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useGetPictureUrlQuery,
+  useUploadPictureMutation,
+} = userApi;
