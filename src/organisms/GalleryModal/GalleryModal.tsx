@@ -35,13 +35,35 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
 
   const [uploadPicture] = useUploadPictureMutation();
 
+  const getBlob = async (fileUri: string) => {
+    const resp = await fetch(fileUri);
+    const imageBody = await resp.blob();
+    return imageBody;
+  };
+
+  const uploadImage = async (imageUrl: string) => {
+    const imageBody = await getBlob(imageUrl);
+
+    // return fetch(uploadUrl, {
+    //   method: "PUT",
+    //   body: imageBody,
+    // });
+    if (data && data?.success) {
+      uploadPicture({
+        body: imageBody,
+        url: data.data.url,
+      });
+    }
+  };
+
   useEffect(() => {
     if (data && data?.success) {
       if (file) {
-        uploadPicture({
-          body: file,
-          url: data.data.url,
-        });
+        // uploadPicture({
+        //   body: file,
+        //   url: data.data.url,
+        // });
+        uploadImage(file.uri);
       }
     }
   }, [isSuccess]);

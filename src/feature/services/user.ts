@@ -36,7 +36,7 @@ type getPictureUrlResponse = {
 
 type uploadPictureBody = {
   url: string;
-  body: IFile;
+  body: Blob;
 };
 
 export const userApi = createApi({
