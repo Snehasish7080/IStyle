@@ -75,12 +75,11 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
                   activeOpacity={1}
                   style={styles.image}
                   onPress={() => {
-                    // onSelect(item.node.image);
-                    console.log(item.node.image);
                     setFile({
                       name: item.node.image.filename || '',
                       uri: item.node.image.uri,
                       size: item.node.image.fileSize || 0,
+                      type: `image/${item.node.image.extension}`,
                     });
                   }}>
                   <Image

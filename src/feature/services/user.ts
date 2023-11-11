@@ -43,15 +43,17 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_BASE_URL}/auth`,
-    prepareHeaders: async headers => {
-      try {
-        const token = await AsyncStorage.getItem('token');
+    prepareHeaders: async (headers, {endpoint}) => {
+      if (endpoint !== 'uploadPicture') {
+        try {
+          const token = await AsyncStorage.getItem('token');
 
-        if (Boolean(token)) {
-          headers.set('authorization', token as string);
-        }
-        return headers;
-      } catch (error) {}
+          if (Boolean(token)) {
+            headers.set('authorization', token as string);
+          }
+          return headers;
+        } catch (error) {}
+      }
     },
   }),
   tagTypes: ['User'],

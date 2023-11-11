@@ -39,7 +39,7 @@ const UpdateProfileScreen: React.FC<ProfileNavProps<'UpdateProfileScreen'>> = ({
       first: 20,
       groupTypes: 'All',
       assetType: 'Photos',
-      include: ['fileSize', 'filename'],
+      include: ['fileSize', 'filename', 'fileExtension'],
     });
 
     setMedias([...medias, ...photos.edges]);
