@@ -12,6 +12,7 @@ import {styles} from './GalleryModalStyles';
 import BackHeader from '../../molecules/BackHeader/BackHeader';
 import {
   useGetPictureUrlQuery,
+  useUpdateUserMutation,
   useUploadPictureMutation,
 } from '../../feature/services/user';
 import {IFile} from '../../interface/fileInterface';
@@ -34,6 +35,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
   });
 
   const [uploadPicture] = useUploadPictureMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const getBlob = async (fileUri: string) => {
     const resp = await fetch(fileUri);
@@ -43,26 +45,33 @@ const GalleryModal: React.FC<GalleryModalProps> = ({
 
   const uploadImage = async (imageUrl: string) => {
     const imageBody = await getBlob(imageUrl);
-
-    // return fetch(uploadUrl, {
-    //   method: "PUT",
-    //   body: imageBody,
-    // });
     if (data && data?.success) {
       uploadPicture({
         body: imageBody,
         url: data.data.url,
-      });
+      })
+        .unwrap()
+        .then(res => {
+          if (res === null) {
+            updateUser({
+              profilePic: data.data.key,
+            })
+              .unwrap()
+              .then(res => {
+                setMedias([]);
+                setFile(undefined);
+                onClose();
+              })
+              .catch();
+          }
+        })
+        .catch();
     }
   };
 
   useEffect(() => {
     if (data && data?.success) {
       if (file) {
-        // uploadPicture({
-        //   body: file,
-        //   url: data.data.url,
-        // });
         uploadImage(file.uri);
       }
     }

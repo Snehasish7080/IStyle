@@ -7,6 +7,7 @@ import {
   PixelRatio,
   TouchableOpacity,
 } from 'react-native';
+import {S3_BUCKET_URL} from '@env';
 import React from 'react';
 import Container from '../../atoms/Container/Container';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
@@ -32,7 +33,7 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
               <View style={styles.profileContainer}>
                 <Image
                   source={{
-                    uri: 'https://images.unsplash.com/photo-1602564183692-3fa56180279b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
+                    uri: `${S3_BUCKET_URL}/${user?.profilePic}`,
                     width: 100,
                     height: 100,
                   }}
@@ -85,9 +86,7 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
                   {user?.firstName} {user?.lastName}
                 </AppText>
                 <AppText lineHeight={16} style={styles.desc}>
-                  PIVOTGANG 🏀 CARE FOR ME TOUR OUT NOW 🎙 #CHI-TOWN This remind
-                  me of before we had insomnia Sleepin' peacefully, never needed
-                  a pile of drugs
+                  {user?.bio}
                 </AppText>
               </View>
               <View style={styles.trending}>

@@ -1,7 +1,6 @@
 import {API_BASE_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {IFile} from '../../interface/fileInterface';
 
 type userResponse = {
   data: {
@@ -16,7 +15,7 @@ type userResponse = {
 type updateUserBody = {
   firstName?: string;
   lastName?: string;
-  image?: string;
+  profilePic?: string;
   gender?: string;
   bio?: string;
 };
