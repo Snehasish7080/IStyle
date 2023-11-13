@@ -25,7 +25,7 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
   const user = useAppSelector(state => state.userSlice.user);
   return (
     <Container>
-      <AppHeader hideSearch={true} hideSetting={false} hideChat={true} />
+      <AppHeader hideSetting={false} hideChat={true} />
       <View style={styles.mainContainer}>
         <FlatList
           ListHeaderComponent={

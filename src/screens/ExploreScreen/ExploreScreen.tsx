@@ -55,7 +55,7 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
   return (
     <View style={styles.mainContainer}>
       <Animated.View style={[styles.container]}>
-        <AppHeader hideSearch={true} />
+        <AppHeader hideChat={true} />
         <Animated.View
           style={[
             {
