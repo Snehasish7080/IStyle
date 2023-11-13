@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  useWindowDimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../atoms/Container/Container';
@@ -17,12 +18,14 @@ import {
 } from '@react-native-camera-roll/camera-roll';
 import {hasAndroidPermission} from '../../utils/permissions';
 import {IFile} from '../../interface/fileInterface';
+import ImageCropper from 'react-native-image-crop-picker';
+import {Colors} from '../../utils/theme';
 
 const MediaGalleryScreen: React.FC<ParentNavProps<'MediaGalleryScreen'>> = ({
   navigation,
 }) => {
+  const {width, height} = useWindowDimensions();
   const [medias, setMedias] = useState<PhotoIdentifier[]>([]);
-  const [file, setFile] = useState<IFile | undefined>(undefined);
 
   const onOpenScreen = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
@@ -38,13 +41,34 @@ const MediaGalleryScreen: React.FC<ParentNavProps<'MediaGalleryScreen'>> = ({
       assetType: 'Photos',
       include: ['fileSize', 'filename', 'fileExtension'],
     });
-
     setMedias([...medias, ...photos.edges]);
   };
 
   useEffect(() => {
     onOpenScreen();
   }, []);
+
+  const onClickImage = (file: string) => {
+    ImageCropper.openCropper({
+      path: file,
+      width: 320,
+      height: 500,
+      mediaType: 'photo',
+      cropperStatusBarColor: 'black',
+      cropperToolbarTitle: 'Edit',
+      cropperChooseColor: Colors.primary,
+      hideBottomControls: true,
+      enableRotationGesture: true,
+      showCropFrame: false,
+    })
+      .then(image => {
+        navigation.navigate('CreateScreen', {
+          postUrl: image.path,
+        });
+      })
+      .catch(e => console.log('error', e));
+  };
+
   return (
     <Container style={styles.container}>
       <BackHeader
@@ -67,12 +91,7 @@ const MediaGalleryScreen: React.FC<ParentNavProps<'MediaGalleryScreen'>> = ({
                 activeOpacity={1}
                 style={styles.image}
                 onPress={() => {
-                  setFile({
-                    name: item.node.image.filename || '',
-                    uri: item.node.image.uri,
-                    size: item.node.image.fileSize || 0,
-                    type: `image/${item.node.image.extension}`,
-                  });
+                  onClickImage(item.node.image.uri);
                 }}>
                 <Image
                   source={{uri: item.node.image.uri}}

@@ -5,10 +5,15 @@ import {styles} from './ContainerStyles';
 type ContainerProps = {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
+  mainContainerStyle?: StyleProp<ViewStyle>;
 };
-const Container: React.FC<ContainerProps> = ({children, style}) => {
+const Container: React.FC<ContainerProps> = ({
+  children,
+  style,
+  mainContainerStyle,
+}) => {
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, mainContainerStyle]}>
       <View style={[styles.container, style]}>{children}</View>
     </View>
   );

@@ -4,6 +4,9 @@ export type ParentRouteList = {
   UnAuthenticated: undefined;
   Authenticated: undefined;
   MediaGalleryScreen: undefined;
+  CreateScreen: {
+    postUrl: string;
+  };
 };
 export type ParentNavigationProp<T extends keyof ParentRouteList> =
   StackScreenProps<ParentRouteList, T>;

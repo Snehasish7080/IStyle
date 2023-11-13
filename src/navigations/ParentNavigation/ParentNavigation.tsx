@@ -6,6 +6,7 @@ import UnAuthenticatedNavigation from '../UnAuthenticatedNavigation/UnAuthentica
 import AuthenticatedNavigation from '../AuthenticatedNavigation/AuthenticatedNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MediaGalleryScreen from '../../screens/MediaGalleryScreen/MediaGalleryScreen';
+import CreateScreen from '../../screens/CreateScreen/CreateScreen';
 
 const Stack = createStackNavigator<ParentRouteList>();
 
@@ -29,6 +30,13 @@ const ParentNavigation = () => {
       <Stack.Screen
         name="MediaGalleryScreen"
         component={MediaGalleryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateScreen"
+        component={CreateScreen}
         options={{
           headerShown: false,
         }}
