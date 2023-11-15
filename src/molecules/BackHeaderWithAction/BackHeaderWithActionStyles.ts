@@ -19,8 +19,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerText: {
-    textAlign: 'center',
+    fontFamily: FontFamily.LatoBold,
     flex: 1,
+    marginLeft: horizontalScale(30),
+    textAlign: 'center',
+  },
+  actionBtn: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    marginLeft: 16,
+  },
+  actionText: {
     fontFamily: FontFamily.LatoBold,
   },
 });

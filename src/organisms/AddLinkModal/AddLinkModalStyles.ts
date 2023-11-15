@@ -19,12 +19,31 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 16,
+    overflow: 'hidden',
   },
   linkContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   inputBox: {
     width: horizontalScale(302),
     height: 56,
+  },
+  addMoreBtn: {
+    borderWidth: 1,
+    width: 100,
+    alignItems: 'center',
+    paddingVertical: 10,
+    alignSelf: 'center',
+    borderRadius: 20,
+    marginTop: 26,
+  },
+  trash: {
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
