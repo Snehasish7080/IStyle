@@ -32,8 +32,7 @@ const LinkInputBox: React.FC<LinkInputBoxProps> = ({
       <View
         style={{
           borderBottomWidth: 0.5,
-          flex: 1,
-          height: 24,
+          height: 30,
           flexDirection: 'row',
           alignItems: 'center',
         }}>
@@ -64,7 +63,7 @@ const LinkInputBox: React.FC<LinkInputBoxProps> = ({
             color: Colors.error,
             marginTop: 10,
           }}>
-          {fieldState.error?.message}fsdfs
+          {fieldState.error?.message}
         </AppText>
       )}
     </View>

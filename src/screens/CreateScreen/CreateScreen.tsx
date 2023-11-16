@@ -59,7 +59,11 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
           style={styles.backBtn}
           activeOpacity={1}
           onPress={() => {
-            navigation.goBack();
+            console.log({
+              postUrl,
+              links,
+            });
+            navigation.navigate('Authenticated');
           }}
           hitSlop={{
             top: 10,
@@ -116,7 +120,12 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
           </ScrollView>
         </View>
       </ImageBackground>
-      <AddLinkModal visible={visible} onClose={handleVisible} />
+      <AddLinkModal
+        visible={visible}
+        onClose={handleVisible}
+        links={links}
+        setLinks={setLinks}
+      />
     </Container>
   );
 };

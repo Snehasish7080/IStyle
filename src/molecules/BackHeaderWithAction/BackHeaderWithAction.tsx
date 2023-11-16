@@ -15,6 +15,7 @@ const BackHeaderWithAction: React.FC<BackHeaderWithActionProps> = ({
   onBack,
   title,
   actionTitle,
+  onAction,
 }) => {
   return (
     <View style={styles.headerContainer}>
@@ -35,7 +36,7 @@ const BackHeaderWithAction: React.FC<BackHeaderWithActionProps> = ({
         {title}
       </AppText>
 
-      <TouchableOpacity style={styles.actionBtn}>
+      <TouchableOpacity style={styles.actionBtn} onPress={onAction}>
         <AppText lineHeight={14} style={styles.actionText}>
           {actionTitle}
         </AppText>

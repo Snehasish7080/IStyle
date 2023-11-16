@@ -19,7 +19,6 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
     overflow: 'hidden',
   },
   linkContainer: {
@@ -45,5 +44,9 @@ export const styles = StyleSheet.create({
     height: 30,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  imageContainer: {
+    alignItems: 'center',
+    marginRight: 16,
   },
 });

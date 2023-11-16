@@ -1,42 +1,41 @@
-import {
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  Platform,
-  Image,
-} from 'react-native';
-import React, {useState} from 'react';
-import BackHeader from '../../molecules/BackHeader/BackHeader';
-import {styles} from './AddLinkModalStyles';
-import ImageIcon from '../../atoms/ImageIcon/ImageIcon';
-import {useFieldArray, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import AppInputBox from '../../atoms/AppInputBox/AppInputBox';
-import {Colors} from '../../utils/theme';
-import LinkInputBox from '../../atoms/LinkInputBox/LinkInputBox';
-import {hasAndroidPermission} from '../../utils/permissions';
 import {
   CameraRoll,
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
-import MediaModal from '../MediaModal/MediaModal';
+import React, {useState} from 'react';
+import {
+  useController,
+  useFieldArray,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
+import {Image, Modal, Platform, TouchableOpacity, View} from 'react-native';
+import ImageCropper from 'react-native-image-crop-picker';
+import * as yup from 'yup';
 import AppText from '../../atoms/AppText/AppText';
+import ImageIcon from '../../atoms/ImageIcon/ImageIcon';
+import LinkInputBox from '../../atoms/LinkInputBox/LinkInputBox';
 import TrashIcon from '../../atoms/TrashIcon/TrashIcon';
 import BackHeaderWithAction from '../../molecules/BackHeaderWithAction/BackHeaderWithAction';
-import ImageCropper from 'react-native-image-crop-picker';
+import {hasAndroidPermission} from '../../utils/permissions';
+import {Colors} from '../../utils/theme';
+import MediaModal from '../MediaModal/MediaModal';
+import {styles} from './AddLinkModalStyles';
 
+type link = {
+  url: string;
+  image: string;
+};
 type AddLinkModalProps = {
   visible: boolean;
   onClose: () => void;
+  setLinks: React.Dispatch<React.SetStateAction<link[]>>;
+  links: link[];
 };
 
 type linksData = {
-  links: {
-    url: string;
-    image: string;
-  }[];
+  links: link[];
 };
 
 const schema = yup.object({
@@ -44,27 +43,47 @@ const schema = yup.object({
     .array()
     .of(
       yup.object().shape({
-        url: yup.string().required('required'),
+        url: yup
+          .string()
+          .required('required')
+          .matches(
+            /(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+            'Enter correct url',
+          ),
         image: yup.string().required('required'),
       }),
     )
     .required(),
 });
 
-const AddLinkModal: React.FC<AddLinkModalProps> = ({onClose, visible}) => {
+const AddLinkModal: React.FC<AddLinkModalProps> = ({
+  onClose,
+  visible,
+  setLinks,
+  links,
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentUrl, setCurrentUrl] = useState('');
   const [medias, setMedias] = useState<PhotoIdentifier[]>([]);
 
-  const {control, handleSubmit, watch} = useForm<linksData>({
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: {errors},
+    setError,
+  } = useForm<linksData>({
     defaultValues: {
-      links: [
-        {
-          image: '',
-          url: '',
-        },
-      ],
+      links:
+        links.length > 0
+          ? links
+          : [
+              {
+                image: '',
+                url: '',
+              },
+            ],
     },
     resolver: yupResolver(schema),
   });
@@ -85,7 +104,6 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({onClose, visible}) => {
     getAllPhotos();
     handleVisible();
   };
-
   const getAllPhotos = async () => {
     const photos = await CameraRoll.getPhotos({
       first: 20,
@@ -116,20 +134,17 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({onClose, visible}) => {
           image: image.path,
           url: currentUrl,
         });
+        setError(`links.${index}.image`, {
+          message: undefined,
+        });
       })
       .catch(e => console.log('error', e));
   };
 
-  // const watchFieldArray = watch('links');
-  // const controlledFields = fields.map((field, index) => {
-  //   return {
-  //     ...field,
-  //     ...watchFieldArray[index],
-  //   };
-  // });
-
-  console.log(currentUrl);
-
+  const onSubmit = (data: linksData) => {
+    setLinks(data.links);
+    onClose();
+  };
   return (
     <Modal
       visible={visible}
@@ -143,38 +158,54 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({onClose, visible}) => {
           }}
           title={'Add product url'}
           actionTitle={'Done'}
-          onAction={() => {}}
+          onAction={() => {
+            handleSubmit(onSubmit)();
+          }}
         />
         <View style={styles.bodyContainer}>
           {fields.map((item, index) => {
             return (
               <View style={styles.linkContainer} key={item.id}>
-                <TouchableOpacity
-                  style={[
-                    styles.image,
-                    {
-                      borderWidth: item.image ? 0 : 0.5,
-                    },
-                  ]}
-                  onPress={() => {
-                    setIndex(index);
-                    setCurrentUrl(item.url);
-                    onClickSelectPhotos();
-                  }}>
-                  {item.image ? (
-                    <Image
-                      source={{
-                        uri: item.image,
-                      }}
+                <View style={styles.imageContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.image,
+                      {
+                        borderWidth: item.image ? 0 : 0.5,
+                      },
+                    ]}
+                    onPress={() => {
+                      const value = getValues();
+                      setIndex(index);
+                      setCurrentUrl(value.links[index].url);
+                      onClickSelectPhotos();
+                    }}>
+                    {item.image ? (
+                      <Image
+                        source={{
+                          uri: item.image,
+                        }}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                        }}
+                      />
+                    ) : (
+                      <ImageIcon />
+                    )}
+                  </TouchableOpacity>
+                  {errors?.links && errors?.links[index]?.image?.message && (
+                    <AppText
+                      lineHeight={12}
                       style={{
-                        width: '100%',
-                        height: '100%',
-                      }}
-                    />
-                  ) : (
-                    <ImageIcon />
+                        fontSize: 12,
+                        color: Colors.error,
+                        marginTop: 10,
+                      }}>
+                      {errors?.links[index]?.image?.message}
+                    </AppText>
                   )}
-                </TouchableOpacity>
+                </View>
                 <LinkInputBox
                   name={`links[${index}].url`}
                   control={control}
