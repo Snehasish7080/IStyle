@@ -11,11 +11,11 @@ import {Colors} from '../../utils/theme';
 
 const Icon = Skia.SVG.MakeFromString(
   `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M17 12H7M7 12L11 16M7 12L11 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M7 12H17M17 12L13 8M17 12L13 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`,
 )!;
 
-const BackIcon = () => {
+const ForwardIcon = () => {
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
     Skia.ColorFilter.MakeBlend(Skia.Color(Colors.dark), BlendMode.SrcIn),
@@ -34,4 +34,4 @@ const BackIcon = () => {
   );
 };
 
-export default BackIcon;
+export default ForwardIcon;

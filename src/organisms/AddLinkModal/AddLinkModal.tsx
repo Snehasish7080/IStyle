@@ -156,7 +156,7 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
           onBack={() => {
             onClose();
           }}
-          title={'Add product url'}
+          title={'Add links to your style'}
           actionTitle={'Done'}
           onAction={() => {
             handleSubmit(onSubmit)();

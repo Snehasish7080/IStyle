@@ -4,6 +4,7 @@ export type ParentRouteList = {
   UnAuthenticated: undefined;
   Authenticated: undefined;
   MediaGalleryScreen: undefined;
+  CategoryScreen: undefined;
   CreateScreen: {
     postUrl: string;
   };

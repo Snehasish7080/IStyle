@@ -44,4 +44,32 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  addLinkContainer: {
+    bottom: 100,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    left: 30,
+  },
+  addLink: {
+    fontSize: 12,
+    fontFamily: FontFamily.LatoBold,
+    marginLeft: 10,
+  },
+  mainLinkContainer: {
+    marginLeft: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  scrollContainer: {
+    maxHeight: 220,
+    borderRadius: 20,
+    width: 80,
+    backgroundColor: 'white',
+    overflow: 'hidden',
+  },
 });

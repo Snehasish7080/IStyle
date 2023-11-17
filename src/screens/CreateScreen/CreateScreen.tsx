@@ -1,23 +1,21 @@
+import React, {useState} from 'react';
 import {
-  View,
-  Text,
+  Image,
   ImageBackground,
   PixelRatio,
-  useWindowDimensions,
-  TouchableOpacity,
   ScrollView,
-  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
+import AppText from '../../atoms/AppText/AppText';
+import CloseIcon from '../../atoms/CloseIcon/CloseIcon';
 import Container from '../../atoms/Container/Container';
-import {styles} from './CreateScreenStyles';
-import BackHeader from '../../molecules/BackHeader/BackHeader';
-import BackIcon from '../../atoms/BackIcon/BackIcon';
-import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
-import {data} from '../../utils/dummyData';
+import ForwardIcon from '../../atoms/ForwardIcon/ForwardIcon';
 import LinkIcon from '../../atoms/LinkIcon/LinkIcon';
+import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import AddLinkModal from '../../organisms/AddLinkModal/AddLinkModal';
+import {styles} from './CreateScreenStyles';
 
 type link = {
   image: string;
@@ -53,7 +51,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
             right: 10,
             left: 10,
           }}>
-          <BackIcon />
+          <CloseIcon />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.backBtn}
@@ -63,7 +61,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
               postUrl,
               links,
             });
-            navigation.navigate('Authenticated');
+            navigation.navigate('CategoryScreen');
           }}
           hitSlop={{
             top: 10,
@@ -71,7 +69,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
             right: 10,
             left: 10,
           }}>
-          <ShareIcon />
+          <ForwardIcon />
         </TouchableOpacity>
       </View>
       <ImageBackground
@@ -83,42 +81,71 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
         style={styles.image}
         resizeMode="cover"
         progressiveRenderingEnabled={true}>
-        <View
-          style={{
-            maxHeight: 220,
-            marginLeft: 20,
-            marginBottom: 20,
-            borderRadius: 20,
-            width: 80,
-            backgroundColor: 'white',
-            overflow: 'hidden',
-          }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingHorizontal: 10,
-              paddingVertical: 10,
-            }}>
+        {links.length > 0 && (
+          <View style={styles.mainLinkContainer}>
             <TouchableOpacity
-              style={styles.linkContainer}
-              onPress={handleVisible}>
-              <LinkIcon size={25} />
+              style={[
+                styles.backBtn,
+                {
+                  marginBottom: 10,
+                },
+              ]}
+              activeOpacity={1}
+              onPress={() => {
+                setLinks([]);
+              }}
+              hitSlop={{
+                top: 10,
+                bottom: 10,
+                right: 10,
+                left: 10,
+              }}>
+              <CloseIcon />
             </TouchableOpacity>
-            {links?.map((item, index) => {
-              return (
-                <Image
-                  source={{
-                    uri: item.image,
-                    width: PixelRatio.getPixelSizeForLayoutSize(50),
-                    height: PixelRatio.getPixelSizeForLayoutSize(50),
-                  }}
-                  style={styles.link}
-                  key={index}
-                />
-              );
-            })}
-          </ScrollView>
-        </View>
+            <View style={styles.scrollContainer}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                }}>
+                <TouchableOpacity
+                  style={styles.linkContainer}
+                  onPress={handleVisible}
+                  activeOpacity={1}>
+                  <LinkIcon size={25} />
+                </TouchableOpacity>
+                {links?.map((item, index) => {
+                  return (
+                    <Image
+                      source={{
+                        uri: item.image,
+                        width: PixelRatio.getPixelSizeForLayoutSize(50),
+                        height: PixelRatio.getPixelSizeForLayoutSize(50),
+                      }}
+                      style={styles.link}
+                      key={index}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
+          </View>
+        )}
+
+        {links.length === 0 && (
+          <View>
+            <TouchableOpacity
+              style={styles.addLinkContainer}
+              onPress={handleVisible}
+              activeOpacity={1}>
+              <LinkIcon size={20} />
+              <AppText lineHeight={12} style={styles.addLink}>
+                add links your style
+              </AppText>
+            </TouchableOpacity>
+          </View>
+        )}
       </ImageBackground>
       <AddLinkModal
         visible={visible}
