@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
   tag: {
     fontFamily: FontFamily.LatoBold,
     fontSize: 12,
+    textTransform: 'capitalize',
   },
   input: {
     color: Colors.black,

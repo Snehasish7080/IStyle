@@ -1,0 +1,184 @@
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from 'react-native';
+import React, {useState} from 'react';
+import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
+import Container from '../../atoms/Container/Container';
+import {styles} from './TagScreenStyles';
+import BackHeader from '../../molecules/BackHeader/BackHeader';
+import SearchIcon from '../../atoms/SearchIcon/SearchIcon';
+import AppText from '../../atoms/AppText/AppText';
+import {Colors} from '../../utils/theme';
+import CloseIcon from '../../atoms/CloseIcon/CloseIcon';
+import {useGetAllTagsQuery} from '../../feature/services/tags';
+import {ITag} from '../../interface/tagInterface';
+
+const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
+  navigation,
+  route,
+}) => {
+  const {data, isSuccess, isLoading} = useGetAllTagsQuery(undefined);
+
+  const [search, setSearch] = useState<string>('');
+  const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+
+  const onClickTag = (value: ITag) => {
+    const temp = [...selectedTags];
+    const index = temp.findIndex(x => x.id === value.id);
+
+    if (index < 0) {
+      temp.push(value);
+    } else {
+      temp.splice(index, 1);
+    }
+
+    setSelectedTags(temp);
+  };
+  return (
+    <Container style={styles.container}>
+      <BackHeader
+        onBack={() => {
+          navigation.goBack();
+        }}
+        title={'Add Style Tags'}
+      />
+      <View style={styles.bodyContainer}>
+        <TouchableOpacity style={styles.searchBox} activeOpacity={1}>
+          <SearchIcon color={Colors.placeholder} />
+          <TextInput
+            style={styles.input}
+            placeholder={'search'}
+            placeholderTextColor={Colors.placeholder}
+            onChangeText={value => setSearch(value)}
+            value={search}
+          />
+        </TouchableOpacity>
+
+        {selectedTags.length > 0 && (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{paddingTop: 30, paddingBottom: 0}}>
+            {selectedTags.map((item, index) => {
+              return (
+                <View key={index} style={styles.selectedTag}>
+                  <AppText lineHeight={12} style={styles.tag}>
+                    {item.name}
+                  </AppText>
+                  <TouchableOpacity
+                    style={styles.remove}
+                    onPress={() => {
+                      onClickTag(item);
+                    }}
+                    activeOpacity={1}>
+                    <CloseIcon size={18} />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          </ScrollView>
+        )}
+
+        <View style={styles.separatorContainer}>
+          <View style={styles.separator} />
+          <AppText lineHeight={18} style={styles.separatorText}>
+            Tags
+          </AppText>
+          <View style={styles.separator} />
+        </View>
+
+        {isSuccess && (
+          <ScrollView
+            contentContainerStyle={{paddingVertical: 16}}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.tagListContainer}>
+              {data?.data.map((item, index) => {
+                if (Boolean(search)) {
+                  if (item.name.toLowerCase().includes(search.toLowerCase())) {
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        style={[
+                          styles.tagList,
+                          {
+                            borderWidth: selectedTags.some(
+                              x => x.id === item.id,
+                            )
+                              ? 0
+                              : 1,
+                            backgroundColor: selectedTags.some(
+                              x => x.id === item.id,
+                            )
+                              ? Colors.dark
+                              : Colors.white,
+                          },
+                        ]}
+                        onPress={() => {
+                          onClickTag(item);
+                        }}>
+                        <AppText
+                          lineHeight={12}
+                          style={[
+                            styles.tag,
+                            {
+                              color: selectedTags.some(x => x.id === item.id)
+                                ? Colors.white
+                                : Colors.dark,
+                            },
+                          ]}>
+                          {item.name}
+                        </AppText>
+                      </TouchableOpacity>
+                    );
+                  } else {
+                    return null;
+                  }
+                }
+                return (
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    key={index}
+                    style={[
+                      styles.tagList,
+                      {
+                        borderWidth: selectedTags.some(x => x.id === item.id)
+                          ? 0
+                          : 1,
+                        backgroundColor: selectedTags.some(
+                          x => x.id === item.id,
+                        )
+                          ? Colors.dark
+                          : Colors.white,
+                      },
+                    ]}
+                    onPress={() => {
+                      onClickTag(item);
+                    }}>
+                    <AppText
+                      lineHeight={12}
+                      style={[
+                        styles.tag,
+                        {
+                          color: selectedTags.some(x => x.id === item.id)
+                            ? Colors.white
+                            : Colors.dark,
+                        },
+                      ]}>
+                      {item.name}
+                    </AppText>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </ScrollView>
+        )}
+      </View>
+    </Container>
+  );
+};
+
+export default TagScreen;

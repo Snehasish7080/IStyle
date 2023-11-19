@@ -7,7 +7,7 @@ import AuthenticatedNavigation from '../AuthenticatedNavigation/AuthenticatedNav
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MediaGalleryScreen from '../../screens/MediaGalleryScreen/MediaGalleryScreen';
 import CreateScreen from '../../screens/CreateScreen/CreateScreen';
-import CategoryScreen from '../../screens/CategoryScreen/CategoryScreen';
+import TagScreen from '../../screens/TagScreen/TagScreen';
 
 const Stack = createStackNavigator<ParentRouteList>();
 
@@ -43,8 +43,8 @@ const ParentNavigation = () => {
         }}
       />
       <Stack.Screen
-        name="CategoryScreen"
-        component={CategoryScreen}
+        name="TagScreen"
+        component={TagScreen}
         options={{
           headerShown: false,
         }}

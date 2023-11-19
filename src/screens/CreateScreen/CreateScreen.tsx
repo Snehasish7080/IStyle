@@ -61,7 +61,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
               postUrl,
               links,
             });
-            navigation.navigate('CategoryScreen');
+            navigation.navigate('TagScreen');
           }}
           hitSlop={{
             top: 10,
