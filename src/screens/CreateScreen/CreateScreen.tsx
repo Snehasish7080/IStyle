@@ -13,21 +13,18 @@ import CloseIcon from '../../atoms/CloseIcon/CloseIcon';
 import Container from '../../atoms/Container/Container';
 import ForwardIcon from '../../atoms/ForwardIcon/ForwardIcon';
 import LinkIcon from '../../atoms/LinkIcon/LinkIcon';
+import {ILink} from '../../interface/linkInterface';
 import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import AddLinkModal from '../../organisms/AddLinkModal/AddLinkModal';
 import {styles} from './CreateScreenStyles';
 
-type link = {
-  image: string;
-  url: string;
-};
 const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
   navigation,
   route,
 }) => {
   const {postUrl} = route?.params;
   const {height, width} = useWindowDimensions();
-  const [links, setLinks] = useState<link[]>([]);
+  const [links, setLinks] = useState<ILink[]>([]);
   const [visible, setVisible] = useState(false);
 
   const handleVisible = () => {
@@ -61,7 +58,10 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
               postUrl,
               links,
             });
-            navigation.navigate('TagScreen');
+            navigation.navigate('TagScreen', {
+              image: postUrl,
+              links,
+            });
           }}
           hitSlop={{
             top: 10,

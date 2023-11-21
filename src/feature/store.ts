@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {authApi} from './services/auth';
+import {styleApi} from './services/style';
 import {tagApi} from './services/tags';
 import {userApi} from './services/user';
 import userSlice from './slice/userSlice';
@@ -9,6 +10,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [tagApi.reducerPath]: tagApi.reducer,
+    [styleApi.reducerPath]: styleApi.reducer,
     userSlice: userSlice,
   },
   middleware: getDefaultMiddleware =>
@@ -16,6 +18,7 @@ export const store = configureStore({
       authApi.middleware,
       userApi.middleware,
       tagApi.middleware,
+      styleApi.middleware,
     ]),
 });
 

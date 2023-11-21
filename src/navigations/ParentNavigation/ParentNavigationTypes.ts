@@ -1,10 +1,14 @@
 import {StackScreenProps} from '@react-navigation/stack';
+import {ILink} from '../../interface/linkInterface';
 
 export type ParentRouteList = {
   UnAuthenticated: undefined;
   Authenticated: undefined;
   MediaGalleryScreen: undefined;
-  TagScreen: undefined;
+  TagScreen: {
+    image: string;
+    links: ILink[];
+  };
   CreateScreen: {
     postUrl: string;
   };

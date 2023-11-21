@@ -16,12 +16,27 @@ import {Colors} from '../../utils/theme';
 import CloseIcon from '../../atoms/CloseIcon/CloseIcon';
 import {useGetAllTagsQuery} from '../../feature/services/tags';
 import {ITag} from '../../interface/tagInterface';
+import {
+  useCreateStyleMutation,
+  useGetStyleUploadUrlMutation,
+  useUploadStylePictureMutation,
+} from '../../feature/services/style';
+import {ILink} from '../../interface/linkInterface';
+import BackHeaderWithAction from '../../molecules/BackHeaderWithAction/BackHeaderWithAction';
 
+type url = {
+  type: 'link' | 'style';
+  url: string;
+};
 const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
   navigation,
   route,
 }) => {
+  const {image, links} = route?.params;
   const {data, isSuccess, isLoading} = useGetAllTagsQuery(undefined);
+  const [getStyleUpload] = useGetStyleUploadUrlMutation();
+  const [uploadStylePicture] = useUploadStylePictureMutation();
+  const [createStyle] = useCreateStyleMutation();
 
   const [search, setSearch] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
@@ -38,13 +53,100 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
 
     setSelectedTags(temp);
   };
+
+  const getBlob = async (fileUri: string) => {
+    const resp = await fetch(fileUri);
+    const imageBody = await resp.blob();
+    return imageBody;
+  };
+
+  console.log(links);
+
+  const onClickShare = () => {
+    getStyleUpload({
+      linkCount: links.length,
+    })
+      .unwrap()
+      .then(res => {
+        if (res.success) {
+          const styleImage = res.data.style.key;
+          const styleLinks: ILink[] = res.data.links.map((x, index) => {
+            return {
+              url: links[index].url,
+              image: x.key,
+            };
+          });
+          const styleTags = selectedTags.map(x => x.id);
+
+          // get all urls
+          const allUrl: url[] = [];
+          if (res.data.style.url) {
+            allUrl.push({
+              type: 'style',
+              url: res.data.style.url,
+            });
+          }
+          if (res.data.links?.length > 0) {
+            res.data.links.map(item => {
+              allUrl.push({
+                type: 'link',
+                url: item.url,
+              });
+            });
+          }
+
+          // upload all images
+          console.log(allUrl);
+          if (allUrl.length === links.length + 1) {
+            Promise.all(
+              allUrl.map(async (x, index) => {
+                if (x.type === 'style') {
+                  const imageBody = await getBlob(image);
+                  await uploadStylePicture({
+                    body: imageBody,
+                    url: x.url,
+                  });
+                }
+
+                if (x.type === 'link') {
+                  const imageBody = await getBlob(links[index].image);
+                  await uploadStylePicture({
+                    body: imageBody,
+                    url: x.url,
+                  });
+                }
+              }),
+            )
+              .then(() => {
+                // create style
+                createStyle({
+                  image: styleImage,
+                  links: styleLinks,
+                  tags: styleTags,
+                })
+                  .unwrap()
+                  .then(res => {
+                    if (res.success) {
+                      navigation.navigate('Authenticated');
+                    }
+                  });
+              })
+              .catch(e => console.log(e));
+          }
+        }
+      })
+      .catch();
+  };
+
   return (
     <Container style={styles.container}>
-      <BackHeader
+      <BackHeaderWithAction
         onBack={() => {
           navigation.goBack();
         }}
         title={'Add Style Tags'}
+        onAction={onClickShare}
+        actionTitle="Share"
       />
       <View style={styles.bodyContainer}>
         <TouchableOpacity style={styles.searchBox} activeOpacity={1}>
