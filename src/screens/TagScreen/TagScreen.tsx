@@ -60,8 +60,6 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
     return imageBody;
   };
 
-  console.log(links);
-
   const onClickShare = () => {
     getStyleUpload({
       linkCount: links.length,
@@ -95,44 +93,51 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
             });
           }
 
-          // upload all images
-          console.log(allUrl);
-          if (allUrl.length === links.length + 1) {
-            Promise.all(
-              allUrl.map(async (x, index) => {
-                if (x.type === 'style') {
-                  const imageBody = await getBlob(image);
-                  await uploadStylePicture({
-                    body: imageBody,
-                    url: x.url,
-                  });
-                }
+          return {
+            styleImage,
+            styleLinks,
+            styleTags,
+            allUrl,
+          };
+        }
+      })
+      .then(value => {
+        if (value) {
+          // // upload all images
+          Promise.all(
+            value.allUrl.map(async (x, index) => {
+              if (x.type === 'style') {
+                const imageBody = await getBlob(image);
+                await uploadStylePicture({
+                  body: imageBody,
+                  url: x.url,
+                });
+              }
 
-                if (x.type === 'link') {
-                  const imageBody = await getBlob(links[index].image);
-                  await uploadStylePicture({
-                    body: imageBody,
-                    url: x.url,
-                  });
-                }
-              }),
-            )
-              .then(() => {
-                // create style
-                createStyle({
-                  image: styleImage,
-                  links: styleLinks,
-                  tags: styleTags,
-                })
-                  .unwrap()
-                  .then(res => {
-                    if (res.success) {
-                      navigation.navigate('Authenticated');
-                    }
-                  });
+              if (x.type === 'link' && links.length > 0) {
+                const imageBody = await getBlob(links[index - 1].image);
+                await uploadStylePicture({
+                  body: imageBody,
+                  url: x.url,
+                });
+              }
+            }),
+          )
+            .then(() => {
+              // create style
+              createStyle({
+                image: value.styleImage,
+                links: value.styleLinks,
+                tags: value.styleTags,
               })
-              .catch(e => console.log(e));
-          }
+                .unwrap()
+                .then(res => {
+                  if (res.success) {
+                    navigation.navigate('Authenticated');
+                  }
+                });
+            })
+            .catch(e => console.log(e));
         }
       })
       .catch();

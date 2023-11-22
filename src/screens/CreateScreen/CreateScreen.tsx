@@ -54,10 +54,6 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
           style={styles.backBtn}
           activeOpacity={1}
           onPress={() => {
-            console.log({
-              postUrl,
-              links,
-            });
             navigation.navigate('TagScreen', {
               image: postUrl,
               links,

@@ -80,7 +80,7 @@ export const styleApi = createApi({
     createStyle: build.mutation<createStyleResponse, createStyleRequest>({
       query: body => {
         return {
-          url: '/upload-url',
+          url: '/create',
           method: 'Post',
           body,
         };
