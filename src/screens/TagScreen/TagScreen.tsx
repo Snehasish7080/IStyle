@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-} from 'react-native';
+import {View, TouchableOpacity, ScrollView, TextInput} from 'react-native';
 import React, {useState} from 'react';
 import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import Container from '../../atoms/Container/Container';
 import {styles} from './TagScreenStyles';
-import BackHeader from '../../molecules/BackHeader/BackHeader';
 import SearchIcon from '../../atoms/SearchIcon/SearchIcon';
 import AppText from '../../atoms/AppText/AppText';
 import {Colors} from '../../utils/theme';
