@@ -18,11 +18,15 @@ import {data} from '../../utils/dummyData';
 import {horizontalScale} from '../../utils/scale';
 import {ProfileNavProps} from '../../navigations/ProfileNavigation/ProfileNavigationTypes';
 import {useAppSelector} from '../../feature/hooks';
+import {useGetUserStylesQuery} from '../../feature/services/style';
 
 const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
   navigation,
 }) => {
   const user = useAppSelector(state => state.userSlice.user);
+  const userStyles = useAppSelector(state => state.styleSlice.userStyle);
+
+  useGetUserStylesQuery(undefined);
   return (
     <Container>
       <AppHeader hideSetting={false} hideChat={true} />
@@ -135,8 +139,8 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
               </View>
             </View>
           }
-          data={data}
-          keyExtractor={(item, index) => index.toString()}
+          data={userStyles}
+          keyExtractor={item => item.id}
           renderItem={({item, index}) => {
             return (
               <TouchableOpacity
@@ -145,10 +149,13 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
                     image: item.image,
                     key: index.toString(),
                   });
+                }}
+                style={{
+                  marginHorizontal: (3 * index) / 3 === index ? 3 : 0,
                 }}>
                 <Image
                   source={{
-                    uri: item.image,
+                    uri: `${S3_BUCKET_URL}/${item.image}`,
                     height: PixelRatio.getPixelSizeForLayoutSize(
                       horizontalScale(250),
                     ),
@@ -166,9 +173,9 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
             paddingTop: 20,
           }}
           numColumns={3}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-          }}
+          // columnWrapperStyle={{
+          //   justifyContent: 'space-between',
+          // }}
         />
       </View>
     </Container>

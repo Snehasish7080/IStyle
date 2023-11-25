@@ -3,6 +3,7 @@ import {authApi} from './services/auth';
 import {styleApi} from './services/style';
 import {tagApi} from './services/tags';
 import {userApi} from './services/user';
+import styleSlice from './slice/styleSlice';
 import userSlice from './slice/userSlice';
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     [tagApi.reducerPath]: tagApi.reducer,
     [styleApi.reducerPath]: styleApi.reducer,
     userSlice: userSlice,
+    styleSlice: styleSlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat([

@@ -2,6 +2,7 @@ import {API_BASE_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {ILink} from '../../interface/linkInterface';
+import {IStyle} from '../../interface/styleInterface';
 import {ITag} from '../../interface/tagInterface';
 
 type getUploadStyleUrlResponse = {
@@ -35,6 +36,12 @@ type createStyleRequest = {
 type createStyleResponse = {
   success: boolean;
   message: string;
+};
+
+type getUserStylesResponse = {
+  data: IStyle[];
+  message: string;
+  success: boolean;
 };
 
 export const styleApi = createApi({
@@ -85,6 +92,11 @@ export const styleApi = createApi({
           body,
         };
       },
+      invalidatesTags: ['Style'],
+    }),
+    getUserStyles: build.query<getUserStylesResponse, undefined>({
+      query: () => '/all',
+      providesTags: ['Style'],
     }),
   }),
 });
@@ -93,4 +105,5 @@ export const {
   useGetStyleUploadUrlMutation,
   useUploadStylePictureMutation,
   useCreateStyleMutation,
+  useGetUserStylesQuery,
 } = styleApi;
