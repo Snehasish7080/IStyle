@@ -3,11 +3,11 @@ import {createSlice} from '@reduxjs/toolkit';
 import {IStyle} from '../../interface/styleInterface';
 import {styleApi} from '../services/style';
 export interface StyleState {
-  userStyle: IStyle[] | undefined;
+  userStyle: IStyle[];
 }
 
 const initialState: StyleState = {
-  userStyle: undefined,
+  userStyle: [],
 };
 
 export const styleSlice = createSlice({
@@ -23,7 +23,7 @@ export const styleSlice = createSlice({
       styleApi.endpoints.getUserStyles.matchFulfilled,
       (state, {payload}) => {
         if (payload.success) {
-          state.userStyle = payload.data;
+          state.userStyle = [...state.userStyle, ...payload.data];
         }
       },
     );
