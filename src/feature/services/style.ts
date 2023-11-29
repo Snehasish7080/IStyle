@@ -44,6 +44,10 @@ type getUserStylesResponse = {
   success: boolean;
 };
 
+type getUserStyleRequest = {
+  cursor?: string;
+};
+
 export const styleApi = createApi({
   reducerPath: 'styleApi',
   baseQuery: fetchBaseQuery({
@@ -94,8 +98,11 @@ export const styleApi = createApi({
       },
       invalidatesTags: ['Style'],
     }),
-    getUserStyles: build.query<getUserStylesResponse, undefined>({
-      query: () => '/all',
+    getUserStyles: build.query<getUserStylesResponse, getUserStyleRequest>({
+      query: body => ({
+        url: '/all',
+        params: {...body},
+      }),
       providesTags: ['Style'],
     }),
   }),
@@ -106,4 +113,5 @@ export const {
   useUploadStylePictureMutation,
   useCreateStyleMutation,
   useGetUserStylesQuery,
+  useLazyGetUserStylesQuery,
 } = styleApi;

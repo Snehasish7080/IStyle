@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {S3_BUCKET_URL} from '@env';
-import React from 'react';
+import React, {useState} from 'react';
 import Container from '../../atoms/Container/Container';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import {styles} from './ProfileScreenStyles';
@@ -18,7 +18,10 @@ import {data} from '../../utils/dummyData';
 import {horizontalScale} from '../../utils/scale';
 import {ProfileNavProps} from '../../navigations/ProfileNavigation/ProfileNavigationTypes';
 import {useAppSelector} from '../../feature/hooks';
-import {useGetUserStylesQuery} from '../../feature/services/style';
+import {
+  useGetUserStylesQuery,
+  useLazyGetUserStylesQuery,
+} from '../../feature/services/style';
 
 const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
   navigation,
@@ -26,7 +29,12 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
   const user = useAppSelector(state => state.userSlice.user);
   const userStyles = useAppSelector(state => state.styleSlice.userStyle);
 
-  useGetUserStylesQuery(undefined);
+  const [isScrollStart, setIsScrollStart] = useState(false);
+
+  useGetUserStylesQuery({
+    cursor: '',
+  });
+  const [getUserStyles] = useLazyGetUserStylesQuery();
   return (
     <Container>
       <AppHeader hideSetting={false} hideChat={true} />
@@ -173,9 +181,19 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
             paddingTop: 20,
           }}
           numColumns={3}
-          // columnWrapperStyle={{
-          //   justifyContent: 'space-between',
-          // }}
+          onMomentumScrollBegin={() => {
+            setIsScrollStart(true);
+          }}
+          onMomentumScrollEnd={() => {
+            setIsScrollStart(false);
+          }}
+          onEndReached={() => {
+            if (userStyles.length > 0 && isScrollStart) {
+              getUserStyles({
+                cursor: userStyles[userStyles.length - 1].id,
+              });
+            }
+          }}
         />
       </View>
     </Container>
