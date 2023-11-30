@@ -4,10 +4,11 @@ import {Colors, FontFamily} from '../../utils/theme';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.white,
+    paddingVertical: 30,
   },
   inputBox: {
     width: horizontalScale(302),
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
   },
   logoTitle: {
     fontSize: 40,
-    marginBottom: 60,
+    marginBottom: 30,
     fontFamily: FontFamily.SatisfyRegular,
   },
   notRegistered: {

@@ -3,6 +3,9 @@ import {StackScreenProps} from '@react-navigation/stack';
 export type UnAuthenticatedRouteList = {
   LoginScreen: undefined;
   SignUpScreen: undefined;
+  EmailOtpScreen: {
+    token: string;
+  };
 };
 export type UnAuthenticatedNavigationProp<
   T extends keyof UnAuthenticatedRouteList,

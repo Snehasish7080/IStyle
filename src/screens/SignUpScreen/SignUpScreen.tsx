@@ -1,4 +1,10 @@
-import {View, Text, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import {styles} from './SignUpScreenStyles';
 import AppText from '../../atoms/AppText/AppText';
@@ -9,22 +15,28 @@ import {UnAuthenticatedNavProps} from '../../navigations/UnAuthenticatedNavigati
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import {useSignUpMutation} from '../../feature/services/auth';
 
 type SignUpData = {
   firstName: string;
   lastName: string;
+  userName: string;
   email: string;
   password: string;
 };
+
+const EMAIL_REGEX =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const schema = yup
   .object({
     firstName: yup.string().required('required'),
     lastName: yup.string().required('required'),
+    userName: yup.string().required('required'),
     email: yup
       .string()
       .required('required')
-      .email('please enter a valid email'),
+      .matches(EMAIL_REGEX, 'please enter a valid email'),
     password: yup.string().required('required'),
   })
   .required();
@@ -32,6 +44,7 @@ const schema = yup
 const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
   navigation,
 }) => {
+  const [signUp] = useSignUpMutation();
   const {
     control,
     handleSubmit,
@@ -40,15 +53,38 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
     defaultValues: {
       firstName: '',
       lastName: '',
+      userName: '',
       email: '',
       password: '',
     },
     resolver: yupResolver(schema),
   });
 
+  const onSubmit = (data: SignUpData) => {
+    // try {
+    //   signUp({
+    //     firstName: data.firstName,
+    //     lastName: data.lastName,
+    //     userName: data.userName,
+    //     email: data.email,
+    //     password: data.password,
+    //   })
+    //     .unwrap()
+    //     .then(res => {
+    //       if (res.success) {
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err, err.data.success);
+    //     });
+    // } catch (error) {}
+    navigation.navigate('EmailOtpScreen', {
+      token: 'fsf',
+    });
+  };
+
   return (
-    <View style={styles.container}>
-      {/* <AppLogo /> */}
+    <ScrollView contentContainerStyle={styles.container}>
       <AppText lineHeight={42} style={styles.logoTitle}>
         IStyle
       </AppText>
@@ -80,6 +116,19 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
           }}
         />
         <AppInputBox
+          name="userName"
+          control={control}
+          style={styles.inputBox}
+          placeholder={'Enter Username'}
+          label={'Username'}
+          labelStyle={{
+            fontSize: 14,
+          }}
+          containerStyle={{
+            marginBottom: 20,
+          }}
+        />
+        <AppInputBox
           name="email"
           control={control}
           style={styles.inputBox}
@@ -102,10 +151,15 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
             fontSize: 14,
           }}
           containerStyle={{
-            marginBottom: 60,
+            marginBottom: 40,
           }}
         />
-        <AppButton width={horizontalScale(302)} height={56}>
+        <AppButton
+          width={horizontalScale(302)}
+          height={56}
+          onPress={() => {
+            handleSubmit(onSubmit)();
+          }}>
           Sign up
         </AppButton>
       </KeyboardAvoidingView>
@@ -123,7 +177,7 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
           </AppText>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -22,6 +22,20 @@ type verifyResponse = {
   success: boolean;
   message: string;
 };
+
+type signUpRequest = {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  password: string;
+};
+
+type signUpResponse = {
+  token: string;
+  success: boolean;
+  message: string;
+};
 export const authApi = createApi({
   baseQuery: fetchBaseQuery({baseUrl: `${API_BASE_URL}/auth`}),
   tagTypes: ['Auth'],
@@ -33,6 +47,14 @@ export const authApi = createApi({
         body,
       }),
     }),
+    signUp: build.mutation<signUpResponse, signUpRequest>({
+      query: body => ({
+        url: '/sign-up',
+        method: 'Post',
+        body,
+      }),
+    }),
+
     verify: build.mutation<verifyResponse, verifyBody>({
       query: body => ({
         url: '/verify',
@@ -48,4 +70,4 @@ export const authApi = createApi({
   }),
 });
 
-export const {useLoginMutation, useVerifyMutation} = authApi;
+export const {useLoginMutation, useVerifyMutation, useSignUpMutation} = authApi;

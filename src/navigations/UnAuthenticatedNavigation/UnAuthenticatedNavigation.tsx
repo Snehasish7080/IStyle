@@ -1,5 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import EmailOtpScreen from '../../screens/EmailOtpScreen/EmailOtpScreen';
 import LoginScreen from '../../screens/LoginScreen/LoginScreen';
 import SignUpScreen from '../../screens/SignUpScreen/SignUpScreen';
 import {UnAuthenticatedRouteList} from './UnAuthenticatedNavigationTypes';
@@ -21,6 +22,14 @@ const UnAuthenticatedNavigation = () => {
         component={SignUpScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EmailOtpScreen"
+        component={EmailOtpScreen}
+        options={{
+          headerShown: false,
+          presentation: 'transparentModal',
         }}
       />
     </Stack.Navigator>
