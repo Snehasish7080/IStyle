@@ -28,18 +28,16 @@ type SignUpData = {
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const schema = yup
-  .object({
-    firstName: yup.string().required('required'),
-    lastName: yup.string().required('required'),
-    userName: yup.string().required('required'),
-    email: yup
-      .string()
-      .required('required')
-      .matches(EMAIL_REGEX, 'please enter a valid email'),
-    password: yup.string().required('required'),
-  })
-  .required();
+const schema = yup.object({
+  firstName: yup.string().required('required'),
+  lastName: yup.string().required('required'),
+  userName: yup.string().required('required'),
+  email: yup
+    .string()
+    .required('required')
+    .matches(EMAIL_REGEX, 'please enter a valid email'),
+  password: yup.string().required('required'),
+});
 
 const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
   navigation,
@@ -140,6 +138,7 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
           containerStyle={{
             marginBottom: 20,
           }}
+          keyboardType="email-address"
         />
         <AppInputBox
           name="password"

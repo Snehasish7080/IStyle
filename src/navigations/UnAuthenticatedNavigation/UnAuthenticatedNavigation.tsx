@@ -29,7 +29,6 @@ const UnAuthenticatedNavigation = () => {
         component={EmailOtpScreen}
         options={{
           headerShown: false,
-          presentation: 'transparentModal',
         }}
       />
     </Stack.Navigator>

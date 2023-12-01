@@ -15,10 +15,13 @@ const Icon = Skia.SVG.MakeFromString(
   </svg>`,
 )!;
 
-const BackIcon = () => {
+type BackIconProps = {
+  color?: string;
+};
+const BackIcon = ({color = Colors.dark}: BackIconProps) => {
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.dark), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(color), BlendMode.SrcIn),
   );
 
   return (
