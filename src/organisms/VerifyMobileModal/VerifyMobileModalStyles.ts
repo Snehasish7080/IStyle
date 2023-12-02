@@ -4,34 +4,31 @@ import {Colors, FontFamily} from '../../utils/theme';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.lightDark,
     flex: 1,
+    justifyContent: 'flex-end',
   },
 
-  bodyContainer: {
-    flex: 1,
+  modal: {
+    height: 400,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.white,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
   },
 
   title: {
     fontSize: 18,
     fontFamily: FontFamily.LatoBold,
-    marginBottom: 26,
+    marginBottom: 20,
   },
   subTitle: {
     fontSize: 14,
+    marginBottom: 26,
   },
-  backBtn: {
-    position: 'absolute',
-    top: 20,
-    zIndex: 1,
-    left: 20,
-    borderRadius: 20,
-    width: 30,
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.dark,
+  inputBox: {
+    width: horizontalScale(302),
+    height: 56,
   },
 });

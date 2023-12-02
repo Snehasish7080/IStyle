@@ -55,9 +55,9 @@ export const authApi = createApi({
       }),
     }),
 
-    verify: build.mutation<verifyResponse, verifyBody>({
+    verifyEmail: build.mutation<verifyResponse, verifyBody>({
       query: body => ({
-        url: '/verify',
+        url: '/verify/email',
         method: 'Post',
         headers: {
           Authorization: body.token,
@@ -70,4 +70,5 @@ export const authApi = createApi({
   }),
 });
 
-export const {useLoginMutation, useVerifyMutation, useSignUpMutation} = authApi;
+export const {useLoginMutation, useVerifyEmailMutation, useSignUpMutation} =
+  authApi;

@@ -23,15 +23,13 @@ type LoginData = {
 const EMAIL_REGEX =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .required('required')
-      .matches(EMAIL_REGEX, 'please enter a valid email'),
-    password: yup.string().required('required'),
-  })
-  .required();
+const schema = yup.object({
+  email: yup
+    .string()
+    .required('required')
+    .matches(EMAIL_REGEX, 'please enter a valid email'),
+  password: yup.string().required('required'),
+});
 
 const LoginScreen: React.FC<UnAuthenticatedNavProps<'LoginScreen'>> = ({
   navigation,

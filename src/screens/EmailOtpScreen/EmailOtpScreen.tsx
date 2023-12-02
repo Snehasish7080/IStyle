@@ -11,6 +11,9 @@ import AppText from '../../atoms/AppText/AppText';
 import BackIcon from '../../atoms/BackIcon/BackIcon';
 import {UnAuthenticatedNavProps} from '../../navigations/UnAuthenticatedNavigation/UnAuthenticatedNavigationTypes';
 import {Colors} from '../../utils/theme';
+import {useVerifyEmailMutation} from '../../feature/services/auth';
+import {StackActions} from '@react-navigation/native';
+import {storeToken} from '../../utils/storeToken';
 
 type EmailOtpData = {
   otp: string;
@@ -22,7 +25,10 @@ const schema = yup.object({
 
 const EmailOtpScreen: React.FC<UnAuthenticatedNavProps<'EmailOtpScreen'>> = ({
   navigation,
+  route,
 }) => {
+  const {token} = route?.params;
+  const [verifyEmail] = useVerifyEmailMutation();
   const {
     control,
     handleSubmit,
@@ -35,6 +41,23 @@ const EmailOtpScreen: React.FC<UnAuthenticatedNavProps<'EmailOtpScreen'>> = ({
   });
 
   const onSubmit = (data: EmailOtpData) => {
+    try {
+      verifyEmail({
+        token,
+        otp: data.otp,
+      })
+        .unwrap()
+        .then(res => {
+          storeToken(res.token).then(() => {
+            navigation.dispatch(StackActions.replace('Authenticated'));
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } catch (error: any) {
+      console.log(error, error.data.success);
+    }
     console.log(data);
   };
   return (

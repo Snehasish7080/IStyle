@@ -31,7 +31,7 @@ const EMAIL_REGEX =
 const schema = yup.object({
   firstName: yup.string().required('required'),
   lastName: yup.string().required('required'),
-  userName: yup.string().required('required'),
+  userName: yup.string().lowercase().required('required'),
   email: yup
     .string()
     .required('required')
@@ -47,6 +47,7 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
     control,
     handleSubmit,
     formState: {errors},
+    reset,
   } = useForm<SignUpData>({
     defaultValues: {
       firstName: '',
@@ -59,26 +60,37 @@ const SignUpScreen: React.FC<UnAuthenticatedNavProps<'SignUpScreen'>> = ({
   });
 
   const onSubmit = (data: SignUpData) => {
-    // try {
-    //   signUp({
-    //     firstName: data.firstName,
-    //     lastName: data.lastName,
-    //     userName: data.userName,
-    //     email: data.email,
-    //     password: data.password,
-    //   })
-    //     .unwrap()
-    //     .then(res => {
-    //       if (res.success) {
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err, err.data.success);
-    //     });
-    // } catch (error) {}
-    navigation.navigate('EmailOtpScreen', {
-      token: 'fsf',
-    });
+    try {
+      signUp({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        userName: data.userName,
+        email: data.email,
+        password: data.password,
+      })
+        .unwrap()
+        .then(res => {
+          if (res.success) {
+            reset({
+              firstName: '',
+              lastName: '',
+              email: '',
+              userName: '',
+              password: '',
+            });
+
+            navigation.navigate('EmailOtpScreen', {
+              token: res.token,
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err, err.data.success);
+        });
+    } catch (error) {}
+    // navigation.navigate('EmailOtpScreen', {
+    //   token: 'fsf',
+    // });
   };
 
   return (

@@ -4,4 +4,5 @@ export interface IUser {
   userName: string;
   bio?: string;
   profilePic?: string;
+  isMobileVerified: boolean;
 }

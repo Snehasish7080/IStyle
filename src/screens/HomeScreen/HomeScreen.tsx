@@ -2,14 +2,17 @@ import React from 'react';
 import {View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
+import {useAppSelector} from '../../feature/hooks';
 import {useGetUserQuery} from '../../feature/services/user';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
+import VerifyMobileModal from '../../organisms/VerifyMobileModal/VerifyMobileModal';
 import {data} from '../../utils/dummyData';
 import {styles} from './HomeScreenStyles';
 
 const HomeScreen = () => {
   useGetUserQuery(undefined);
+  const user = useAppSelector(state => state.userSlice.user);
 
   return (
     <View style={styles.mainContainer}>
@@ -48,6 +51,8 @@ const HomeScreen = () => {
           decelerationRate="fast"
         />
       </Animated.View>
+
+      <VerifyMobileModal visible={!user?.isMobileVerified} />
     </View>
   );
 };

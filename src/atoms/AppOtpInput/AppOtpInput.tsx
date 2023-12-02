@@ -19,7 +19,6 @@ const AppOtpInput: React.FC<AppOtpInputProps> = ({name, control}) => {
   return (
     <View
       style={{
-        borderColor: 'red',
         height: 80,
         alignItems: 'center',
       }}>
