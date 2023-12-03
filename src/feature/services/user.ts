@@ -38,6 +38,24 @@ type uploadPictureBody = {
   body: Blob;
 };
 
+type updateUserMobileBody = {
+  mobile: string;
+};
+type updateUserMobileResponse = {
+  message: string;
+  success: boolean;
+};
+
+type verifyUserMobileBody = {
+  otp: string;
+};
+
+type verifyUserMobileResponse = {
+  token: string;
+  message: string;
+  success: boolean;
+};
+
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
@@ -83,6 +101,32 @@ export const userApi = createApi({
       },
       invalidatesTags: ['User'],
     }),
+    updateUserMobile: build.mutation<
+      updateUserMobileResponse,
+      updateUserMobileBody
+    >({
+      query: body => {
+        return {
+          url: '/update/mobile',
+          method: 'Post',
+          body,
+        };
+      },
+    }),
+
+    verifyUserMobile: build.mutation<
+      verifyUserMobileResponse,
+      verifyUserMobileBody
+    >({
+      query: body => {
+        return {
+          url: '/verify/mobile',
+          method: 'Post',
+          body,
+        };
+      },
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -91,4 +135,6 @@ export const {
   useUpdateUserMutation,
   useGetPictureUrlQuery,
   useUploadPictureMutation,
+  useUpdateUserMobileMutation,
+  useVerifyUserMobileMutation,
 } = userApi;

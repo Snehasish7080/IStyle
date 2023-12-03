@@ -9,6 +9,11 @@ import AppInputBox from '../../atoms/AppInputBox/AppInputBox';
 import AppButton from '../../atoms/AppButton/AppButton';
 import {horizontalScale} from '../../utils/scale';
 import AppOtpInput from '../../atoms/AppOtpInput/AppOtpInput';
+import {
+  useUpdateUserMobileMutation,
+  useVerifyUserMobileMutation,
+} from '../../feature/services/user';
+import {storeToken} from '../../utils/storeToken';
 
 type VerifyMobileModalProps = {
   visible: boolean;
@@ -30,7 +35,10 @@ const verifyMobileschema = yup.object({
 });
 
 const VerifyMobileModal: React.FC<VerifyMobileModalProps> = ({visible}) => {
-  const [isMobileSubmit, setIsMobileSubmit] = useState(true);
+  const [updateMobile] = useUpdateUserMobileMutation();
+  const [verifyMobile] = useVerifyUserMobileMutation();
+
+  const [isMobileSubmit, setIsMobileSubmit] = useState(false);
 
   const {control, handleSubmit} = useForm<UpdateMobileData>({
     defaultValues: {
@@ -47,8 +55,42 @@ const VerifyMobileModal: React.FC<VerifyMobileModalProps> = ({visible}) => {
       resolver: yupResolver(verifyMobileschema),
     });
 
-  const onSubmitMobile = (data: UpdateMobileData) => {};
-  const onSubmitVerifyMobile = (data: VerifyMobileData) => {};
+  const onSubmitMobile = (data: UpdateMobileData) => {
+    try {
+      updateMobile({
+        mobile: data.mobile,
+      })
+        .unwrap()
+        .then(res => {
+          if (res.success) {
+            setIsMobileSubmit(true);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } catch (error) {}
+  };
+  const onSubmitVerifyMobile = (data: VerifyMobileData) => {
+    try {
+      verifyMobile({
+        otp: data.otp,
+      })
+        .unwrap()
+        .then(res => {
+          if (res.success) {
+            try {
+              storeToken(res.token);
+            } catch (e) {
+              // saving error
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } catch (error) {}
+  };
   return (
     <Modal transparent={true} visible={visible}>
       <View style={styles.container}>

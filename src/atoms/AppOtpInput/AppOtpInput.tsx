@@ -25,7 +25,8 @@ const AppOtpInput: React.FC<AppOtpInputProps> = ({name, control}) => {
       <OTPInputView
         pinCount={6}
         style={{
-          width: '85%',
+          width: '80%',
+          paddingLeft: 6,
         }}
         autoFocusOnLoad
         codeInputFieldStyle={{

@@ -22,6 +22,8 @@ import {
   useGetUserStylesQuery,
   useLazyGetUserStylesQuery,
 } from '../../feature/services/style';
+import ProfileIcon from '../../atoms/ProfileIcon/ProfileIcon';
+import {Colors} from '../../utils/theme';
 
 const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
   navigation,
@@ -43,14 +45,28 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
           ListHeaderComponent={
             <View>
               <View style={styles.profileContainer}>
-                <Image
-                  source={{
-                    uri: `${S3_BUCKET_URL}/${user?.profilePic}`,
-                    width: 100,
-                    height: 100,
-                  }}
-                  style={styles.profileImage}
-                />
+                {!Boolean(user?.profilePic) && (
+                  <View
+                    style={{
+                      ...styles.profileImage,
+                      borderWidth: 1,
+                      borderColor: Colors.dark,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <ProfileIcon color={Colors.dark} />
+                  </View>
+                )}
+                {Boolean(user?.profilePic) && (
+                  <Image
+                    source={{
+                      uri: `${S3_BUCKET_URL}/${user?.profilePic}`,
+                      width: 100,
+                      height: 100,
+                    }}
+                    style={styles.profileImage}
+                  />
+                )}
 
                 <View style={styles.buttonContainer}>
                   <View style={styles.infoContainer}>

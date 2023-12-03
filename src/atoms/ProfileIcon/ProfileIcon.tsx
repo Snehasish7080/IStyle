@@ -21,18 +21,22 @@ const Icon = Skia.SVG.MakeFromString(
 
 type ProfileIconProps = {
   isFocused?: boolean;
+  color?: string;
 };
 
-const ProfileIcon: React.FC<ProfileIconProps> = ({isFocused}) => {
+const ProfileIcon: React.FC<ProfileIconProps> = ({
+  isFocused,
+  color = Colors.white,
+}) => {
   const src = rect(0, 0, 24, 24);
   const dst = rect(0, 0, 24, 24);
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(color), BlendMode.SrcIn),
   );
   const emptyPaint = useMemo(() => Skia.Paint(), []);
   emptyPaint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(color), BlendMode.SrcIn),
   );
   return (
     <Canvas style={{width: 24, height: 24}}>
