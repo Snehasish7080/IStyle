@@ -6,6 +6,7 @@ import {useAppSelector} from '../../feature/hooks';
 import {useGetUserQuery} from '../../feature/services/user';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
+import StyleCategoryModal from '../../organisms/StyleCategoryModal/StyleCategoryModal';
 import VerifyMobileModal from '../../organisms/VerifyMobileModal/VerifyMobileModal';
 import {data} from '../../utils/dummyData';
 import {styles} from './HomeScreenStyles';
@@ -53,6 +54,7 @@ const HomeScreen = () => {
       </Animated.View>
 
       <VerifyMobileModal visible={!user?.isMobileVerified} />
+      <StyleCategoryModal />
     </View>
   );
 };
