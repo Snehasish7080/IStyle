@@ -7,6 +7,7 @@ type userResponse = {
     firstName: string;
     lastName: string;
     userName: string;
+    isMobileVerified: boolean;
   };
   success: boolean;
   message: string;
