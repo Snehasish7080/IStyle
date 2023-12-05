@@ -1,14 +1,19 @@
 import {View, Text, Modal, ScrollView, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {styles} from './StyleCategoryModalStyles';
+import {styles} from './StyleTagModalStyles';
 import BackHeaderWithAction from '../../molecules/BackHeaderWithAction/BackHeaderWithAction';
 import {useGetAllTagsQuery} from '../../feature/services/tags';
 import AppText from '../../atoms/AppText/AppText';
 import {ITag} from '../../interface/tagInterface';
 import {Colors} from '../../utils/theme';
+import {useMarkFavTagsMutation} from '../../feature/services/user';
 
-const StyleCategoryModal: React.FC = () => {
+type StyleTagModalProps = {
+  visible: boolean;
+};
+const StyleTagModal: React.FC<StyleTagModalProps> = ({visible}) => {
   const {data, isSuccess} = useGetAllTagsQuery(undefined);
+  const [markFavTags] = useMarkFavTagsMutation();
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
 
   const onClickTag = (value: ITag) => {
@@ -25,13 +30,17 @@ const StyleCategoryModal: React.FC = () => {
   };
 
   return (
-    <Modal transparent={true} visible={true}>
+    <Modal transparent={true} visible={visible}>
       <View style={styles.container}>
         <View style={styles.modal}>
           <BackHeaderWithAction
             title="mark your styles"
             onBack={() => {}}
-            onAction={() => {}}
+            onAction={() => {
+              markFavTags({
+                tags: selectedTags.map(x => x.id),
+              });
+            }}
             actionTitle="Done"
           />
           <AppText lineHeight={14} style={styles.subTitle}>
@@ -93,4 +102,4 @@ const StyleCategoryModal: React.FC = () => {
   );
 };
 
-export default StyleCategoryModal;
+export default StyleTagModal;

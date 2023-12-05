@@ -8,6 +8,7 @@ type userResponse = {
     lastName: string;
     userName: string;
     isMobileVerified: boolean;
+    isComplete: boolean;
   };
   success: boolean;
   message: string;
@@ -53,6 +54,15 @@ type verifyUserMobileBody = {
 
 type verifyUserMobileResponse = {
   token: string;
+  message: string;
+  success: boolean;
+};
+
+type markFavTagsBody = {
+  tags: string[];
+};
+
+type markFavTagsResponse = {
   message: string;
   success: boolean;
 };
@@ -128,6 +138,17 @@ export const userApi = createApi({
       },
       invalidatesTags: ['User'],
     }),
+
+    markFavTags: build.mutation<markFavTagsResponse, markFavTagsBody>({
+      query: body => {
+        return {
+          url: '/user/fav/tag',
+          method: 'Post',
+          body,
+        };
+      },
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -138,4 +159,5 @@ export const {
   useUploadPictureMutation,
   useUpdateUserMobileMutation,
   useVerifyUserMobileMutation,
+  useMarkFavTagsMutation,
 } = userApi;

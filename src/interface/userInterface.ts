@@ -5,4 +5,5 @@ export interface IUser {
   bio?: string;
   profilePic?: string;
   isMobileVerified: boolean;
+  isComplete: boolean;
 }
