@@ -12,7 +12,9 @@ type StyleTagModalProps = {
   visible: boolean;
 };
 const StyleTagModal: React.FC<StyleTagModalProps> = ({visible}) => {
-  const {data, isSuccess} = useGetAllTagsQuery(undefined);
+  const {data, isSuccess} = useGetAllTagsQuery(undefined, {
+    skip: !visible,
+  });
   const [markFavTags] = useMarkFavTagsMutation();
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
 
