@@ -1,8 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {authApi} from './services/auth';
+import {feedApi} from './services/feed';
 import {styleApi} from './services/style';
 import {tagApi} from './services/tags';
 import {userApi} from './services/user';
+import feedSlice from './slice/feedSlice';
 import styleSlice from './slice/styleSlice';
 import userSlice from './slice/userSlice';
 
@@ -12,8 +14,10 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [tagApi.reducerPath]: tagApi.reducer,
     [styleApi.reducerPath]: styleApi.reducer,
+    [feedApi.reducerPath]: feedApi.reducer,
     userSlice: userSlice,
     styleSlice: styleSlice,
+    feedSlice: feedSlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat([
@@ -21,6 +25,7 @@ export const store = configureStore({
       userApi.middleware,
       tagApi.middleware,
       styleApi.middleware,
+      feedApi.middleware,
     ]),
 });
 

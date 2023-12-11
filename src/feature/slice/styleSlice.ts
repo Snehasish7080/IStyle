@@ -22,7 +22,6 @@ export const styleSlice = createSlice({
     builder.addMatcher(
       styleApi.endpoints.getUserStyles.matchFulfilled,
       (state, {payload}) => {
-        console.log('payload', payload);
         if (payload.success) {
           if (payload.data) {
             state.userStyle = [...state.userStyle, ...payload.data];

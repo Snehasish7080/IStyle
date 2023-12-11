@@ -15,12 +15,25 @@ import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
+import {S3_BUCKET_URL} from '@env';
 
 type StyleCardProps = {
+  id: string;
   image: string;
-  links: {image: string}[];
+  links: {id: string; image: string; url: string}[];
+  user: {
+    userName: string;
+    profilePic: string;
+  };
+  createdAt: string;
 };
-const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
+const StyleCard: React.FC<StyleCardProps> = ({
+  image,
+  links,
+  user,
+  id,
+  createdAt,
+}) => {
   const width = horizontalScale(320);
   const height = horizontalScale(320);
   return (
@@ -29,14 +42,14 @@ const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
         <View style={styles.profileImageContainer}>
           <Image
             source={{
-              uri: 'https://plus.unsplash.com/premium_photo-1675253290701-a7b7b2c6c9f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzF8fG91dGZpdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60',
+              uri: `${S3_BUCKET_URL}/${user.profilePic}`,
               width: PixelRatio.getPixelSizeForLayoutSize(30),
               height: PixelRatio.getPixelSizeForLayoutSize(30),
             }}
             style={styles.profileImage}
           />
           <AppText lineHeight={14} style={styles.userName}>
-            Laura Chouette
+            {user.userName}
           </AppText>
         </View>
         <TouchableOpacity style={styles.followBtn}>
@@ -47,7 +60,7 @@ const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
       </View>
       <ImageBackground
         source={{
-          uri: image,
+          uri: `${S3_BUCKET_URL}/${image}`,
           width: PixelRatio.getPixelSizeForLayoutSize(width),
           height: PixelRatio.getPixelSizeForLayoutSize(height),
         }}
@@ -89,7 +102,7 @@ const StyleCard: React.FC<StyleCardProps> = ({image, links}) => {
           return (
             <Image
               source={{
-                uri: item.image,
+                uri: `${S3_BUCKET_URL}/${item.image}`,
                 width: PixelRatio.getPixelSizeForLayoutSize(50),
                 height: PixelRatio.getPixelSizeForLayoutSize(50),
               }}

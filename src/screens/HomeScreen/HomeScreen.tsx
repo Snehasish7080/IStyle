@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
 import {useAppSelector} from '../../feature/hooks';
+import {useGetUserFeedQuery} from '../../feature/services/feed';
 import {useGetUserQuery} from '../../feature/services/user';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
@@ -13,7 +14,9 @@ import {styles} from './HomeScreenStyles';
 
 const HomeScreen = () => {
   useGetUserQuery(undefined);
+  useGetUserFeedQuery(undefined);
   const user = useAppSelector(state => state.userSlice.user);
+  const userFeed = useAppSelector(state => state.feedSlice.userFeed);
 
   return (
     <View style={styles.mainContainer}>
@@ -31,10 +34,10 @@ const HomeScreen = () => {
               </AppText>
             </View>
           }
-          data={data}
+          data={userFeed}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => {
-            return <StyleCard image={item.image} links={item.links} />;
+            return <StyleCard {...item} />;
           }}
           contentContainerStyle={{
             flexGrow: 1,
