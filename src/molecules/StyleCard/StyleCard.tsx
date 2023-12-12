@@ -16,6 +16,9 @@ import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {S3_BUCKET_URL} from '@env';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParentRouteList} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 
 type StyleCardProps = {
   id: string;
@@ -36,21 +39,38 @@ const StyleCard: React.FC<StyleCardProps> = ({
 }) => {
   const width = horizontalScale(320);
   const height = horizontalScale(320);
+  const parentNavigation =
+    useNavigation<NativeStackNavigationProp<ParentRouteList>>();
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.profileContainer}>
         <View style={styles.profileImageContainer}>
-          <Image
-            source={{
-              uri: `${S3_BUCKET_URL}/${user.profilePic}`,
-              width: PixelRatio.getPixelSizeForLayoutSize(30),
-              height: PixelRatio.getPixelSizeForLayoutSize(30),
-            }}
-            style={styles.profileImage}
-          />
-          <AppText lineHeight={14} style={styles.userName}>
-            {user.userName}
-          </AppText>
+          <TouchableOpacity
+            onPress={() => {
+              parentNavigation.push('CreatorProfileScreen', {
+                userName: user.userName,
+              });
+            }}>
+            <Image
+              source={{
+                uri: `${S3_BUCKET_URL}/${user.profilePic}`,
+                width: PixelRatio.getPixelSizeForLayoutSize(30),
+                height: PixelRatio.getPixelSizeForLayoutSize(30),
+              }}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              parentNavigation.push('CreatorProfileScreen', {
+                userName: user.userName,
+              });
+            }}>
+            <AppText lineHeight={14} style={styles.userName}>
+              {user.userName}
+            </AppText>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.followBtn}>
           <AppText lineHeight={14} style={styles.userName}>
@@ -77,14 +97,14 @@ const StyleCard: React.FC<StyleCardProps> = ({
             1.1k
           </AppText>
         </View>
-        <View style={styles.iconCountContainer}>
-          <View style={styles.icon}>
-            <CommentIcon />
-          </View>
-          <AppText lineHeight={14} style={styles.count}>
-            1.1k
-          </AppText>
-        </View>
+        {/* <View style={styles.iconCountContainer}> */}
+        {/*   <View style={styles.icon}> */}
+        {/*     <CommentIcon /> */}
+        {/*   </View> */}
+        {/*   <AppText lineHeight={14} style={styles.count}> */}
+        {/*     1.1k */}
+        {/*   </AppText> */}
+        {/* </View> */}
         <View style={styles.iconCountContainer}>
           <View style={styles.icon}>
             <ShareIcon />

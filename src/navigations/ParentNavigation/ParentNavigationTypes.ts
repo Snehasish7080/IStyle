@@ -12,6 +12,9 @@ export type ParentRouteList = {
   CreateScreen: {
     postUrl: string;
   };
+  CreatorProfileScreen: {
+    userName: string;
+  };
 };
 export type ParentNavigationProp<T extends keyof ParentRouteList> =
   StackScreenProps<ParentRouteList, T>;

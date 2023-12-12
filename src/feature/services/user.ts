@@ -7,6 +7,8 @@ type userResponse = {
     firstName: string;
     lastName: string;
     userName: string;
+    profilePic: string;
+    bio: string;
     isMobileVerified: boolean;
     isComplete: boolean;
   };
@@ -84,12 +86,17 @@ export const userApi = createApi({
       }
     },
   }),
-  tagTypes: ['User'],
+  tagTypes: ['User', 'CreatorProfile'],
   endpoints: build => ({
     getUser: build.query<userResponse, undefined>({
       query: () => '/user',
       providesTags: ['User'],
     }),
+    getUserByUserName: build.query<userResponse, string>({
+      query: userName => `/user/${userName}`,
+      providesTags: ['CreatorProfile'],
+    }),
+
     getPictureUrl: build.query<getPictureUrlResponse, undefined>({
       query: () => '/user/picture/url',
     }),
@@ -160,4 +167,5 @@ export const {
   useUpdateUserMobileMutation,
   useVerifyUserMobileMutation,
   useMarkFavTagsMutation,
+  useGetUserByUserNameQuery,
 } = userApi;
