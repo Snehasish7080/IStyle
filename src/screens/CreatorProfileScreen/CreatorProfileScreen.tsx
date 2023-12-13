@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   PixelRatio,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import Container from '../../atoms/Container/Container';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
@@ -21,6 +21,10 @@ import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {horizontalScale} from '../../utils/scale';
 import {data as dummyData} from '../../utils/dummyData';
 import {IStyle} from '../../interface/styleInterface';
+import {
+  useGetUserStylesByUserNameQuery,
+  useLazyGetUserStylesByUserNameQuery,
+} from '../../feature/services/style';
 
 const CreatorProfileScreen: React.FC<
   ParentNavProps<'CreatorProfileScreen'>
@@ -29,6 +33,18 @@ const CreatorProfileScreen: React.FC<
   const [isScrollStart, setIsScrollStart] = useState(false);
   const [userStyles, setUserStyles] = useState<IStyle[]>([]);
   const {data, isLoading} = useGetUserByUserNameQuery(userName);
+
+  const [getUserStylesBuUserName] = useLazyGetUserStylesByUserNameQuery();
+
+  useEffect(() => {
+    getUserStylesBuUserName({
+      userName,
+    }).then(res => {
+      if (res?.data?.success) {
+        setUserStyles(res?.data?.data);
+      }
+    });
+  }, []);
 
   return (
     <Container>
@@ -199,11 +215,16 @@ const CreatorProfileScreen: React.FC<
             setIsScrollStart(false);
           }}
           onEndReached={() => {
-            // if (userStyles.length > 0 && isScrollStart) {
-            //   getUserStyles({
-            //     cursor: userStyles[userStyles.length - 1].id,
-            //   });
-            // }
+            if (userStyles.length > 0 && isScrollStart) {
+              getUserStylesBuUserName({
+                userName,
+                cursor: userStyles[userStyles.length - 1].id,
+              }).then(res => {
+                if (res?.data?.success) {
+                  setUserStyles([...res.data?.data, ...userStyles]);
+                }
+              });
+            }
           }}
         />
       </View>

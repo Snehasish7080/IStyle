@@ -48,6 +48,11 @@ type getUserStyleRequest = {
   cursor?: string;
 };
 
+type getUserStyleByUserNameRequest = {
+  userName: string;
+  cursor?: string;
+};
+
 export const styleApi = createApi({
   reducerPath: 'styleApi',
   baseQuery: fetchBaseQuery({
@@ -105,6 +110,18 @@ export const styleApi = createApi({
       }),
       providesTags: ['Style'],
     }),
+    getUserStylesByUserName: build.query<
+      getUserStylesResponse,
+      getUserStyleByUserNameRequest
+    >({
+      query: body => ({
+        url: `/${body.userName}`,
+        params: {
+          cursor: body.cursor,
+        },
+      }),
+      providesTags: ['Style'],
+    }),
   }),
 });
 
@@ -114,4 +131,6 @@ export const {
   useCreateStyleMutation,
   useGetUserStylesQuery,
   useLazyGetUserStylesQuery,
+  useGetUserStylesByUserNameQuery,
+  useLazyGetUserStylesByUserNameQuery,
 } = styleApi;
