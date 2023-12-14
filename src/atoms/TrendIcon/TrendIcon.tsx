@@ -23,7 +23,10 @@ const tIcon = Skia.SVG.MakeFromString(
     `,
 )!;
 
-const TrendIcon = () => {
+type TrendIconProps = {
+  isMarked?: boolean;
+};
+const TrendIcon = ({isMarked = false}: TrendIconProps) => {
   const src = rect(0, 0, 24, 24);
   const dst = rect(0, 0, 23, 24);
 
@@ -34,20 +37,26 @@ const TrendIcon = () => {
 
   return (
     <Canvas style={{width: 24, height: 24}}>
-      <Mask
-        mask={
-          <Group layer={paint} transform={fitbox('contain', src, dst)}>
-            <ImageSVG svg={tIcon} x={0} y={0} width={20} height={20} />
-          </Group>
-        }>
-        <Rect x={0} y={0} width={20} height={20}>
-          <LinearGradient
-            start={vec(0, 20)}
-            end={vec(10, -10)}
-            colors={[Colors.secondary, Colors.primary]}
-          />
-        </Rect>
-      </Mask>
+      {isMarked ? (
+        <Mask
+          mask={
+            <Group layer={paint} transform={fitbox('contain', src, dst)}>
+              <ImageSVG svg={tIcon} x={0} y={0} width={20} height={20} />
+            </Group>
+          }>
+          <Rect x={0} y={0} width={20} height={20}>
+            <LinearGradient
+              start={vec(0, 20)}
+              end={vec(10, -10)}
+              colors={[Colors.secondary, Colors.primary]}
+            />
+          </Rect>
+        </Mask>
+      ) : (
+        <Group layer={paint} transform={fitbox('contain', src, dst)}>
+          <ImageSVG svg={tIcon} x={0} y={0} width={20} height={20} />
+        </Group>
+      )}
     </Canvas>
   );
 };

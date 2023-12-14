@@ -47,7 +47,7 @@ const CreatorProfileScreen: React.FC<
   }, []);
 
   return (
-    <Container>
+    <Container style={styles.container}>
       <AppHeader hideSetting={false} hideChat={true} />
       <View style={styles.mainContainer}>
         <FlatList

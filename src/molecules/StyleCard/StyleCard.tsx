@@ -6,8 +6,10 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
+  Pressable,
+  Vibration,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {styles} from './StyleCardStyles';
 import {horizontalScale} from '../../utils/scale';
 import AppText from '../../atoms/AppText/AppText';
@@ -19,6 +21,10 @@ import {S3_BUCKET_URL} from '@env';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParentRouteList} from '../../navigations/ParentNavigation/ParentNavigationTypes';
+import {
+  useMarkTrendMutation,
+  useUnmarkTrendMutation,
+} from '../../feature/services/style';
 
 type StyleCardProps = {
   id: string;
@@ -28,6 +34,7 @@ type StyleCardProps = {
     userName: string;
     profilePic: string;
   };
+  isMarked: boolean;
   createdAt: string;
 };
 const StyleCard: React.FC<StyleCardProps> = ({
@@ -35,12 +42,31 @@ const StyleCard: React.FC<StyleCardProps> = ({
   links,
   user,
   id,
+  isMarked,
   createdAt,
 }) => {
   const width = horizontalScale(320);
   const height = horizontalScale(320);
   const parentNavigation =
     useNavigation<NativeStackNavigationProp<ParentRouteList>>();
+
+  const [markTrendMutation] = useMarkTrendMutation();
+  const [unMarkTrendMutation] = useUnmarkTrendMutation();
+  const [markTrend, setMarkTrend] = useState(isMarked);
+
+  const handleMarkTrend = (value: boolean) => {
+    Vibration.vibrate(1);
+    setMarkTrend(value);
+    if (value) {
+      markTrendMutation({
+        id: id,
+      });
+    } else {
+      unMarkTrendMutation({
+        id: id,
+      });
+    }
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -90,9 +116,11 @@ const StyleCard: React.FC<StyleCardProps> = ({
         height={height}
         resizeMode="cover">
         <View style={styles.iconCountContainer}>
-          <View style={styles.icon}>
-            <TrendIcon />
-          </View>
+          <Pressable
+            style={styles.icon}
+            onPress={() => handleMarkTrend(!markTrend)}>
+            <TrendIcon isMarked={markTrend} />
+          </Pressable>
           <AppText lineHeight={14} style={styles.count}>
             1.1k
           </AppText>

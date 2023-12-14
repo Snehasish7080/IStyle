@@ -10,5 +10,6 @@ export interface IFeed {
     userName: string;
     profilePic: string;
   };
+  isMarked: boolean;
   created_at: string;
 }

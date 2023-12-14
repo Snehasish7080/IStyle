@@ -53,6 +53,14 @@ type getUserStyleByUserNameRequest = {
   cursor?: string;
 };
 
+type markTrendRequest = {
+  id: string;
+};
+type markTrendResponse = {
+  message: string;
+  success: boolean;
+};
+
 export const styleApi = createApi({
   reducerPath: 'styleApi',
   baseQuery: fetchBaseQuery({
@@ -122,6 +130,21 @@ export const styleApi = createApi({
       }),
       providesTags: ['Style'],
     }),
+
+    markTrend: build.mutation<markTrendResponse, markTrendRequest>({
+      query: body => ({
+        url: '/mark-trend',
+        body,
+        method: 'Post',
+      }),
+    }),
+    unmarkTrend: build.mutation<markTrendResponse, markTrendRequest>({
+      query: body => ({
+        url: '/unmark-trend',
+        body,
+        method: 'Post',
+      }),
+    }),
   }),
 });
 
@@ -133,4 +156,6 @@ export const {
   useLazyGetUserStylesQuery,
   useGetUserStylesByUserNameQuery,
   useLazyGetUserStylesByUserNameQuery,
+  useMarkTrendMutation,
+  useUnmarkTrendMutation,
 } = styleApi;

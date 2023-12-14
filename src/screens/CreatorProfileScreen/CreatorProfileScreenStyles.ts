@@ -3,6 +3,9 @@ import {horizontalScale} from '../../utils/scale';
 import {Colors, FontFamily} from '../../utils/theme';
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   profileImage: {
     width: 80,
     height: 80,
