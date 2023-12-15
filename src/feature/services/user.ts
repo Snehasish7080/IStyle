@@ -69,6 +69,15 @@ type markFavTagsResponse = {
   success: boolean;
 };
 
+type followUserRequest = {
+  userName: string;
+};
+
+type followUserResponse = {
+  message: string;
+  success: boolean;
+};
+
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
@@ -154,7 +163,15 @@ export const userApi = createApi({
           body,
         };
       },
-      invalidatesTags: ['User'],
+    }),
+    followUser: build.mutation<followUserResponse, followUserRequest>({
+      query: body => {
+        return {
+          url: '/user/follow',
+          method: 'Post',
+          body,
+        };
+      },
     }),
   }),
 });
@@ -168,4 +185,5 @@ export const {
   useVerifyUserMobileMutation,
   useMarkFavTagsMutation,
   useGetUserByUserNameQuery,
+  useFollowUserMutation,
 } = userApi;

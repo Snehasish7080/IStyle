@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
 import {useAppSelector} from '../../feature/hooks';
@@ -9,7 +9,6 @@ import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
 import StyleTagModal from '../../organisms/StyleTagModal/StyleTagModal';
 import VerifyMobileModal from '../../organisms/VerifyMobileModal/VerifyMobileModal';
-import {data} from '../../utils/dummyData';
 import {styles} from './HomeScreenStyles';
 
 const HomeScreen = () => {
@@ -22,7 +21,7 @@ const HomeScreen = () => {
     <View style={styles.mainContainer}>
       <Animated.View style={[styles.container]}>
         <AppHeader />
-        <Animated.FlatList
+        <FlatList
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <View style={styles.tagLineContainer}>
@@ -35,7 +34,7 @@ const HomeScreen = () => {
             </View>
           }
           data={userFeed}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.id}
           renderItem={({item}) => {
             return <StyleCard {...item} />;
           }}

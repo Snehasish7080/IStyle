@@ -11,5 +11,6 @@ export interface IFeed {
     profilePic: string;
   };
   isMarked: boolean;
+  trendCount: number;
   created_at: string;
 }

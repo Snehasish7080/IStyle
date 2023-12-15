@@ -35,7 +35,8 @@ type StyleCardProps = {
     profilePic: string;
   };
   isMarked: boolean;
-  createdAt: string;
+  trendCount: number;
+  created_at: string;
 };
 const StyleCard: React.FC<StyleCardProps> = ({
   image,
@@ -43,7 +44,8 @@ const StyleCard: React.FC<StyleCardProps> = ({
   user,
   id,
   isMarked,
-  createdAt,
+  trendCount,
+  created_at,
 }) => {
   const width = horizontalScale(320);
   const height = horizontalScale(320);
@@ -122,7 +124,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
             <TrendIcon isMarked={markTrend} />
           </Pressable>
           <AppText lineHeight={14} style={styles.count}>
-            1.1k
+            {trendCount}
           </AppText>
         </View>
         {/* <View style={styles.iconCountContainer}> */}
