@@ -172,6 +172,17 @@ export const userApi = createApi({
           body,
         };
       },
+      invalidatesTags: ['User'],
+    }),
+    unfollowUser: build.mutation<followUserResponse, followUserRequest>({
+      query: body => {
+        return {
+          url: '/user/unfollow',
+          method: 'Post',
+          body,
+        };
+      },
+      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -186,4 +197,5 @@ export const {
   useMarkFavTagsMutation,
   useGetUserByUserNameQuery,
   useFollowUserMutation,
+  useUnfollowUserMutation,
 } = userApi;

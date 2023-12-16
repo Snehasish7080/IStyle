@@ -9,6 +9,7 @@ export interface IFeed {
   user: {
     userName: string;
     profilePic: string;
+    isFollowing: boolean;
   };
   isMarked: boolean;
   trendCount: number;

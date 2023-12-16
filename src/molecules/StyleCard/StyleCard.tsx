@@ -25,6 +25,10 @@ import {
   useMarkTrendMutation,
   useUnmarkTrendMutation,
 } from '../../feature/services/style';
+import {
+  useFollowUserMutation,
+  useUnfollowUserMutation,
+} from '../../feature/services/user';
 
 type StyleCardProps = {
   id: string;
@@ -33,9 +37,12 @@ type StyleCardProps = {
   user: {
     userName: string;
     profilePic: string;
+    isFollowing: boolean;
   };
   isMarked: boolean;
   trendCount: number;
+  onFollowUser: (userName: string) => void;
+  onUnFollowUser: (userName: string) => void;
   created_at: string;
 };
 const StyleCard: React.FC<StyleCardProps> = ({
@@ -45,6 +52,8 @@ const StyleCard: React.FC<StyleCardProps> = ({
   id,
   isMarked,
   trendCount,
+  onFollowUser,
+  onUnFollowUser,
   created_at,
 }) => {
   const width = horizontalScale(320);
@@ -54,6 +63,10 @@ const StyleCard: React.FC<StyleCardProps> = ({
 
   const [markTrendMutation] = useMarkTrendMutation();
   const [unMarkTrendMutation] = useUnmarkTrendMutation();
+  const [followUser] = useFollowUserMutation();
+  const [unfollowUser] = useUnfollowUserMutation();
+
+  const [follow, setFollow] = useState(user.isFollowing);
   const [markTrend, setMarkTrend] = useState(isMarked);
 
   const handleMarkTrend = (value: boolean) => {
@@ -67,6 +80,33 @@ const StyleCard: React.FC<StyleCardProps> = ({
       unMarkTrendMutation({
         id: id,
       });
+    }
+  };
+
+  const handleFollowUser = (value: boolean) => {
+    setFollow(value);
+    if (value) {
+      followUser({
+        userName: user.userName,
+      })
+        .unwrap()
+        .then(res => {
+          if (res.success) {
+            onFollowUser(user.userName);
+          }
+        })
+        .catch(e => console.log(e));
+    } else {
+      unfollowUser({
+        userName: user.userName,
+      })
+        .unwrap()
+        .then(res => {
+          if (res.success) {
+            onUnFollowUser(user.userName);
+          }
+        })
+        .catch(e => console.log(e));
     }
   };
 
@@ -100,9 +140,13 @@ const StyleCard: React.FC<StyleCardProps> = ({
             </AppText>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.followBtn}>
+        <TouchableOpacity
+          style={styles.followBtn}
+          onPress={() => {
+            handleFollowUser(!follow);
+          }}>
           <AppText lineHeight={14} style={styles.userName}>
-            Follow
+            {follow ? 'Following' : 'Follow'}
           </AppText>
         </TouchableOpacity>
       </View>
