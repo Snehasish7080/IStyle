@@ -15,6 +15,7 @@ import {styles} from './HomeScreenStyles';
 
 const HomeScreen = () => {
   useGetUserQuery(undefined);
+
   useGetUserFeedQuery(undefined);
   const user = useAppSelector(state => state.userSlice.user);
   const userFeed = useAppSelector(state => state.feedSlice.userFeed);
@@ -46,6 +47,7 @@ const HomeScreen = () => {
     <View style={styles.mainContainer}>
       <Animated.View style={[styles.container]}>
         <AppHeader />
+
         <FlatList
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={

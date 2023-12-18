@@ -14,6 +14,8 @@ export type ParentRouteList = {
   };
   CreatorProfileScreen: {
     userName: string;
+    onFollowUser: (userName: string) => void;
+    onUnFollowUser: (userName: string) => void;
   };
 };
 export type ParentNavigationProp<T extends keyof ParentRouteList> =

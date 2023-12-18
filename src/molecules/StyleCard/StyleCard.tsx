@@ -9,7 +9,7 @@ import {
   Pressable,
   Vibration,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {styles} from './StyleCardStyles';
 import {horizontalScale} from '../../utils/scale';
 import AppText from '../../atoms/AppText/AppText';
@@ -110,6 +110,10 @@ const StyleCard: React.FC<StyleCardProps> = ({
     }
   };
 
+  useEffect(() => {
+    setFollow(user.isFollowing);
+  }, [user.isFollowing]);
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.profileContainer}>
@@ -118,6 +122,8 @@ const StyleCard: React.FC<StyleCardProps> = ({
             onPress={() => {
               parentNavigation.push('CreatorProfileScreen', {
                 userName: user.userName,
+                onUnFollowUser,
+                onFollowUser,
               });
             }}>
             <Image
@@ -133,6 +139,8 @@ const StyleCard: React.FC<StyleCardProps> = ({
             onPress={() => {
               parentNavigation.push('CreatorProfileScreen', {
                 userName: user.userName,
+                onFollowUser,
+                onUnFollowUser,
               });
             }}>
             <AppText lineHeight={14} style={styles.userName}>

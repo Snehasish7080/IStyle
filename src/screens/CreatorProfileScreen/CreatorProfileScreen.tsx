@@ -15,7 +15,11 @@ import ProfileIcon from '../../atoms/ProfileIcon/ProfileIcon';
 import AppText from '../../atoms/AppText/AppText';
 import {styles} from './CreatorProfileScreenStyles';
 import {S3_BUCKET_URL} from '@env';
-import {useGetUserByUserNameQuery} from '../../feature/services/user';
+import {
+  useFollowUserMutation,
+  useGetUserByUserNameQuery,
+  useUnfollowUserMutation,
+} from '../../feature/services/user';
 import {Colors} from '../../utils/theme';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {horizontalScale} from '../../utils/scale';
@@ -29,10 +33,13 @@ import {
 const CreatorProfileScreen: React.FC<
   ParentNavProps<'CreatorProfileScreen'>
 > = ({route, navigation}) => {
-  const {userName} = route.params;
+  const {userName, onFollowUser, onUnFollowUser} = route.params;
   const [isScrollStart, setIsScrollStart] = useState(false);
   const [userStyles, setUserStyles] = useState<IStyle[]>([]);
+  const [follow, setFollow] = useState<boolean>(false);
   const {data, isLoading} = useGetUserByUserNameQuery(userName);
+  const [followUser] = useFollowUserMutation();
+  const [unfollowUser] = useUnfollowUserMutation();
 
   const [getUserStylesBuUserName] = useLazyGetUserStylesByUserNameQuery();
 
@@ -45,6 +52,41 @@ const CreatorProfileScreen: React.FC<
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (typeof data?.data?.isFollowing !== 'undefined') {
+      setFollow(data?.data?.isFollowing);
+    }
+  }, [data?.data?.isFollowing]);
+
+  const handleFollowUser = (value: boolean) => {
+    if (typeof data?.data?.isFollowing !== 'undefined') {
+      setFollow(value);
+      if (value) {
+        followUser({
+          userName: data?.data?.userName,
+        })
+          .unwrap()
+          .then(res => {
+            if (res.success) {
+              onFollowUser(data?.data?.userName);
+            }
+          })
+          .catch(e => console.log(e));
+      } else {
+        unfollowUser({
+          userName: data?.data?.userName,
+        })
+          .unwrap()
+          .then(res => {
+            if (res.success) {
+              onUnFollowUser(data?.data?.userName);
+            }
+          })
+          .catch(e => console.log(e));
+      }
+    }
+  };
 
   return (
     <Container style={styles.container}>
@@ -106,12 +148,11 @@ const CreatorProfileScreen: React.FC<
                   </View>
                   <TouchableOpacity
                     style={styles.editBtn}
-                    // onPress={() => {
-                    //   navigation.navigate('UpdateProfileScreen');
-                    // }}
-                  >
+                    onPress={() => {
+                      handleFollowUser(!follow);
+                    }}>
                     <AppText lineHeight={14} style={styles.editText}>
-                      Follow
+                      {follow ? 'Following' : 'Follow'}
                     </AppText>
                   </TouchableOpacity>
                 </View>

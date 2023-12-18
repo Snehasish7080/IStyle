@@ -11,6 +11,7 @@ type userResponse = {
     bio: string;
     isMobileVerified: boolean;
     isComplete: boolean;
+    isFollowing?: boolean;
   };
   success: boolean;
   message: string;
