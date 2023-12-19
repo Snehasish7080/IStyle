@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   Image,
   PixelRatio,
   ImageBackground,
@@ -13,8 +12,6 @@ import React, {useEffect, useState} from 'react';
 import {styles} from './StyleCardStyles';
 import {horizontalScale} from '../../utils/scale';
 import AppText from '../../atoms/AppText/AppText';
-import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
-import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {S3_BUCKET_URL} from '@env';
@@ -29,6 +26,11 @@ import {
   useFollowUserMutation,
   useUnfollowUserMutation,
 } from '../../feature/services/user';
+import {useAppDispatch} from '../../feature/hooks';
+import {
+  setFeedOnFollow,
+  setFeedOnUnFollow,
+} from '../../feature/slice/feedSlice';
 
 type StyleCardProps = {
   id: string;
@@ -41,8 +43,6 @@ type StyleCardProps = {
   };
   isMarked: boolean;
   trendCount: number;
-  onFollowUser: (userName: string) => void;
-  onUnFollowUser: (userName: string) => void;
   created_at: string;
 };
 const StyleCard: React.FC<StyleCardProps> = ({
@@ -52,8 +52,6 @@ const StyleCard: React.FC<StyleCardProps> = ({
   id,
   isMarked,
   trendCount,
-  onFollowUser,
-  onUnFollowUser,
   created_at,
 }) => {
   const width = horizontalScale(320);
@@ -68,6 +66,8 @@ const StyleCard: React.FC<StyleCardProps> = ({
 
   const [follow, setFollow] = useState(user.isFollowing);
   const [markTrend, setMarkTrend] = useState(isMarked);
+
+  const dispatch = useAppDispatch();
 
   const handleMarkTrend = (value: boolean) => {
     Vibration.vibrate(1);
@@ -92,7 +92,12 @@ const StyleCard: React.FC<StyleCardProps> = ({
         .unwrap()
         .then(res => {
           if (res.success) {
-            onFollowUser(user.userName);
+            // onFollowUser(user.userName);
+            dispatch(
+              setFeedOnFollow({
+                userName: user.userName,
+              }),
+            );
           }
         })
         .catch(e => console.log(e));
@@ -103,7 +108,11 @@ const StyleCard: React.FC<StyleCardProps> = ({
         .unwrap()
         .then(res => {
           if (res.success) {
-            onUnFollowUser(user.userName);
+            dispatch(
+              setFeedOnUnFollow({
+                userName: user.userName,
+              }),
+            );
           }
         })
         .catch(e => console.log(e));
@@ -122,8 +131,6 @@ const StyleCard: React.FC<StyleCardProps> = ({
             onPress={() => {
               parentNavigation.push('CreatorProfileScreen', {
                 userName: user.userName,
-                onUnFollowUser,
-                onFollowUser,
               });
             }}>
             <Image
@@ -139,8 +146,6 @@ const StyleCard: React.FC<StyleCardProps> = ({
             onPress={() => {
               parentNavigation.push('CreatorProfileScreen', {
                 userName: user.userName,
-                onFollowUser,
-                onUnFollowUser,
               });
             }}>
             <AppText lineHeight={14} style={styles.userName}>

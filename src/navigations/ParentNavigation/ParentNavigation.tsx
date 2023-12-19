@@ -1,14 +1,13 @@
-import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ParentRouteList} from './ParentNavigationTypes';
 import UnAuthenticatedNavigation from '../UnAuthenticatedNavigation/UnAuthenticatedNavigation';
 import AuthenticatedNavigation from '../AuthenticatedNavigation/AuthenticatedNavigation';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import MediaGalleryScreen from '../../screens/MediaGalleryScreen/MediaGalleryScreen';
 import CreateScreen from '../../screens/CreateScreen/CreateScreen';
 import TagScreen from '../../screens/TagScreen/TagScreen';
 import CreatorProfileScreen from '../../screens/CreatorProfileScreen/CreatorProfileScreen';
+import StyleViewScreen from '../../screens/StyleViewScreen/StyleViewScreen';
 
 const Stack = createStackNavigator<ParentRouteList>();
 
@@ -53,6 +52,13 @@ const ParentNavigation = () => {
       <Stack.Screen
         name="CreatorProfileScreen"
         component={CreatorProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="StyleViewScreen"
+        component={StyleViewScreen}
         options={{
           headerShown: false,
         }}

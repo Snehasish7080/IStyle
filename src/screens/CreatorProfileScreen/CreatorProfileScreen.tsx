@@ -29,11 +29,16 @@ import {
   useGetUserStylesByUserNameQuery,
   useLazyGetUserStylesByUserNameQuery,
 } from '../../feature/services/style';
+import {useAppDispatch} from '../../feature/hooks';
+import {
+  setFeedOnFollow,
+  setFeedOnUnFollow,
+} from '../../feature/slice/feedSlice';
 
 const CreatorProfileScreen: React.FC<
   ParentNavProps<'CreatorProfileScreen'>
 > = ({route, navigation}) => {
-  const {userName, onFollowUser, onUnFollowUser} = route.params;
+  const {userName} = route.params;
   const [isScrollStart, setIsScrollStart] = useState(false);
   const [userStyles, setUserStyles] = useState<IStyle[]>([]);
   const [follow, setFollow] = useState<boolean>(false);
@@ -41,6 +46,7 @@ const CreatorProfileScreen: React.FC<
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();
 
+  const dispatch = useAppDispatch();
   const [getUserStylesBuUserName] = useLazyGetUserStylesByUserNameQuery();
 
   useEffect(() => {
@@ -69,7 +75,12 @@ const CreatorProfileScreen: React.FC<
           .unwrap()
           .then(res => {
             if (res.success) {
-              onFollowUser(data?.data?.userName);
+              // onFollowUser(data?.data?.userName);
+              dispatch(
+                setFeedOnFollow({
+                  userName: data?.data?.userName,
+                }),
+              );
             }
           })
           .catch(e => console.log(e));
@@ -80,7 +91,11 @@ const CreatorProfileScreen: React.FC<
           .unwrap()
           .then(res => {
             if (res.success) {
-              onUnFollowUser(data?.data?.userName);
+              dispatch(
+                setFeedOnUnFollow({
+                  userName: data?.data?.userName,
+                }),
+              );
             }
           })
           .catch(e => console.log(e));
@@ -220,12 +235,11 @@ const CreatorProfileScreen: React.FC<
           renderItem={({item, index}) => {
             return (
               <TouchableOpacity
-                // onPress={() => {
-                //   navigation.navigate('StyleViewScreen', {
-                //     image: item.image,
-                //     key: index.toString(),
-                //   });
-                // }}
+                onPress={() => {
+                  navigation.navigate('StyleViewScreen', {
+                    style: item,
+                  });
+                }}
                 style={{
                   marginHorizontal: (3 * index) / 3 === index ? 3 : 0,
                 }}>

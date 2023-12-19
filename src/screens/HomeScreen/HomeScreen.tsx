@@ -63,13 +63,7 @@ const HomeScreen = () => {
           data={userFeed}
           keyExtractor={item => item.id}
           renderItem={({item}) => {
-            return (
-              <StyleCard
-                {...item}
-                onFollowUser={onFollowUser}
-                onUnFollowUser={onUnFollowUser}
-              />
-            );
+            return <StyleCard {...item} />;
           }}
           contentContainerStyle={{
             flexGrow: 1,

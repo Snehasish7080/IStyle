@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   Image,
   ScrollView,
   FlatList,
@@ -136,12 +135,12 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
                   return (
                     <TouchableOpacity
                       key={index}
-                      onPress={() => {
-                        navigation.navigate('StyleViewScreen', {
-                          image: item.image,
-                          key: index.toString(),
-                        });
-                      }}>
+                      // onPress={() => {
+                      //   navigation.navigate('StyleViewScreen', {
+                      //     style: item,
+                      //   });
+                      // }}
+                    >
                       <Image
                         source={{
                           uri: item.image,
@@ -170,8 +169,7 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('StyleViewScreen', {
-                    image: item.image,
-                    key: index.toString(),
+                    style: item,
                   });
                 }}
                 style={{

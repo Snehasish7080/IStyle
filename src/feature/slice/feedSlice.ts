@@ -1,5 +1,6 @@
 import type {PayloadAction} from '@reduxjs/toolkit';
 import {createSlice} from '@reduxjs/toolkit';
+import {cloneDeep} from 'lodash';
 import {IFeed} from '../../interface/feedInterface';
 import {feedApi} from '../services/feed';
 export interface FeedState {
@@ -17,6 +18,26 @@ export const feedSlice = createSlice({
     setUserFeed: (state, action: PayloadAction<IFeed[]>) => {
       state.userFeed = action.payload;
     },
+    setFeedOnFollow: (state, action: PayloadAction<{userName: string}>) => {
+      const temp = cloneDeep(state.userFeed);
+      const updatedFeed = temp.map(x => {
+        if (x.user.userName === action.payload.userName) {
+          x.user.isFollowing = true;
+        }
+        return x;
+      });
+      state.userFeed = updatedFeed;
+    },
+    setFeedOnUnFollow: (state, action: PayloadAction<{userName: string}>) => {
+      const temp = cloneDeep(state.userFeed);
+      const updatedFeed = temp.map(x => {
+        if (x.user.userName === action.payload.userName) {
+          x.user.isFollowing = false;
+        }
+        return x;
+      });
+      state.userFeed = updatedFeed;
+    },
   },
   extraReducers: builder => {
     builder.addMatcher(
@@ -33,5 +54,6 @@ export const feedSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {setUserFeed} = feedSlice.actions;
+export const {setUserFeed, setFeedOnFollow, setFeedOnUnFollow} =
+  feedSlice.actions;
 export default feedSlice.reducer;

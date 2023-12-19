@@ -1,4 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
+import {IStyle} from '../../interface/styleInterface';
 
 export type ProfileNavigationRouteList = {
   ProfileScreen: undefined;
@@ -6,7 +7,7 @@ export type ProfileNavigationRouteList = {
   UpdateNameScreen: undefined;
   UpdateBioScreen: undefined;
   UpdateGenderScreen: undefined;
-  StyleViewScreen: {image: string; key: string};
+  StyleViewScreen: {style: IStyle};
 };
 export type ProfileNavigationProp<T extends keyof ProfileNavigationRouteList> =
   StackScreenProps<ProfileNavigationRouteList, T>;

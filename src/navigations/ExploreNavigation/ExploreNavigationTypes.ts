@@ -1,8 +1,9 @@
 import {StackScreenProps} from '@react-navigation/stack';
+import {IStyle} from '../../interface/styleInterface';
 
 export type ExploreNavigationRouteList = {
   ExploreScreen: undefined;
-  StyleViewScreen: {image: string; key: string};
+  StyleViewScreen: {style: IStyle};
 };
 export type ExploreNavigationProp<T extends keyof ExploreNavigationRouteList> =
   StackScreenProps<ExploreNavigationRouteList, T>;

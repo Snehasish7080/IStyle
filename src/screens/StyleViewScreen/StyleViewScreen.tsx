@@ -11,19 +11,20 @@ import {
 import AppText from '../../atoms/AppText/AppText';
 import BackIcon from '../../atoms/BackIcon/BackIcon';
 import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
-import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 import {data} from '../../utils/dummyData';
 import {styles} from './StyleViewScreenStyles';
+import {S3_BUCKET_URL} from '@env';
 
 const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
   navigation,
   route,
 }) => {
   const {height, width} = useWindowDimensions();
-  const {image, key} = route.params;
+  const {style} = route.params;
+  console.log('style', style);
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -43,7 +44,7 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
         </TouchableOpacity>
         <ImageBackground
           source={{
-            uri: image,
+            uri: `${S3_BUCKET_URL}/${style.image}`,
             height: PixelRatio.getPixelSizeForLayoutSize(height - 72),
             width: PixelRatio.getPixelSizeForLayoutSize(width - 4),
           }}
@@ -65,37 +66,11 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
                 paddingHorizontal: 10,
                 paddingVertical: 10,
               }}>
-              {data[0].links?.map((item, index) => {
+              {style.links?.map((item, index) => {
                 return (
                   <Image
                     source={{
-                      uri: item.image,
-                      width: PixelRatio.getPixelSizeForLayoutSize(50),
-                      height: PixelRatio.getPixelSizeForLayoutSize(50),
-                    }}
-                    style={styles.link}
-                    key={index}
-                  />
-                );
-              })}
-              {data[0].links?.map((item, index) => {
-                return (
-                  <Image
-                    source={{
-                      uri: item.image,
-                      width: PixelRatio.getPixelSizeForLayoutSize(50),
-                      height: PixelRatio.getPixelSizeForLayoutSize(50),
-                    }}
-                    style={styles.link}
-                    key={index}
-                  />
-                );
-              })}
-              {data[0].links?.map((item, index) => {
-                return (
-                  <Image
-                    source={{
-                      uri: item.image,
+                      uri: `${S3_BUCKET_URL}/${item.image}`,
                       width: PixelRatio.getPixelSizeForLayoutSize(50),
                       height: PixelRatio.getPixelSizeForLayoutSize(50),
                     }}

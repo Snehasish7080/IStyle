@@ -1,5 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import {ILink} from '../../interface/linkInterface';
+import {IStyle} from '../../interface/styleInterface';
 
 export type ParentRouteList = {
   UnAuthenticated: undefined;
@@ -14,9 +15,8 @@ export type ParentRouteList = {
   };
   CreatorProfileScreen: {
     userName: string;
-    onFollowUser: (userName: string) => void;
-    onUnFollowUser: (userName: string) => void;
   };
+  StyleViewScreen: {style: IStyle};
 };
 export type ParentNavigationProp<T extends keyof ParentRouteList> =
   StackScreenProps<ParentRouteList, T>;
