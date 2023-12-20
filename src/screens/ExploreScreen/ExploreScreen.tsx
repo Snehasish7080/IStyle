@@ -1,3 +1,5 @@
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useContext, useState} from 'react';
 import {
   NativeScrollEvent,
@@ -17,6 +19,7 @@ import SearchIcon from '../../atoms/SearchIcon/SearchIcon';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import ExploreCard from '../../molecules/ExploreCard/ExploreCard';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
+import {ParentRouteList} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import {data} from '../../utils/dummyData';
 import {Colors} from '../../utils/theme';
 import {styles} from './ExploreScreenStyles';
@@ -35,6 +38,8 @@ const tagList = [
 const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
   navigation,
 }) => {
+  const parentNavigation =
+    useNavigation<NativeStackNavigationProp<ParentRouteList>>();
   const [selectedTag, setSelectedTag] = useState('Trending Now');
   const activeScrollView = useSharedValue('');
   const offsetPercent = useSharedValue(0);
@@ -66,7 +71,11 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
             },
             animatedSearch,
           ]}>
-          <TouchableOpacity style={styles.searchBox}>
+          <TouchableOpacity
+            style={styles.searchBox}
+            onPress={() => {
+              parentNavigation.navigate('SearchScreen');
+            }}>
             <SearchIcon color={Colors.placeholder} />
             <AppText lineHeight={14} style={styles.search}>
               Search
