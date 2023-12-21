@@ -128,7 +128,6 @@ export const styleApi = createApi({
           cursor: body.cursor,
         },
       }),
-      providesTags: ['Style'],
     }),
 
     markTrend: build.mutation<markTrendResponse, markTrendRequest>({
