@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {authApi} from './services/auth';
 import {feedApi} from './services/feed';
+import {searchApi} from './services/search';
 import {styleApi} from './services/style';
 import {tagApi} from './services/tags';
 import {userApi} from './services/user';
@@ -15,6 +16,7 @@ export const store = configureStore({
     [tagApi.reducerPath]: tagApi.reducer,
     [styleApi.reducerPath]: styleApi.reducer,
     [feedApi.reducerPath]: feedApi.reducer,
+    [searchApi.reducerPath]: searchApi.reducer,
     userSlice: userSlice,
     styleSlice: styleSlice,
     feedSlice: feedSlice,
@@ -26,6 +28,7 @@ export const store = configureStore({
       tagApi.middleware,
       styleApi.middleware,
       feedApi.middleware,
+      searchApi.middleware,
     ]),
 });
 

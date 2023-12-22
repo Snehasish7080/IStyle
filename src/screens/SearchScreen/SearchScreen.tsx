@@ -5,10 +5,12 @@ import BackHeader from '../../molecules/BackHeader/BackHeader';
 import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import {styles} from './SearchScreenStyle';
 import AppSearchInput from '../../atoms/AppSearchInput/AppSearchInput';
-import {useForm} from 'react-hook-form';
+import {useController, useForm} from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import AppText from '../../atoms/AppText/AppText';
+import {useDebounce} from '../../utils/debounce';
+import {useGetSearchByTextQuery} from '../../feature/services/search';
 
 type searchData = {
   search: string;
@@ -28,6 +30,19 @@ const SearchScreen: React.FC<ParentNavProps<'SearchScreen'>> = ({
     },
     resolver: yupResolver(schema),
   });
+
+  const {field} = useController({
+    control,
+    name: 'search',
+    defaultValue: '',
+  });
+  const searchValue = useDebounce(field.value, 500);
+
+  const {data, isLoading} = useGetSearchByTextQuery(searchValue, {
+    skip: !Boolean(searchValue),
+  });
+
+  console.log('data', data);
 
   return (
     <Container style={styles.mainContainer}>
