@@ -6,7 +6,7 @@ type searchResponse = {
   data: {
     userName: string;
     tag: string;
-    hashTag: string;
+    hashtag: string;
     userPic: string;
   }[];
   message: string;
