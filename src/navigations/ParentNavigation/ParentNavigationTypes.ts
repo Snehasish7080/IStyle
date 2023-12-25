@@ -17,7 +17,6 @@ export type ParentRouteList = {
     userName: string;
   };
   StyleViewScreen: {style: IStyle};
-  SearchScreen: undefined;
   UserProfileScreen: undefined;
 };
 export type ParentNavigationProp<T extends keyof ParentRouteList> =

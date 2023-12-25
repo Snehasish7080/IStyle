@@ -7,8 +7,14 @@ import {
   ParamListBase,
   TabNavigationState,
 } from '@react-navigation/native';
-import React, {useContext} from 'react';
-import {TouchableOpacity, Vibration, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  Keyboard,
+  Platform,
+  TouchableOpacity,
+  Vibration,
+  View,
+} from 'react-native';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {EdgeInsets} from 'react-native-safe-area-context';
 import {MainContext} from '../../../App';
@@ -26,22 +32,31 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
   navigation,
   state,
 }) => {
-  const {isScrolling} = useContext(MainContext);
+  const [visible, setVisible] = useState(true);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    if (isScrolling) {
-      return {
-        height: Boolean(isScrolling?.value) ? withTiming(0) : withTiming(60),
-      };
-    } else {
-      return {
-        height: 60,
-      };
+  useEffect(() => {
+    let keyboardEventListeners;
+    if (Platform.OS === 'android') {
+      keyboardEventListeners = [
+        Keyboard.addListener('keyboardDidShow', () => setVisible(false)),
+        Keyboard.addListener('keyboardDidHide', () => setVisible(true)),
+      ];
     }
-  }, [isScrolling]);
+    return () => {
+      if (Platform.OS === 'android') {
+        keyboardEventListeners &&
+          keyboardEventListeners.forEach(eventListener =>
+            eventListener.remove(),
+          );
+      }
+    };
+  }, []);
 
+  if (!visible) {
+    return null;
+  }
   return (
-    <Animated.View style={[styles.mainContainer, animatedStyle]}>
+    <View style={[styles.mainContainer]}>
       <View style={styles.container}>
         {state.routes.map((route, index) => {
           const {options} = descriptors[route.key];
@@ -80,7 +95,7 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
           );
         })}
       </View>
-    </Animated.View>
+    </View>
   );
 };
 

@@ -8,7 +8,6 @@ import CreateScreen from '../../screens/CreateScreen/CreateScreen';
 import TagScreen from '../../screens/TagScreen/TagScreen';
 import CreatorProfileScreen from '../../screens/CreatorProfileScreen/CreatorProfileScreen';
 import StyleViewScreen from '../../screens/StyleViewScreen/StyleViewScreen';
-import SearchScreen from '../../screens/SearchScreen/SearchScreen';
 import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 
 const Stack = createStackNavigator<ParentRouteList>();
@@ -61,13 +60,6 @@ const ParentNavigation = () => {
       <Stack.Screen
         name="StyleViewScreen"
         component={StyleViewScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SearchScreen"
-        component={SearchScreen}
         options={{
           headerShown: false,
         }}

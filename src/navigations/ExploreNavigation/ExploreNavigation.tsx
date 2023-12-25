@@ -1,6 +1,8 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import ExploreScreen from '../../screens/ExploreScreen/ExploreScreen';
+import SearchResultScreen from '../../screens/SearchResultScreen/SearchResultScreen';
+import SearchScreen from '../../screens/SearchScreen/SearchScreen';
 import StyleViewScreen from '../../screens/StyleViewScreen/StyleViewScreen';
 import {ExploreNavigationRouteList} from './ExploreNavigationTypes';
 
@@ -57,6 +59,20 @@ const ExploreNavigation = () => {
               },
             };
           },
+        }}
+      />
+      <Stack.Screen
+        name="SearchResultScreen"
+        component={SearchResultScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

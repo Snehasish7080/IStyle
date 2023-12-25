@@ -1,8 +1,6 @@
-import {View, Text, Pressable, ScrollView} from 'react-native';
+import {View, Pressable, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React from 'react';
 import Container from '../../atoms/Container/Container';
-import BackHeader from '../../molecules/BackHeader/BackHeader';
-import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import {styles} from './SearchScreenStyle';
 import AppSearchInput from '../../atoms/AppSearchInput/AppSearchInput';
 import {useController, useForm} from 'react-hook-form';
@@ -12,6 +10,12 @@ import AppText from '../../atoms/AppText/AppText';
 import {useDebounce} from '../../utils/debounce';
 import {useGetSearchByTextQuery} from '../../feature/services/search';
 import SearchTextCard from '../../molecules/SearchTextCard/SearchTextCard';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  ExploreNavigationRouteList,
+  ExploreNavProps,
+} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 
 type searchData = {
   search: string;
@@ -21,10 +25,11 @@ const schema = yup.object({
   search: yup.string().required(),
 });
 
-const SearchScreen: React.FC<ParentNavProps<'SearchScreen'>> = ({
-  route,
+const SearchScreen: React.FC<ExploreNavProps<'SearchScreen'>> = ({
   navigation,
 }) => {
+  const exploreNavigation =
+    useNavigation<NativeStackNavigationProp<ExploreNavigationRouteList>>();
   const {control} = useForm<searchData>({
     defaultValues: {
       search: '',
@@ -45,14 +50,18 @@ const SearchScreen: React.FC<ParentNavProps<'SearchScreen'>> = ({
 
   return (
     <Container style={styles.mainContainer}>
-      {/* <BackHeader title="Search" onBack={() => navigation.goBack()} /> */}
       <View style={styles.bodyContainer}>
-        <View style={styles.searchBarContainer}>
+        <KeyboardAvoidingView style={styles.searchBarContainer}>
           <AppSearchInput
             name="search"
             control={control}
             style={{flex: 1}}
             autoFocus={true}
+            onSubmitEditing={() => {
+              exploreNavigation.navigate('SearchResultScreen', {
+                searchText: field.value,
+              });
+            }}
           />
           <Pressable
             style={{marginLeft: 16}}
@@ -63,7 +72,7 @@ const SearchScreen: React.FC<ParentNavProps<'SearchScreen'>> = ({
               Cancel
             </AppText>
           </Pressable>
-        </View>
+        </KeyboardAvoidingView>
         <ScrollView
           contentContainerStyle={{
             paddingVertical: 20,

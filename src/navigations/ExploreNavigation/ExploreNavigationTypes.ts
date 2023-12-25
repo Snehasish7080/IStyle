@@ -4,6 +4,10 @@ import {IStyle} from '../../interface/styleInterface';
 export type ExploreNavigationRouteList = {
   ExploreScreen: undefined;
   StyleViewScreen: {style: IStyle};
+  SearchResultScreen: {
+    searchText: string;
+  };
+  SearchScreen: undefined;
 };
 export type ExploreNavigationProp<T extends keyof ExploreNavigationRouteList> =
   StackScreenProps<ExploreNavigationRouteList, T>;
