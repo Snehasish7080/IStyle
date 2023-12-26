@@ -3,14 +3,22 @@ import {
   CameraRoll,
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   useController,
   useFieldArray,
   useForm,
   useFormContext,
 } from 'react-hook-form';
-import {Image, Modal, Platform, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Modal,
+  Platform,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import ImageCropper from 'react-native-image-crop-picker';
 import * as yup from 'yup';
 import AppText from '../../atoms/AppText/AppText';
@@ -19,7 +27,7 @@ import LinkInputBox from '../../atoms/LinkInputBox/LinkInputBox';
 import TrashIcon from '../../atoms/TrashIcon/TrashIcon';
 import BackHeaderWithAction from '../../molecules/BackHeaderWithAction/BackHeaderWithAction';
 import {hasAndroidPermission} from '../../utils/permissions';
-import {Colors} from '../../utils/theme';
+import {Colors, FontFamily} from '../../utils/theme';
 import MediaModal from '../MediaModal/MediaModal';
 import {styles} from './AddLinkModalStyles';
 
@@ -32,6 +40,7 @@ type AddLinkModalProps = {
   onClose: () => void;
   setLinks: React.Dispatch<React.SetStateAction<link[]>>;
   links: link[];
+  setHashTags: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 type linksData = {
@@ -61,11 +70,14 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
   visible,
   setLinks,
   links,
+  setHashTags,
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentUrl, setCurrentUrl] = useState('');
   const [medias, setMedias] = useState<PhotoIdentifier[]>([]);
+  const ref = useRef<ScrollView>(null);
+  const [text, setText] = useState<string>('');
 
   const {
     control,
@@ -143,8 +155,13 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
 
   const onSubmit = (data: linksData) => {
     setLinks(data.links);
+    if (Boolean(text)) {
+      const hashtags = text.split('#').filter(x => x);
+      setHashTags(hashtags);
+    }
     onClose();
   };
+
   return (
     <Modal
       visible={visible}
@@ -156,74 +173,84 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
           onBack={() => {
             onClose();
           }}
-          title={'Add links to your style'}
+          title={'Add links & hashtags to your style'}
           actionTitle={'Done'}
           onAction={() => {
             handleSubmit(onSubmit)();
           }}
         />
         <View style={styles.bodyContainer}>
-          {fields.map((item, index) => {
-            return (
-              <View style={styles.linkContainer} key={item.id}>
-                <View style={styles.imageContainer}>
-                  <TouchableOpacity
-                    style={[
-                      styles.image,
-                      {
-                        borderWidth: item.image ? 0 : 0.5,
-                      },
-                    ]}
-                    onPress={() => {
-                      const value = getValues();
-                      setIndex(index);
-                      setCurrentUrl(value.links[index].url);
-                      onClickSelectPhotos();
-                    }}>
-                    {item.image ? (
-                      <Image
-                        source={{
-                          uri: item.image,
-                        }}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                        }}
-                      />
-                    ) : (
-                      <ImageIcon />
+          <View style={styles.linkSection}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              ref={ref}
+              onContentSizeChange={() => {
+                ref.current?.scrollToEnd();
+              }}>
+              {fields.map((item, index) => {
+                return (
+                  <View style={styles.linkContainer} key={item.id}>
+                    <View style={styles.imageContainer}>
+                      <TouchableOpacity
+                        style={[
+                          styles.image,
+                          {
+                            borderWidth: item.image ? 0 : 0.5,
+                          },
+                        ]}
+                        onPress={() => {
+                          const value = getValues();
+                          setIndex(index);
+                          setCurrentUrl(value.links[index].url);
+                          onClickSelectPhotos();
+                        }}>
+                        {item.image ? (
+                          <Image
+                            source={{
+                              uri: item.image,
+                            }}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                            }}
+                          />
+                        ) : (
+                          <ImageIcon />
+                        )}
+                      </TouchableOpacity>
+                      {errors?.links &&
+                        errors?.links[index]?.image?.message && (
+                          <AppText
+                            lineHeight={12}
+                            style={{
+                              fontSize: 12,
+                              color: Colors.error,
+                              marginTop: 10,
+                            }}>
+                            {errors?.links[index]?.image?.message}
+                          </AppText>
+                        )}
+                    </View>
+                    <LinkInputBox
+                      name={`links[${index}].url`}
+                      control={control}
+                      placeholder={'enter url'}
+                      keyboardType="url"
+                    />
+                    {index > 0 && (
+                      <TouchableOpacity
+                        style={styles.trash}
+                        onPress={() => {
+                          remove(index);
+                        }}>
+                        <TrashIcon />
+                      </TouchableOpacity>
                     )}
-                  </TouchableOpacity>
-                  {errors?.links && errors?.links[index]?.image?.message && (
-                    <AppText
-                      lineHeight={12}
-                      style={{
-                        fontSize: 12,
-                        color: Colors.error,
-                        marginTop: 10,
-                      }}>
-                      {errors?.links[index]?.image?.message}
-                    </AppText>
-                  )}
-                </View>
-                <LinkInputBox
-                  name={`links[${index}].url`}
-                  control={control}
-                  placeholder={'enter url'}
-                  keyboardType="url"
-                />
-                {index > 0 && (
-                  <TouchableOpacity
-                    style={styles.trash}
-                    onPress={() => {
-                      remove(index);
-                    }}>
-                    <TrashIcon />
-                  </TouchableOpacity>
-                )}
-              </View>
-            );
-          })}
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
           <TouchableOpacity
             style={styles.addMoreBtn}
             onPress={() => {
@@ -234,6 +261,25 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
             }}>
             <AppText lineHeight={12}>Add more +</AppText>
           </TouchableOpacity>
+
+          <View style={styles.separatorContainer}>
+            <View style={styles.separator} />
+            <AppText lineHeight={18} style={styles.separatorText}>
+              Hashtags
+            </AppText>
+            <View style={styles.separator} />
+          </View>
+          <View style={styles.hashTagContainer}>
+            <TextInput
+              style={styles.textInput}
+              numberOfLines={4}
+              placeholder={'add tags separate with #, eg. #newyear'}
+              placeholderTextColor={Colors.placeholder}
+              onChangeText={text => {
+                setText(text);
+              }}
+            />
+          </View>
         </View>
 
         <MediaModal

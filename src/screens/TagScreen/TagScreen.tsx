@@ -1,4 +1,10 @@
-import {View, TouchableOpacity, ScrollView, TextInput} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  KeyboardAvoidingView,
+} from 'react-native';
 import React, {useState} from 'react';
 import {ParentNavProps} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import Container from '../../atoms/Container/Container';
@@ -25,7 +31,7 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
   navigation,
   route,
 }) => {
-  const {image, links} = route?.params;
+  const {image, links, hashtags} = route?.params;
   const {data, isSuccess, isLoading} = useGetAllTagsQuery(undefined);
   const [getStyleUpload] = useGetStyleUploadUrlMutation();
   const [uploadStylePicture] = useUploadStylePictureMutation();
@@ -122,6 +128,7 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
                 image: value.styleImage,
                 links: value.styleLinks,
                 tags: value.styleTags,
+                hashtags: hashtags,
               })
                 .unwrap()
                 .then(res => {
@@ -193,7 +200,9 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
 
         {isSuccess && (
           <ScrollView
-            contentContainerStyle={{paddingVertical: 16}}
+            contentContainerStyle={{
+              paddingVertical: 16,
+            }}
             showsVerticalScrollIndicator={false}>
             <View style={styles.tagListContainer}>
               {data?.data.map((item, index) => {

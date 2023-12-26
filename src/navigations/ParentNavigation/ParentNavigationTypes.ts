@@ -9,6 +9,7 @@ export type ParentRouteList = {
   TagScreen: {
     image: string;
     links: ILink[];
+    hashtags: string[];
   };
   CreateScreen: {
     postUrl: string;

@@ -25,6 +25,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
   const {postUrl} = route?.params;
   const {height, width} = useWindowDimensions();
   const [links, setLinks] = useState<ILink[]>([]);
+  const [hashTags, setHashTags] = useState<string[]>([]);
   const [visible, setVisible] = useState(false);
 
   const handleVisible = () => {
@@ -57,6 +58,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
             navigation.navigate('TagScreen', {
               image: postUrl,
               links,
+              hashtags: hashTags,
             });
           }}
           hitSlop={{
@@ -137,7 +139,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
               activeOpacity={1}>
               <LinkIcon size={20} />
               <AppText lineHeight={12} style={styles.addLink}>
-                add links your style
+                add links & hashtags your style
               </AppText>
             </TouchableOpacity>
           </View>
@@ -148,6 +150,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
         onClose={handleVisible}
         links={links}
         setLinks={setLinks}
+        setHashTags={setHashTags}
       />
     </Container>
   );

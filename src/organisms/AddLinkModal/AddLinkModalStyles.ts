@@ -49,4 +49,38 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
   },
+  linkSection: {
+    maxHeight: 300,
+  },
+  separatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
+    marginBottom: 0,
+  },
+  separator: {
+    width: 100,
+    height: 1,
+    backgroundColor: Colors.lightDark,
+  },
+  separatorText: {
+    fontSize: 12,
+    fontFamily: FontFamily.KalamLight,
+    paddingHorizontal: 10,
+  },
+  hashTagContainer: {
+    height: 150,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: Colors.bottomBorderDark,
+    fontSize: 12,
+    color: Colors.dark,
+    fontFamily: FontFamily.LatoRegular,
+    borderRadius: 10,
+    marginTop: 30,
+    textAlignVertical: 'top',
+    paddingHorizontal: 10,
+  },
 });

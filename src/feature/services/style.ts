@@ -32,6 +32,7 @@ type createStyleRequest = {
   image: string;
   links: ILink[];
   tags: string[];
+  hashtags: string[];
 };
 type createStyleResponse = {
   success: boolean;
