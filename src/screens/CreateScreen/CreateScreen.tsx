@@ -151,6 +151,7 @@ const CreateScreen: React.FC<ParentNavProps<'CreateScreen'>> = ({
         links={links}
         setLinks={setLinks}
         setHashTags={setHashTags}
+        hashtags={hashTags}
       />
     </Container>
   );

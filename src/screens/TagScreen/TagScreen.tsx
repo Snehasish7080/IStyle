@@ -67,12 +67,14 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
       .then(res => {
         if (res.success) {
           const styleImage = res.data.style.key;
-          const styleLinks: ILink[] = res.data.links.map((x, index) => {
-            return {
-              url: links[index].url,
-              image: x.key,
-            };
-          });
+          const styleLinks: ILink[] = Boolean(res.data?.links)
+            ? res.data.links.map((x, index) => {
+                return {
+                  url: links[index].url,
+                  image: x.key,
+                };
+              })
+            : [];
           const styleTags = selectedTags.map(x => x.id);
 
           // get all urls
@@ -83,7 +85,7 @@ const TagScreen: React.FC<ParentNavProps<'TagScreen'>> = ({
               url: res.data.style.url,
             });
           }
-          if (res.data.links?.length > 0) {
+          if (Boolean(res.data?.links) && res.data.links?.length > 0) {
             res.data.links.map(item => {
               allUrl.push({
                 type: 'link',

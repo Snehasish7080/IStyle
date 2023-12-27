@@ -3,7 +3,7 @@ import {
   CameraRoll,
   PhotoIdentifier,
 } from '@react-native-camera-roll/camera-roll';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   useController,
   useFieldArray,
@@ -25,6 +25,7 @@ import AppText from '../../atoms/AppText/AppText';
 import ImageIcon from '../../atoms/ImageIcon/ImageIcon';
 import LinkInputBox from '../../atoms/LinkInputBox/LinkInputBox';
 import TrashIcon from '../../atoms/TrashIcon/TrashIcon';
+import {ILink} from '../../interface/linkInterface';
 import BackHeaderWithAction from '../../molecules/BackHeaderWithAction/BackHeaderWithAction';
 import {hasAndroidPermission} from '../../utils/permissions';
 import {Colors, FontFamily} from '../../utils/theme';
@@ -32,35 +33,45 @@ import MediaModal from '../MediaModal/MediaModal';
 import {styles} from './AddLinkModalStyles';
 
 type link = {
-  url: string;
-  image: string;
+  url?: string;
+  image?: string;
 };
 type AddLinkModalProps = {
   visible: boolean;
   onClose: () => void;
-  setLinks: React.Dispatch<React.SetStateAction<link[]>>;
+  setLinks: React.Dispatch<React.SetStateAction<ILink[]>>;
   links: link[];
   setHashTags: React.Dispatch<React.SetStateAction<string[]>>;
+  hashtags: string[];
 };
 
 type linksData = {
   links: link[];
 };
 
-const schema = yup.object({
+const schema = yup.object().shape({
   links: yup
     .array()
     .of(
-      yup.object().shape({
-        url: yup
-          .string()
-          .required('required')
-          .matches(
-            /(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-            'Enter correct url',
-          ),
-        image: yup.string().required('required'),
-      }),
+      yup.object().shape(
+        {
+          url: yup.string().when('image', {
+            is: (image: string) => Boolean(image),
+            then: schema =>
+              schema
+                .required()
+                .matches(
+                  /(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                  'Enter correct url',
+                ),
+          }),
+          image: yup.string().when('url', {
+            is: (url: string) => Boolean(url),
+            then: schema => schema.required(),
+          }),
+        },
+        [['url', 'image']],
+      ),
     )
     .required(),
 });
@@ -71,6 +82,7 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
   setLinks,
   links,
   setHashTags,
+  hashtags,
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const [index, setIndex] = useState(0);
@@ -154,7 +166,8 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
   };
 
   const onSubmit = (data: linksData) => {
-    setLinks(data.links);
+    const links = data.links.filter(x => x.url && x.image) as ILink[];
+    setLinks(links);
     if (Boolean(text)) {
       const hashtags = text.split('#').filter(x => x);
       setHashTags(hashtags);
@@ -162,6 +175,12 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
     onClose();
   };
 
+  useEffect(() => {
+    if (hashtags.length > 0 && !Boolean(text)) {
+      const tempText = hashtags.join('#');
+      setText(tempText);
+    }
+  }, [hashtags]);
   return (
     <Modal
       visible={visible}
@@ -200,9 +219,11 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
                         ]}
                         onPress={() => {
                           const value = getValues();
-                          setIndex(index);
-                          setCurrentUrl(value.links[index].url);
-                          onClickSelectPhotos();
+                          if (Boolean(value.links[index]?.url)) {
+                            setIndex(index);
+                            setCurrentUrl(value.links[index].url as string);
+                            onClickSelectPhotos();
+                          }
                         }}>
                         {item.image ? (
                           <Image
@@ -278,6 +299,7 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({
               onChangeText={text => {
                 setText(text);
               }}
+              value={text}
             />
           </View>
         </View>
