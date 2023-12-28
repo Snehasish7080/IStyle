@@ -36,6 +36,7 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
     cursor: '',
   });
   const [getUserStyles] = useLazyGetUserStylesQuery();
+
   return (
     <Container>
       <AppHeader hideSetting={false} hideChat={true} />
