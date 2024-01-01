@@ -1,6 +1,7 @@
 import {API_BASE_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {ISearchStyle} from '../../interface/searchStyle';
 
 type searchResponse = {
   data: {
@@ -9,6 +10,12 @@ type searchResponse = {
     hashtag: string;
     userPic: string;
   }[];
+  message: string;
+  success: boolean;
+};
+
+type searchStyleByTextResponse = {
+  data: ISearchStyle[];
   message: string;
   success: boolean;
 };
@@ -33,7 +40,10 @@ export const searchApi = createApi({
     getSearchByText: build.query<searchResponse, string>({
       query: body => `/${body}`,
     }),
+    searchStyleByText: build.query<searchStyleByTextResponse, string>({
+      query: body => `/styles/${body}`,
+    }),
   }),
 });
 
-export const {useGetSearchByTextQuery} = searchApi;
+export const {useGetSearchByTextQuery, useSearchStyleByTextQuery} = searchApi;

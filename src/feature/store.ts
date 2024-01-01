@@ -6,6 +6,7 @@ import {styleApi} from './services/style';
 import {tagApi} from './services/tags';
 import {userApi} from './services/user';
 import feedSlice from './slice/feedSlice';
+import searchStyleSlice from './slice/searchStyleSlice';
 import styleSlice from './slice/styleSlice';
 import userSlice from './slice/userSlice';
 
@@ -20,6 +21,7 @@ export const store = configureStore({
     userSlice: userSlice,
     styleSlice: styleSlice,
     feedSlice: feedSlice,
+    searchStyleSlice: searchStyleSlice,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat([

@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, PixelRatio, TouchableOpacity} from 'react-native';
 import {horizontalScale} from '../../utils/scale';
 import {styles} from './ExploreCardStyles';
+import {S3_BUCKET_URL} from '@env';
 
 type ExploreCardProps = {
   image: string;
@@ -23,7 +24,7 @@ const ExploreCard: React.FC<ExploreCardProps> = ({
       onPress={onPress}>
       <Image
         source={{
-          uri: image,
+          uri: `${S3_BUCKET_URL}/${image}`,
           width: PixelRatio.getPixelSizeForLayoutSize(150),
           height: height,
         }}

@@ -9,6 +9,8 @@ import ExploreCard from '../../molecules/ExploreCard/ExploreCard';
 import {data} from '../../utils/dummyData';
 import {useSharedValue} from 'react-native-reanimated';
 import {styles} from './SearchResultScreenStyles';
+import {useAppSelector} from '../../feature/hooks';
+import {useSearchStyleByTextQuery} from '../../feature/services/search';
 
 const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
   navigation,
@@ -18,6 +20,9 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
   const offsetPercent = useSharedValue(0);
   const scrollY = useSharedValue(0);
   const prevScrollY = useSharedValue(0);
+
+  useSearchStyleByTextQuery(route?.params?.searchText);
+  const searchResult = useAppSelector(state => state.searchStyleSlice);
 
   return (
     <Container>
@@ -40,18 +45,21 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
           }}>
           <View style={styles.listContainer}>
             <SyncedScrollView
-              data={data}
-              keyExtractor={(item, index) => index.toString()}
+              data={searchResult.searchStyles0}
+              keyExtractor={item => item.id}
               renderItem={({item, index}) => {
                 return (
                   <ExploreCard
-                    id={index.toString() + 'first'}
+                    id={item.id}
                     image={item.image}
                     isSmall={index % 2 === 0}
                     onPress={() => {
                       navigation.navigate('StyleViewScreen', {
-                        image: item.image,
-                        key: index.toString() + 'first',
+                        style: {
+                          id: item.id,
+                          image: item.image,
+                          links: item.links,
+                        },
                       });
                     }}
                   />
@@ -70,18 +78,21 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
               decelerationRate={'fast'}
             />
             <SyncedScrollView
-              data={data}
-              keyExtractor={(item, index) => index.toString()}
+              data={searchResult.searchStyles1}
+              keyExtractor={(item, index) => item.id}
               renderItem={({item, index}) => {
                 return (
                   <ExploreCard
-                    id={index.toString() + 'second'}
+                    id={item.id}
                     image={item.image}
                     isSmall={index % 2 !== 0}
                     onPress={() => {
                       navigation.navigate('StyleViewScreen', {
-                        image: item.image,
-                        key: index.toString() + 'second',
+                        style: {
+                          id: item.id,
+                          image: item.image,
+                          links: item.links,
+                        },
                       });
                     }}
                   />
