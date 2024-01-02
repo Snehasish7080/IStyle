@@ -1,5 +1,5 @@
 import {View, Pressable, ScrollView, KeyboardAvoidingView} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Container from '../../atoms/Container/Container';
 import {styles} from './SearchScreenStyle';
 import AppSearchInput from '../../atoms/AppSearchInput/AppSearchInput';
@@ -8,7 +8,10 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import AppText from '../../atoms/AppText/AppText';
 import {useDebounce} from '../../utils/debounce';
-import {useGetSearchByTextQuery} from '../../feature/services/search';
+import {
+  useGetSearchByTextQuery,
+  useLazySearchStyleByTextQuery,
+} from '../../feature/services/search';
 import SearchTextCard from '../../molecules/SearchTextCard/SearchTextCard';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -16,6 +19,8 @@ import {
   ExploreNavigationRouteList,
   ExploreNavProps,
 } from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
+import {useAppDispatch} from '../../feature/hooks';
+import {setSearchStyles} from '../../feature/slice/searchStyleSlice';
 
 type searchData = {
   search: string;
@@ -43,10 +48,20 @@ const SearchScreen: React.FC<ExploreNavProps<'SearchScreen'>> = ({
     defaultValue: '',
   });
   const searchValue = useDebounce(field.value, 500);
+  const dispatch = useAppDispatch();
 
   const {data, isLoading} = useGetSearchByTextQuery(searchValue, {
     skip: !Boolean(searchValue),
   });
+
+  const [searchStyleByText] = useLazySearchStyleByTextQuery();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(setSearchStyles([]));
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <Container style={styles.mainContainer}>
@@ -58,6 +73,7 @@ const SearchScreen: React.FC<ExploreNavProps<'SearchScreen'>> = ({
             style={{flex: 1}}
             autoFocus={true}
             onSubmitEditing={() => {
+              searchStyleByText(field.value);
               exploreNavigation.navigate('SearchResultScreen', {
                 searchText: field.value,
               });

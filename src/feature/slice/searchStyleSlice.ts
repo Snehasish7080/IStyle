@@ -18,13 +18,18 @@ export const searchStyleSlice = createSlice({
   initialState,
   reducers: {
     setSearchStyles: (state, action: PayloadAction<ISearchStyle[]>) => {
-      const midpoint = Math.ceil(action.payload.length / 2);
-      if (midpoint > 0) {
-        const firstHalf = action.payload.slice(0, midpoint);
-        state.searchStyles0 = firstHalf;
+      if (action.payload.length > 0) {
+        const midpoint = Math.ceil(action.payload.length / 2);
+        if (midpoint > 0) {
+          const firstHalf = action.payload.slice(0, midpoint);
+          state.searchStyles0 = firstHalf;
 
-        const secondHalf = action.payload.slice(-midpoint);
-        state.searchStyles1 = secondHalf;
+          const secondHalf = action.payload.slice(-midpoint);
+          state.searchStyles1 = secondHalf;
+        }
+      } else {
+        state.searchStyles0 = [];
+        state.searchStyles1 = [];
       }
     },
   },
@@ -33,8 +38,10 @@ export const searchStyleSlice = createSlice({
       searchApi.endpoints.searchStyleByText.matchFulfilled,
       (state, {payload}) => {
         if (payload.success) {
+          console.log(payload.data);
           if (payload.data) {
             const midpoint = Math.ceil(payload.data.length / 2);
+
             if (midpoint > 0) {
               const firstHalf = payload.data.slice(0, midpoint);
               state.searchStyles0 = firstHalf;

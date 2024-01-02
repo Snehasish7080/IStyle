@@ -52,7 +52,8 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
           resizeMode="cover">
           <View
             style={{
-              maxHeight: 320,
+              height: 80 * (style.links?.length || 0),
+              maxHeight: 220,
               marginLeft: 20,
               marginBottom: 20,
               borderRadius: 20,

@@ -9,6 +9,8 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParentRouteList} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import {useAppSelector} from '../../feature/hooks';
+import {ExploreNavigationRouteList} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
+import {useLazySearchStyleByTextQuery} from '../../feature/services/search';
 
 type SearchTextCardProps = {
   userName: string;
@@ -25,7 +27,11 @@ const SearchTextCard: React.FC<SearchTextCardProps> = ({
   const parentNavigation =
     useNavigation<NativeStackNavigationProp<ParentRouteList>>();
 
+  const exploreNavigation =
+    useNavigation<NativeStackNavigationProp<ExploreNavigationRouteList>>();
+
   const user = useAppSelector(state => state.userSlice.user);
+  const [searchStyleByText] = useLazySearchStyleByTextQuery();
 
   const handlePress = () => {
     if (user?.userName === userName) {
@@ -33,6 +39,16 @@ const SearchTextCard: React.FC<SearchTextCardProps> = ({
     } else if (Boolean(userName)) {
       parentNavigation.push('CreatorProfileScreen', {
         userName,
+      });
+    } else if (tag) {
+      searchStyleByText(tag);
+      exploreNavigation.navigate('SearchResultScreen', {
+        searchText: tag,
+      });
+    } else if (hashtag) {
+      searchStyleByText(hashtag);
+      exploreNavigation.navigate('SearchResultScreen', {
+        searchText: hashtag,
       });
     }
   };

@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 import Container from '../../atoms/Container/Container';
@@ -6,7 +6,6 @@ import BackSearchHeader from '../../molecules/BackSearchHeader/BackSearchHeader'
 import {SyncedScrollViewContext} from './SyncedScrollViewContext';
 import SyncedScrollView from './SyncedScrollView';
 import ExploreCard from '../../molecules/ExploreCard/ExploreCard';
-import {data} from '../../utils/dummyData';
 import {useSharedValue} from 'react-native-reanimated';
 import {styles} from './SearchResultScreenStyles';
 import {useAppSelector} from '../../feature/hooks';
@@ -21,8 +20,10 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
   const scrollY = useSharedValue(0);
   const prevScrollY = useSharedValue(0);
 
-  useSearchStyleByTextQuery(route?.params?.searchText);
+  // useSearchStyleByTextQuery(route?.params?.searchText);
   const searchResult = useAppSelector(state => state.searchStyleSlice);
+
+  console.log(route?.params?.searchText);
 
   return (
     <Container>
@@ -32,7 +33,7 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
         }}
         searchText={route?.params?.searchText}
         onPressSearch={() => {
-          navigation.navigate('SearchScreen');
+          navigation.goBack();
         }}
       />
       <View>

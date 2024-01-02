@@ -46,4 +46,8 @@ export const searchApi = createApi({
   }),
 });
 
-export const {useGetSearchByTextQuery, useSearchStyleByTextQuery} = searchApi;
+export const {
+  useGetSearchByTextQuery,
+  useSearchStyleByTextQuery,
+  useLazySearchStyleByTextQuery,
+} = searchApi;
