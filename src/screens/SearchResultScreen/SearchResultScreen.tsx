@@ -23,8 +23,6 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
   // useSearchStyleByTextQuery(route?.params?.searchText);
   const searchResult = useAppSelector(state => state.searchStyleSlice);
 
-  console.log(route?.params?.searchText);
-
   return (
     <Container>
       <BackSearchHeader
@@ -60,6 +58,7 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
                           id: item.id,
                           image: item.image,
                           links: item.links,
+                          trendCount: item.trendCount,
                         },
                       });
                     }}
@@ -93,6 +92,7 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
                           id: item.id,
                           image: item.image,
                           links: item.links,
+                          trendCount: item.trendCount,
                         },
                       });
                     }}

@@ -10,6 +10,6 @@ export interface ISearchStyle {
     userName: string;
     profilePic: string;
   };
-  trendCount: string;
+  trendCount: number;
   created_at: string;
 }

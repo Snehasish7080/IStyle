@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ImageBackground,
@@ -6,17 +6,20 @@ import {
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
+  Vibration,
   View,
 } from 'react-native';
 import AppText from '../../atoms/AppText/AppText';
 import BackIcon from '../../atoms/BackIcon/BackIcon';
-import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
-import {data} from '../../utils/dummyData';
 import {styles} from './StyleViewScreenStyles';
 import {S3_BUCKET_URL} from '@env';
+import {
+  useMarkTrendMutation,
+  useUnmarkTrendMutation,
+} from '../../feature/services/style';
 
 const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
   navigation,
@@ -24,7 +27,24 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
 }) => {
   const {height, width} = useWindowDimensions();
   const {style} = route.params;
-  console.log('style', style);
+  const [markTrend, setMarkTrend] = useState(false);
+  const [markTrendMutation] = useMarkTrendMutation();
+  const [unMarkTrendMutation] = useUnmarkTrendMutation();
+
+  const handleMarkTrend = (value: boolean) => {
+    Vibration.vibrate(1);
+    setMarkTrend(value);
+    if (value) {
+      markTrendMutation({
+        id: style.id,
+      });
+    } else {
+      unMarkTrendMutation({
+        id: style.id,
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -88,17 +108,17 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
                 <TrendIcon />
               </View>
               <AppText lineHeight={14} style={styles.count}>
-                1.1k
+                {style.trendCount || 0}
               </AppText>
             </View>
-            <View style={styles.iconCountContainer}>
-              <View style={styles.icon}>
-                <CommentIcon />
-              </View>
-              <AppText lineHeight={14} style={styles.count}>
-                1.1k
-              </AppText>
-            </View>
+            {/* <View style={styles.iconCountContainer}> */}
+            {/*   <View style={styles.icon}> */}
+            {/*     <CommentIcon /> */}
+            {/*   </View> */}
+            {/*   <AppText lineHeight={14} style={styles.count}> */}
+            {/*     1.1k */}
+            {/*   </AppText> */}
+            {/* </View> */}
             <View style={styles.iconCountContainer}>
               <View style={styles.icon}>
                 <ShareIcon />

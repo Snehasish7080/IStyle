@@ -1,12 +1,10 @@
-import {cloneDeep} from 'lodash';
 import React from 'react';
 import {FlatList, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
-import {useAppDispatch, useAppSelector} from '../../feature/hooks';
+import {useAppSelector} from '../../feature/hooks';
 import {useGetUserFeedQuery} from '../../feature/services/feed';
 import {useGetUserQuery} from '../../feature/services/user';
-import {setUserFeed} from '../../feature/slice/feedSlice';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
 import StyleTagModal from '../../organisms/StyleTagModal/StyleTagModal';
@@ -19,29 +17,6 @@ const HomeScreen = () => {
   useGetUserFeedQuery(undefined);
   const user = useAppSelector(state => state.userSlice.user);
   const userFeed = useAppSelector(state => state.feedSlice.userFeed);
-  const dispatch = useAppDispatch();
-
-  const onFollowUser = (userName: string) => {
-    const tempFeed = cloneDeep(userFeed);
-    const updatedFeed = tempFeed.map(x => {
-      if (x.user.userName === userName) {
-        x.user.isFollowing = true;
-      }
-      return x;
-    });
-    dispatch(setUserFeed(updatedFeed));
-  };
-
-  const onUnFollowUser = (userName: string) => {
-    const tempFeed = cloneDeep(userFeed);
-    const updatedFeed = tempFeed.map(x => {
-      if (x.user.userName === userName) {
-        x.user.isFollowing = false;
-      }
-      return x;
-    });
-    dispatch(setUserFeed(updatedFeed));
-  };
 
   return (
     <View style={styles.mainContainer}>
