@@ -4,6 +4,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {ILink} from '../../interface/linkInterface';
 import {IStyle} from '../../interface/styleInterface';
 import {ITag} from '../../interface/tagInterface';
+import {IUserStyleLink} from '../../interface/userStyleLinkInterface';
 
 type getUploadStyleUrlResponse = {
   data: {
@@ -58,6 +59,12 @@ type markTrendRequest = {
   id: string;
 };
 type markTrendResponse = {
+  message: string;
+  success: boolean;
+};
+
+type getStyleByIdResponse = {
+  data: IUserStyleLink;
   message: string;
   success: boolean;
 };
@@ -131,6 +138,11 @@ export const styleApi = createApi({
       }),
     }),
 
+    getStyleById: build.query<getStyleByIdResponse, string>({
+      query: id => ({
+        url: `/${id}`,
+      }),
+    }),
     markTrend: build.mutation<markTrendResponse, markTrendRequest>({
       query: body => ({
         url: '/mark-trend',
@@ -158,4 +170,5 @@ export const {
   useLazyGetUserStylesByUserNameQuery,
   useMarkTrendMutation,
   useUnmarkTrendMutation,
+  useLazyGetStyleByIdQuery,
 } = styleApi;

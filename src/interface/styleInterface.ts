@@ -4,4 +4,5 @@ export interface IStyle {
   image: string;
   trendCount: number;
   links?: ILink[];
+  isMarked: boolean;
 }

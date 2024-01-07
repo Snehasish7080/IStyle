@@ -58,7 +58,6 @@ const EmailOtpScreen: React.FC<UnAuthenticatedNavProps<'EmailOtpScreen'>> = ({
     } catch (error: any) {
       console.log(error, error.data.success);
     }
-    console.log(data);
   };
   return (
     <View style={styles.container}>

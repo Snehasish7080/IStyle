@@ -3,6 +3,7 @@ import {
   Image,
   ImageBackground,
   PixelRatio,
+  Pressable,
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -27,9 +28,10 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
 }) => {
   const {height, width} = useWindowDimensions();
   const {style} = route.params;
-  const [markTrend, setMarkTrend] = useState(false);
+  const [markTrend, setMarkTrend] = useState(style.isMarked);
   const [markTrendMutation] = useMarkTrendMutation();
   const [unMarkTrendMutation] = useUnmarkTrendMutation();
+  const [trendCount, setTrendCount] = useState(style.trendCount);
 
   const handleMarkTrend = (value: boolean) => {
     Vibration.vibrate(1);
@@ -38,10 +40,12 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
       markTrendMutation({
         id: style.id,
       });
+      setTrendCount(() => trendCount + 1);
     } else {
       unMarkTrendMutation({
         id: style.id,
       });
+      setTrendCount(() => trendCount - 1);
     }
   };
 
@@ -104,21 +108,17 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
           </View>
           <View style={styles.actionContainer}>
             <View style={styles.iconCountContainer}>
-              <View style={styles.icon}>
-                <TrendIcon />
-              </View>
+              <Pressable
+                style={styles.icon}
+                onPress={() => {
+                  handleMarkTrend(!style.isMarked);
+                }}>
+                <TrendIcon isMarked={markTrend} />
+              </Pressable>
               <AppText lineHeight={14} style={styles.count}>
-                {style.trendCount || 0}
+                {trendCount || 0}
               </AppText>
             </View>
-            {/* <View style={styles.iconCountContainer}> */}
-            {/*   <View style={styles.icon}> */}
-            {/*     <CommentIcon /> */}
-            {/*   </View> */}
-            {/*   <AppText lineHeight={14} style={styles.count}> */}
-            {/*     1.1k */}
-            {/*   </AppText> */}
-            {/* </View> */}
             <View style={styles.iconCountContainer}>
               <View style={styles.icon}>
                 <ShareIcon />

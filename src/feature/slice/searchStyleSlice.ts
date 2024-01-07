@@ -38,7 +38,6 @@ export const searchStyleSlice = createSlice({
       searchApi.endpoints.searchStyleByText.matchFulfilled,
       (state, {payload}) => {
         if (payload.success) {
-          console.log(payload.data);
           if (payload.data) {
             const midpoint = Math.ceil(payload.data.length / 2);
 

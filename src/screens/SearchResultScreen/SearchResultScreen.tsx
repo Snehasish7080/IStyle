@@ -9,7 +9,7 @@ import ExploreCard from '../../molecules/ExploreCard/ExploreCard';
 import {useSharedValue} from 'react-native-reanimated';
 import {styles} from './SearchResultScreenStyles';
 import {useAppSelector} from '../../feature/hooks';
-import {useSearchStyleByTextQuery} from '../../feature/services/search';
+import {useLazyGetStyleByIdQuery} from '../../feature/services/style';
 
 const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
   navigation,
@@ -22,6 +22,7 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
 
   // useSearchStyleByTextQuery(route?.params?.searchText);
   const searchResult = useAppSelector(state => state.searchStyleSlice);
+  const [getStyleById] = useLazyGetStyleByIdQuery();
 
   return (
     <Container>
@@ -53,14 +54,23 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
                     image={item.image}
                     isSmall={index % 2 === 0}
                     onPress={() => {
-                      navigation.navigate('StyleViewScreen', {
-                        style: {
-                          id: item.id,
-                          image: item.image,
-                          links: item.links,
-                          trendCount: item.trendCount,
-                        },
-                      });
+                      try {
+                        getStyleById(item.id).then(res => {
+                          if (res.data?.success) {
+                            navigation.navigate('StyleViewScreen', {
+                              style: {
+                                id: res.data?.data?.id,
+                                image: res.data?.data?.image,
+                                links: res.data?.data?.links,
+                                trendCount: res.data?.data?.trendCount,
+                                isMarked: res?.data?.data?.isMarked,
+                              },
+                            });
+                          }
+                        });
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }}
                   />
                 );
@@ -87,14 +97,23 @@ const SearchResultScreen: React.FC<ExploreNavProps<'SearchResultScreen'>> = ({
                     image={item.image}
                     isSmall={index % 2 !== 0}
                     onPress={() => {
-                      navigation.navigate('StyleViewScreen', {
-                        style: {
-                          id: item.id,
-                          image: item.image,
-                          links: item.links,
-                          trendCount: item.trendCount,
-                        },
-                      });
+                      try {
+                        getStyleById(item.id).then(res => {
+                          if (res.data?.success) {
+                            navigation.navigate('StyleViewScreen', {
+                              style: {
+                                id: res.data?.data?.id,
+                                image: res.data?.data?.image,
+                                links: res.data?.data?.links,
+                                trendCount: res.data?.data?.trendCount,
+                                isMarked: res?.data?.data?.isMarked,
+                              },
+                            });
+                          }
+                        });
+                      } catch (error) {
+                        console.log(error);
+                      }
                     }}
                   />
                 );
