@@ -131,7 +131,7 @@ export const styleApi = createApi({
       getUserStyleByUserNameRequest
     >({
       query: body => ({
-        url: `/${body.userName}`,
+        url: `/user/${body.userName}`,
         params: {
           cursor: body.cursor,
         },
