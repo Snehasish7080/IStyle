@@ -1,6 +1,6 @@
 import type {PayloadAction} from '@reduxjs/toolkit';
 import {createSlice} from '@reduxjs/toolkit';
-import {cloneDeep} from 'lodash';
+import {cloneDeep, differenceWith, isEqual} from 'lodash';
 import {IFeed} from '../../interface/feedInterface';
 import {feedApi} from '../services/feed';
 export interface FeedState {
@@ -45,7 +45,8 @@ export const feedSlice = createSlice({
       (state, {payload}) => {
         if (payload.success) {
           if (payload.data) {
-            state.userFeed = payload.data;
+            const data = differenceWith(payload.data, state.userFeed, isEqual);
+            state.userFeed = [...state.userFeed, ...data];
           }
         }
       },

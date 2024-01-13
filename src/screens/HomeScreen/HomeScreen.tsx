@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import AppText from '../../atoms/AppText/AppText';
 import {useAppSelector} from '../../feature/hooks';
-import {useGetUserFeedQuery} from '../../feature/services/feed';
+import {
+  useGetUserFeedQuery,
+  useLazyGetUserFeedQuery,
+} from '../../feature/services/feed';
 import {useGetUserQuery} from '../../feature/services/user';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import StyleCard from '../../molecules/StyleCard/StyleCard';
@@ -14,9 +17,14 @@ import {styles} from './HomeScreenStyles';
 const HomeScreen = () => {
   useGetUserQuery(undefined);
 
-  useGetUserFeedQuery(undefined);
+  useGetUserFeedQuery({
+    cursor: '',
+  });
+  const [getUserFeed] = useLazyGetUserFeedQuery();
   const user = useAppSelector(state => state.userSlice.user);
   const userFeed = useAppSelector(state => state.feedSlice.userFeed);
+
+  const [isScrollStart, setIsScrollStart] = useState(false);
 
   return (
     <View style={styles.mainContainer}>
@@ -54,6 +62,18 @@ const HomeScreen = () => {
           )}
           scrollEventThrottle={16}
           decelerationRate="fast"
+          onMomentumScrollBegin={() => {
+            setIsScrollStart(true);
+          }}
+          onEndReached={() => {
+            if (userFeed.length > 0 && isScrollStart) {
+              getUserFeed({
+                cursor: userFeed[userFeed.length - 1].id,
+              }).finally(() => {
+                setIsScrollStart(false);
+              });
+            }
+          }}
         />
       </Animated.View>
 

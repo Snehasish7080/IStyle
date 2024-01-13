@@ -9,6 +9,10 @@ type feedResponse = {
   message: string;
 };
 
+type feedRequest = {
+  cursor?: string;
+};
+
 export const feedApi = createApi({
   reducerPath: 'feedApi',
   baseQuery: fetchBaseQuery({
@@ -26,10 +30,16 @@ export const feedApi = createApi({
   }),
   tagTypes: ['Feed'],
   endpoints: build => ({
-    getUserFeed: build.query<feedResponse, undefined>({
-      query: () => '/',
+    getUserFeed: build.query<feedResponse, feedRequest>({
+      query: body => ({
+        url: '/',
+        method: 'Get',
+        params: {
+          cursor: body?.cursor,
+        },
+      }),
     }),
   }),
 });
 
-export const {useGetUserFeedQuery} = feedApi;
+export const {useGetUserFeedQuery, useLazyGetUserFeedQuery} = feedApi;
