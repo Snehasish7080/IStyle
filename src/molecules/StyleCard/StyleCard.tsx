@@ -2,7 +2,6 @@ import {
   View,
   Image,
   PixelRatio,
-  ImageBackground,
   TouchableOpacity,
   ScrollView,
   Pressable,
@@ -10,7 +9,6 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './StyleCardStyles';
-import {horizontalScale} from '../../utils/scale';
 import AppText from '../../atoms/AppText/AppText';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
 import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
@@ -31,6 +29,7 @@ import {
   setFeedOnFollow,
   setFeedOnUnFollow,
 } from '../../feature/slice/feedSlice';
+import {scale} from 'react-native-size-matters';
 
 type StyleCardProps = {
   id: string;
@@ -54,8 +53,6 @@ const StyleCard: React.FC<StyleCardProps> = ({
   trendCount,
   created_at,
 }) => {
-  const width = horizontalScale(320);
-  const height = horizontalScale(320);
   const parentNavigation =
     useNavigation<NativeStackNavigationProp<ParentRouteList>>();
 
@@ -163,62 +160,63 @@ const StyleCard: React.FC<StyleCardProps> = ({
           </AppText>
         </TouchableOpacity>
       </View>
-      <ImageBackground
+      <Image
         source={{
           uri: `${S3_BUCKET_URL}/${image}`,
-          width: PixelRatio.getPixelSizeForLayoutSize(width),
-          height: PixelRatio.getPixelSizeForLayoutSize(height),
+          width: PixelRatio.getPixelSizeForLayoutSize(320),
+          height: PixelRatio.getPixelSizeForLayoutSize(280),
         }}
         style={styles.image}
         borderRadius={20}
-        width={width}
-        height={height}
-        resizeMode="cover">
-        <View style={styles.iconCountContainer}>
-          <Pressable
-            style={styles.icon}
-            onPress={() => handleMarkTrend(!markTrend)}>
-            <TrendIcon isMarked={markTrend} />
-          </Pressable>
-          <AppText lineHeight={14} style={styles.count}>
-            {trendCount}
+      />
+      <View style={styles.actionContainer}>
+        <Pressable
+          style={styles.icon}
+          onPress={() => handleMarkTrend(!markTrend)}>
+          <TrendIcon isMarked={markTrend} />
+        </Pressable>
+        <View style={[styles.icon, {marginLeft: scale(16)}]}>
+          <ShareIcon />
+        </View>
+      </View>
+      <View style={styles.linkContainer}>
+        <View style={styles.countContainer}>
+          <AppText lineHeight={11} style={styles.trendCount}>
+            {trendCount} marked trend
+          </AppText>
+          <AppText lineHeight={11} style={styles.bullet}>
+            •
+          </AppText>
+          <AppText lineHeight={11} style={styles.trendCount}>
+            10 share
           </AppText>
         </View>
-        {/* <View style={styles.iconCountContainer}> */}
-        {/*   <View style={styles.icon}> */}
-        {/*     <CommentIcon /> */}
-        {/*   </View> */}
-        {/*   <AppText lineHeight={14} style={styles.count}> */}
-        {/*     1.1k */}
-        {/*   </AppText> */}
-        {/* </View> */}
-        <View style={styles.iconCountContainer}>
-          <View style={styles.icon}>
-            <ShareIcon />
-          </View>
-          <AppText lineHeight={14} style={styles.count}>
-            1.1k
-          </AppText>
-        </View>
-      </ImageBackground>
-      <ScrollView
-        horizontal
-        contentContainerStyle={{paddingVertical: 10}}
-        showsHorizontalScrollIndicator={false}>
-        {links?.map((item, index) => {
-          return (
-            <Image
-              source={{
-                uri: `${S3_BUCKET_URL}/${item.image}`,
-                width: PixelRatio.getPixelSizeForLayoutSize(50),
-                height: PixelRatio.getPixelSizeForLayoutSize(50),
+        {links?.length > 0 && (
+          <View style={styles.linkScrollView}>
+            <ScrollView
+              horizontal
+              contentContainerStyle={{
+                alignItems: 'flex-end',
+                justifyContent: 'flex-end',
               }}
-              style={styles.link}
-              key={index}
-            />
-          );
-        })}
-      </ScrollView>
+              showsHorizontalScrollIndicator={false}>
+              {links?.map((item, index) => {
+                return (
+                  <Image
+                    source={{
+                      uri: `${S3_BUCKET_URL}/${item.image}`,
+                      width: PixelRatio.getPixelSizeForLayoutSize(50),
+                      height: PixelRatio.getPixelSizeForLayoutSize(50),
+                    }}
+                    style={styles.link}
+                    key={index}
+                  />
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
+      </View>
     </View>
   );
 };

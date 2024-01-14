@@ -1,20 +1,18 @@
-import {StyleSheet} from 'react-native';
-import {horizontalScale} from '../../utils/scale';
+import {ScaledSheet} from 'react-native-size-matters';
+import {getFontSize} from '../../utils/getFontSize';
 import {Colors, FontFamily} from '../../utils/theme';
 
-const width = horizontalScale(320);
-const height = horizontalScale(320);
-
-export const styles = StyleSheet.create({
-  mainContainer: {},
-  image: {
-    width: width,
-    height: height,
-    resizeMode: 'cover',
+export const styles = ScaledSheet.create({
+  mainContainer: {
+    backgroundColor: Colors.white,
     borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    justifyContent: 'flex-end',
+    paddingHorizontal: '16@s',
+    paddingVertical: '16@s',
+  },
+  image: {
+    width: '100%',
+    height: '280@s',
+    borderRadius: 20,
   },
   profileImageContainer: {
     flexDirection: 'row',
@@ -23,48 +21,75 @@ export const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: '10@vs',
     justifyContent: 'space-between',
   },
   profileImage: {
-    width: 30,
-    height: 30,
+    width: '30@s',
+    height: '30@s',
     borderRadius: 20,
-    marginRight: 10,
+    marginRight: '10@s',
   },
   userName: {
-    fontSize: 12,
+    fontSize: getFontSize(12),
     fontFamily: FontFamily.LatoBold,
   },
   followBtn: {
-    borderWidth: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderRadius: 5,
+    paddingHorizontal: '20@s',
+    paddingVertical: '5@vs',
+    borderRadius: '5@s',
+    // backgroundColor: Colors.containerBackground,
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: '30@s',
+    height: '30@s',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.white,
-    borderRadius: 15,
-    marginBottom: 5,
+    borderRadius: '15@s',
   },
   count: {
-    fontSize: 14,
+    fontSize: getFontSize(14),
     fontFamily: FontFamily.LatoBlack,
     color: Colors.offWhite,
   },
   iconCountContainer: {
     alignItems: 'center',
     alignSelf: 'flex-start',
-    marginBottom: 10,
+    marginBottom: '10@vs',
   },
   link: {
-    width: 50,
-    height: 50,
-    borderRadius: 12,
-    marginRight: 10,
+    width: '30@s',
+    height: '30@s',
+    borderRadius: '15@s',
+    marginRight: '10@s',
+  },
+  actionContainer: {
+    flexDirection: 'row',
+    marginTop: '10@vs',
+  },
+  trendCount: {
+    fontSize: getFontSize(11),
+    color: Colors.placeholder,
+  },
+  bullet: {
+    fontSize: getFontSize(11),
+    color: Colors.placeholder,
+    marginHorizontal: 4,
+  },
+  countContainer: {
+    flexDirection: 'row',
+  },
+  linkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  linkScrollView: {
+    width: '100@s',
+    backgroundColor: Colors.containerBackground,
+    paddingLeft: '6@s',
+    borderTopLeftRadius: '30@s',
+    borderBottomLeftRadius: '30@s',
+    paddingVertical: '4@vs',
   },
 });

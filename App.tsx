@@ -33,7 +33,7 @@ function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? Colors.darker : Colors.darker,
     flex: 1,
   };
 
@@ -46,7 +46,7 @@ function App(): JSX.Element {
         <NavigationContainer>
           <SafeAreaView style={backgroundStyle}>
             <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              barStyle={isDarkMode ? 'light-content' : 'light-content'}
               backgroundColor={backgroundStyle.backgroundColor}
             />
 
