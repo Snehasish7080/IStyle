@@ -12,6 +12,7 @@ export const Colors = {
   dark: '#272829',
   lightDark: 'rgba(39, 40, 41,0.2)',
   bottomBorderDark: 'rgba(39, 40, 41,0.3)',
+  sectionBorder: 'rgba(39, 40, 41,0.1)',
   link: '#2E86C1',
   containerBackground: '#F4F6F7',
 

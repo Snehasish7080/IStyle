@@ -92,4 +92,11 @@ export const styles = ScaledSheet.create({
     borderBottomLeftRadius: '30@s',
     paddingVertical: '4@vs',
   },
+  optionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  optionBtn: {
+    marginLeft: '5@s',
+  },
 });

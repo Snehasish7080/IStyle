@@ -30,6 +30,8 @@ import {
   setFeedOnUnFollow,
 } from '../../feature/slice/feedSlice';
 import {scale} from 'react-native-size-matters';
+import OptionsIcon from '../../atoms/OptionsIcon/OptionsIcon';
+import OptionsModal from '../../organisms/OptionsModal/OptionsModal';
 
 type StyleCardProps = {
   id: string;
@@ -63,6 +65,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
 
   const [follow, setFollow] = useState(user.isFollowing);
   const [markTrend, setMarkTrend] = useState(isMarked);
+  const [showOptions, setShowOptions] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -150,15 +153,24 @@ const StyleCard: React.FC<StyleCardProps> = ({
             </AppText>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.followBtn}
-          onPress={() => {
-            handleFollowUser(!follow);
-          }}>
-          <AppText lineHeight={14} style={styles.userName}>
-            {follow ? 'Following' : 'Follow'}
-          </AppText>
-        </TouchableOpacity>
+        <View style={styles.optionContainer}>
+          <TouchableOpacity
+            style={styles.followBtn}
+            onPress={() => {
+              handleFollowUser(!follow);
+            }}>
+            <AppText lineHeight={14} style={styles.userName}>
+              {follow ? 'Following' : 'Follow'}
+            </AppText>
+          </TouchableOpacity>
+          <Pressable
+            style={styles.optionBtn}
+            onPress={() => {
+              setShowOptions(true);
+            }}>
+            <OptionsIcon />
+          </Pressable>
+        </View>
       </View>
       <Image
         source={{
@@ -217,6 +229,12 @@ const StyleCard: React.FC<StyleCardProps> = ({
           </View>
         )}
       </View>
+      <OptionsModal
+        visible={showOptions}
+        handleClose={() => {
+          setShowOptions(false);
+        }}
+      />
     </View>
   );
 };
