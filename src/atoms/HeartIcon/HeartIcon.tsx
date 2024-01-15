@@ -4,8 +4,12 @@ import {
   fitbox,
   Group,
   ImageSVG,
+  LinearGradient,
+  Mask,
+  Rect,
   rect,
   Skia,
+  vec,
 } from '@shopify/react-native-skia';
 import React, {useMemo} from 'react';
 import {Colors} from '../../utils/theme';
@@ -17,7 +21,10 @@ const Icon = Skia.SVG.MakeFromString(
   `,
 )!;
 
-const HeartIcon: React.FC = () => {
+type HeartIconProps = {
+  isMarked?: boolean;
+};
+const HeartIcon: React.FC<HeartIconProps> = ({isMarked = false}) => {
   const src = rect(0, 0, 24, 24);
   const dst = rect(0, 0, 20, 20);
 
@@ -28,9 +35,27 @@ const HeartIcon: React.FC = () => {
 
   return (
     <Canvas style={{width: 20, height: 20}}>
-      <Group layer={paint} transform={fitbox('contain', src, dst)}>
-        <ImageSVG svg={Icon} x={0} y={0} width={20} height={20} />
-      </Group>
+      {!isMarked && (
+        <Group layer={paint} transform={fitbox('contain', src, dst)}>
+          <ImageSVG svg={Icon} x={0} y={0} width={20} height={20} />
+        </Group>
+      )}
+      {isMarked && (
+        <Mask
+          mask={
+            <Group layer={paint} transform={fitbox('contain', src, dst)}>
+              <ImageSVG svg={Icon} x={0} y={0} width={20} height={20} />
+            </Group>
+          }>
+          <Rect x={0} y={0} width={20} height={20}>
+            <LinearGradient
+              start={vec(0, 20)}
+              end={vec(10, -10)}
+              colors={[Colors.secondary, Colors.primary]}
+            />
+          </Rect>
+        </Mask>
+      )}
     </Canvas>
   );
 };

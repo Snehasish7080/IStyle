@@ -11,7 +11,6 @@ import React, {useEffect, useState} from 'react';
 import {styles} from './StyleCardStyles';
 import AppText from '../../atoms/AppText/AppText';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
-import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {S3_BUCKET_URL} from '@env';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -32,6 +31,7 @@ import {
 import {scale} from 'react-native-size-matters';
 import OptionsIcon from '../../atoms/OptionsIcon/OptionsIcon';
 import OptionsModal from '../../organisms/OptionsModal/OptionsModal';
+import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 
 type StyleCardProps = {
   id: string;
@@ -185,7 +185,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
         <Pressable
           style={styles.icon}
           onPress={() => handleMarkTrend(!markTrend)}>
-          <TrendIcon isMarked={markTrend} />
+          <HeartIcon isMarked={markTrend} />
         </Pressable>
         <View style={[styles.icon, {marginLeft: scale(16)}]}>
           <ShareIcon />
@@ -214,15 +214,20 @@ const StyleCard: React.FC<StyleCardProps> = ({
               showsHorizontalScrollIndicator={false}>
               {links?.map((item, index) => {
                 return (
-                  <Image
-                    source={{
-                      uri: `${S3_BUCKET_URL}/${item.image}`,
-                      width: PixelRatio.getPixelSizeForLayoutSize(50),
-                      height: PixelRatio.getPixelSizeForLayoutSize(50),
-                    }}
-                    style={styles.link}
+                  <Pressable
                     key={index}
-                  />
+                    onPress={() => {
+                      console.log('clicked');
+                    }}>
+                    <Image
+                      source={{
+                        uri: `${S3_BUCKET_URL}/${item.image}`,
+                        width: PixelRatio.getPixelSizeForLayoutSize(50),
+                        height: PixelRatio.getPixelSizeForLayoutSize(50),
+                      }}
+                      style={styles.link}
+                    />
+                  </Pressable>
                 );
               })}
             </ScrollView>

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   container: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.containerBackground,
     borderRadius: 35,
     overflow: 'hidden',
     height: Dimensions.get('window').height - 72,
