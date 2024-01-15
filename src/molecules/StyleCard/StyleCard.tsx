@@ -32,6 +32,7 @@ import {scale} from 'react-native-size-matters';
 import OptionsIcon from '../../atoms/OptionsIcon/OptionsIcon';
 import OptionsModal from '../../organisms/OptionsModal/OptionsModal';
 import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
+import moment from 'moment';
 
 type StyleCardProps = {
   id: string;
@@ -142,16 +143,21 @@ const StyleCard: React.FC<StyleCardProps> = ({
               style={styles.profileImage}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              parentNavigation.push('CreatorProfileScreen', {
-                userName: user.userName,
-              });
-            }}>
-            <AppText lineHeight={14} style={styles.userName}>
-              {user.userName}
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                parentNavigation.push('CreatorProfileScreen', {
+                  userName: user.userName,
+                });
+              }}>
+              <AppText lineHeight={14} style={styles.userName}>
+                {user.userName}
+              </AppText>
+            </TouchableOpacity>
+            <AppText lineHeight={12} style={styles.createdAt}>
+              {moment(created_at).fromNow()}
             </AppText>
-          </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.optionContainer}>
           <TouchableOpacity

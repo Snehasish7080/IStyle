@@ -99,4 +99,8 @@ export const styles = ScaledSheet.create({
   optionBtn: {
     marginLeft: '5@s',
   },
+  createdAt: {
+    color: Colors.placeholder,
+    fontSize: getFontSize(11),
+  },
 });
