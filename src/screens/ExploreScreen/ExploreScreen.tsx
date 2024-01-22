@@ -1,13 +1,20 @@
 import React, {useState} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import {scale, verticalScale} from 'react-native-size-matters';
 import AppText from '../../atoms/AppText/AppText';
 import SearchIcon from '../../atoms/SearchIcon/SearchIcon';
 import AppHeader from '../../molecules/AppHeader/AppHeader';
 import ExploreCard from '../../molecules/ExploreCard/ExploreCard';
+import MostTrendingCard from '../../molecules/MostTrendingCard/MostTrendingCard';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 import {data} from '../../utils/dummyData';
 import {Colors} from '../../utils/theme';
@@ -27,13 +34,12 @@ const tagList = [
 const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
   navigation,
 }) => {
+  const {width} = useWindowDimensions();
   const [selectedTag, setSelectedTag] = useState('Trending Now');
   const activeScrollView = useSharedValue('');
   const offsetPercent = useSharedValue(0);
   const scrollY = useSharedValue(0);
   const prevScrollY = useSharedValue(0);
-
-  const previousScrollValue = useSharedValue(0);
 
   const animatedSearch = useAnimatedStyle(() => {
     return {
@@ -68,41 +74,41 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
               Search
             </AppText>
           </TouchableOpacity>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingHorizontal: 20,
-              paddingTop: 20,
-            }}
-            directionalLockEnabled={true}>
-            {tagList.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  style={[
-                    styles.tag,
-                    {
-                      backgroundColor:
-                        item === selectedTag ? Colors.dark : Colors.white,
-                    },
-                  ]}
-                  key={index}
-                  onPress={() => setSelectedTag(item)}>
-                  <AppText
-                    lineHeight={14}
-                    style={[
-                      styles.tagText,
-                      {
-                        color:
-                          item === selectedTag ? Colors.white : Colors.dark,
-                      },
-                    ]}>
-                    {item}
-                  </AppText>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
+          <View style={{width}}>
+            <View style={styles.separatorContainer}>
+              <View style={styles.separator} />
+              <AppText lineHeight={18} style={styles.separatorText}>
+                MOST TRENDING
+              </AppText>
+              <View style={styles.separator} />
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{
+                paddingHorizontal: scale(16),
+              }}>
+              {data.slice(0, 4).map((item, index) => {
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      marginRight: scale(10),
+                    }}>
+                    <MostTrendingCard key={index} image={item.image} />
+                  </View>
+                );
+              })}
+            </ScrollView>
+            <View style={styles.separatorContainer}>
+              <View style={styles.separator} />
+              <AppText lineHeight={18} style={styles.separatorText}>
+                Explore
+              </AppText>
+              <View style={styles.separator} />
+            </View>
+          </View>
         </Animated.View>
         <SyncedScrollViewContext.Provider
           value={{
@@ -127,14 +133,15 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
                         key: index.toString() + 'first',
                       });
                     }}
+                    allowDummy={true}
                   />
                 );
               }}
               ItemSeparatorComponent={() => <View style={{height: 10}} />}
               contentContainerStyle={{
                 paddingRight: 5,
-                paddingBottom: 200,
-                paddingTop: 120,
+                paddingBottom: verticalScale(200),
+                paddingTop: verticalScale(300),
               }}
               id={'first'}
               showsVerticalScrollIndicator={false}
@@ -157,14 +164,15 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
                         key: index.toString() + 'second',
                       });
                     }}
+                    allowDummy={true}
                   />
                 );
               }}
               ItemSeparatorComponent={() => <View style={{height: 10}} />}
               contentContainerStyle={{
                 paddingLeft: 5,
-                paddingBottom: 200,
-                paddingTop: 120,
+                paddingBottom: verticalScale(200),
+                paddingTop: verticalScale(300),
               }}
               id={'second'}
               showsVerticalScrollIndicator={false}

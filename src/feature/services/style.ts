@@ -69,6 +69,15 @@ type getStyleByIdResponse = {
   success: boolean;
 };
 
+type clickedStyleRequest = {
+  id: string;
+};
+
+type clickedStyleResponse = {
+  message: string;
+  success: boolean;
+};
+
 export const styleApi = createApi({
   reducerPath: 'styleApi',
   baseQuery: fetchBaseQuery({
@@ -157,6 +166,14 @@ export const styleApi = createApi({
         method: 'Post',
       }),
     }),
+
+    clickStyle: build.mutation<clickedStyleResponse, clickedStyleRequest>({
+      query: body => ({
+        url: '/style-clicked',
+        body,
+        method: 'Post',
+      }),
+    }),
   }),
 });
 
@@ -171,4 +188,5 @@ export const {
   useMarkTrendMutation,
   useUnmarkTrendMutation,
   useLazyGetStyleByIdQuery,
+  useClickStyleMutation,
 } = styleApi;

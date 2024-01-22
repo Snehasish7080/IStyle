@@ -68,7 +68,7 @@ const HomeScreen = () => {
           onEndReached={() => {
             if (userFeed.length > 0 && isScrollStart) {
               getUserFeed({
-                cursor: userFeed[userFeed.length - 1].id,
+                cursor: userFeed[userFeed.length - 1].created_at,
               }).finally(() => {
                 setIsScrollStart(false);
               });

@@ -9,12 +9,14 @@ type ExploreCardProps = {
   isSmall: boolean;
   onPress: () => void;
   id: string;
+  allowDummy?: boolean;
 };
 const ExploreCard: React.FC<ExploreCardProps> = ({
   image,
   isSmall,
   onPress,
   id,
+  allowDummy = false,
 }) => {
   const height = isSmall ? horizontalScale(150) : horizontalScale(250);
   return (
@@ -24,7 +26,7 @@ const ExploreCard: React.FC<ExploreCardProps> = ({
       onPress={onPress}>
       <Image
         source={{
-          uri: `${S3_BUCKET_URL}/${image}`,
+          uri: allowDummy ? image : `${S3_BUCKET_URL}/${image}`,
           width: PixelRatio.getPixelSizeForLayoutSize(150),
           height: height,
         }}

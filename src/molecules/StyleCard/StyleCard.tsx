@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParentRouteList} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import {
+  useLazyGetStyleByIdQuery,
   useMarkTrendMutation,
   useUnmarkTrendMutation,
 } from '../../feature/services/style';
@@ -63,6 +64,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
   const [unMarkTrendMutation] = useUnmarkTrendMutation();
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();
+  const [getStyleById] = useLazyGetStyleByIdQuery();
 
   const [follow, setFollow] = useState(user.isFollowing);
   const [markTrend, setMarkTrend] = useState(isMarked);
@@ -178,15 +180,36 @@ const StyleCard: React.FC<StyleCardProps> = ({
           </Pressable>
         </View>
       </View>
-      <Image
-        source={{
-          uri: `${S3_BUCKET_URL}/${image}`,
-          width: PixelRatio.getPixelSizeForLayoutSize(320),
-          height: PixelRatio.getPixelSizeForLayoutSize(280),
-        }}
-        style={styles.image}
-        borderRadius={20}
-      />
+      <Pressable
+        onPress={() => {
+          try {
+            getStyleById(id).then(res => {
+              if (res.data?.success) {
+                parentNavigation.navigate('StyleViewScreen', {
+                  style: {
+                    id: res.data?.data?.id,
+                    image: res.data?.data?.image,
+                    links: res.data?.data?.links,
+                    trendCount: res.data?.data?.trendCount,
+                    isMarked: res?.data?.data?.isMarked,
+                  },
+                });
+              }
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }}>
+        <Image
+          source={{
+            uri: `${S3_BUCKET_URL}/${image}`,
+            width: PixelRatio.getPixelSizeForLayoutSize(320),
+            height: PixelRatio.getPixelSizeForLayoutSize(280),
+          }}
+          style={styles.image}
+          borderRadius={20}
+        />
+      </Pressable>
       <View style={styles.actionContainer}>
         <Pressable
           style={styles.icon}

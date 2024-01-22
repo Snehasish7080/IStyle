@@ -1,6 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import {StackActions} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 
 import {useForm} from 'react-hook-form';

@@ -49,4 +49,20 @@ export const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 12,
   },
+  separatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  separator: {
+    width: 100,
+    height: 1,
+    backgroundColor: Colors.lightDark,
+  },
+  separatorText: {
+    fontSize: 12,
+    fontFamily: FontFamily.KalamLight,
+    paddingHorizontal: 10,
+  },
 });

@@ -36,8 +36,10 @@ type signUpResponse = {
   success: boolean;
   message: string;
 };
+
+const Url = API_BASE_URL;
 export const authApi = createApi({
-  baseQuery: fetchBaseQuery({baseUrl: `${API_BASE_URL}/auth`}),
+  baseQuery: fetchBaseQuery({baseUrl: `${Url}/auth`}),
   tagTypes: ['Auth'],
   endpoints: build => ({
     login: build.mutation<loginResponse, loginBody>({

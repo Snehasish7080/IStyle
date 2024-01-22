@@ -13,7 +13,6 @@ import {
 import AppText from '../../atoms/AppText/AppText';
 import BackIcon from '../../atoms/BackIcon/BackIcon';
 import ShareIcon from '../../atoms/ShareIcon/ShareIcon';
-import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {ExploreNavProps} from '../../navigations/ExploreNavigation/ExploreNavigationTypes';
 import {styles} from './StyleViewScreenStyles';
 import {S3_BUCKET_URL} from '@env';
@@ -21,6 +20,7 @@ import {
   useMarkTrendMutation,
   useUnmarkTrendMutation,
 } from '../../feature/services/style';
+import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 
 const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
   navigation,
@@ -113,7 +113,7 @@ const StyleViewScreen: React.FC<ExploreNavProps<'StyleViewScreen'>> = ({
                 onPress={() => {
                   handleMarkTrend(!style.isMarked);
                 }}>
-                <TrendIcon isMarked={markTrend} />
+                <HeartIcon isMarked={markTrend} />
               </Pressable>
               <AppText lineHeight={14} style={styles.count}>
                 {trendCount || 0}

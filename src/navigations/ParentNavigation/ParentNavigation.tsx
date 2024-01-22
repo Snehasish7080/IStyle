@@ -62,6 +62,7 @@ const ParentNavigation = () => {
         component={StyleViewScreen}
         options={{
           headerShown: false,
+          presentation: 'transparentModal',
         }}
       />
       <Stack.Screen
