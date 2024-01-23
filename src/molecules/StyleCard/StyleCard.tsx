@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParentRouteList} from '../../navigations/ParentNavigation/ParentNavigationTypes';
 import {
+  useClickStyleMutation,
   useLazyGetStyleByIdQuery,
   useMarkTrendMutation,
   useUnmarkTrendMutation,
@@ -62,6 +63,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
 
   const [markTrendMutation] = useMarkTrendMutation();
   const [unMarkTrendMutation] = useUnmarkTrendMutation();
+  const [clickedStyle] = useClickStyleMutation();
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();
   const [getStyleById] = useLazyGetStyleByIdQuery();
@@ -185,6 +187,9 @@ const StyleCard: React.FC<StyleCardProps> = ({
           try {
             getStyleById(id).then(res => {
               if (res.data?.success) {
+                clickedStyle({
+                  id,
+                });
                 parentNavigation.navigate('StyleViewScreen', {
                   style: {
                     id: res.data?.data?.id,

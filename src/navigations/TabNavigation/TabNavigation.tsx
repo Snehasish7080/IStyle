@@ -3,8 +3,10 @@ import React from 'react';
 import ExploreIcon from '../../atoms/ExploreIcon/ExploreIcon';
 import HomeIcon from '../../atoms/HomeIcon/HomeIcon';
 import ProfileIcon from '../../atoms/ProfileIcon/ProfileIcon';
+import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import AppBottomTabBar from '../../molecules/AppBottomTabBar/AppBottomTabBar';
 import HomeScreen from '../../screens/HomeScreen/HomeScreen';
+import LeaderboardScreen from '../../screens/LeaderboardScreen/LeaderboardScreen';
 import ExploreNavigation from '../ExploreNavigation/ExploreNavigation';
 import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 import {TabNavigationRouteList} from './TabNavigationTypes';
@@ -33,6 +35,16 @@ const TabNavigation = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return <ExploreIcon isFocused={focused} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="LeaderboardScreen"
+        component={LeaderboardScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return <TrendIcon />;
           },
         }}
       />

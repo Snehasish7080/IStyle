@@ -32,7 +32,7 @@ const TrendIcon = ({isMarked = false}: TrendIconProps) => {
 
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.dark), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
   );
 
   return (

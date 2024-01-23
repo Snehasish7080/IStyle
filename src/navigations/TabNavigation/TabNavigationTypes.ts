@@ -4,6 +4,7 @@ export type TabNavigationRouteList = {
   HomeScreen: undefined;
   ExploreNavigation: undefined;
   ProfileNavigation: undefined;
+  LeaderboardScreen: undefined;
 };
 export type TabNavigationProp<T extends keyof TabNavigationRouteList> =
   BottomTabScreenProps<TabNavigationRouteList, T>;

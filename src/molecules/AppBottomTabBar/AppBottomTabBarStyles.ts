@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 90,
+    paddingHorizontal: 50,
     justifyContent: 'space-between',
     height: 60,
     backgroundColor: Colors.black,

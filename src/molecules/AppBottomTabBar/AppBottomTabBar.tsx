@@ -7,7 +7,7 @@ import {
   ParamListBase,
   TabNavigationState,
 } from '@react-navigation/native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Keyboard,
   Platform,
@@ -15,9 +15,7 @@ import {
   Vibration,
   View,
 } from 'react-native';
-import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import {EdgeInsets} from 'react-native-safe-area-context';
-import {MainContext} from '../../../App';
 import {Colors} from '../../utils/theme';
 import {styles} from './AppBottomTabBarStyles';
 

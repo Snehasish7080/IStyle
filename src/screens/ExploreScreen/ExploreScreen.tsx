@@ -35,7 +35,6 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
   navigation,
 }) => {
   const {width} = useWindowDimensions();
-  const [selectedTag, setSelectedTag] = useState('Trending Now');
   const activeScrollView = useSharedValue('');
   const offsetPercent = useSharedValue(0);
   const scrollY = useSharedValue(0);
