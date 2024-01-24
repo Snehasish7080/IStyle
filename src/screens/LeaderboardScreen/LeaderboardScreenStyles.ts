@@ -4,15 +4,34 @@ import {Colors, FontFamily} from '../../utils/theme';
 
 export const styles = ScaledSheet.create({
   mainContainer: {
-    paddingHorizontal: '16@s',
+    // paddingHorizontal: '16@s',
+    // backgroundColor: Colors.white,
   },
   trendingContainer: {
-    alignItems: 'center',
-    paddingVertical: '16@vs',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingTop: '30@vs',
+    paddingHorizontal: '16@s',
   },
-  trendingImage: {
-    width: '200@s',
-    height: '200@s',
-    borderRadius: '20@s',
+  trendingUser: {
+    position: 'relative',
+    height: '100@vs',
+    borderTopLeftRadius: '30@s',
+    borderTopRightRadius: '30@s',
+    width: '100@s',
+  },
+
+  trendingUserName: {
+    fontSize: getFontSize(14),
+    fontFamily: FontFamily.LatoBold,
+  },
+  userProfile: {
+    width: '50@s',
+    height: '50@s',
+    borderRadius: '25@s',
+    position: 'absolute',
+    alignSelf: 'center',
+    top: '-20@vs',
   },
 });
