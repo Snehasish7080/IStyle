@@ -1,19 +1,17 @@
 import {
   View,
-  FlatList,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Image,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import Container from '../../atoms/Container/Container';
-import AppHeader from '../../molecules/AppHeader/AppHeader';
 import {styles} from './LeaderboardScreenStyles';
+import {useSharedValue} from 'react-native-reanimated';
+import AppText from '../../atoms/AppText/AppText';
 import {data} from '../../utils/dummyData';
 import {scale, verticalScale} from 'react-native-size-matters';
-import {useSharedValue} from 'react-native-reanimated';
-import AnimatedCarauselItem from '../../molecules/AnimatedCarouselItem/AnimatedCarouselItem';
-import AppText from '../../atoms/AppText/AppText';
 import {
   Box,
   Canvas,
@@ -32,121 +30,68 @@ const LeaderboardScreen = () => {
   };
 
   return (
-    <Container style={styles.mainContainer}>
-      <AppHeader hideSetting={true} hideChat={true} />
-
+    <Container>
+      <View style={styles.header}>
+        <AppText lineHeight={25} style={styles.heading}>
+          Top Stylists
+        </AppText>
+      </View>
       <View style={styles.mainContainer}>
-        <View style={styles.trendingContainer}>
-          <View style={[styles.trendingUser, {height: verticalScale(70)}]}>
-            <Canvas
-              style={{
-                height: '100%',
-                width: '100%',
-                position: 'absolute',
-                top: 0,
-              }}
-              mode="continuous">
-              <Box
-                box={rrect(rect(0, 0, scale(100), verticalScale(120)), 20, 20)}>
-                <LinearGradient
-                  start={vec(100, 0)}
-                  end={vec(0, 100)}
-                  colors={['#FDFEFE', '#FDFEFE']}
-                />
-              </Box>
-            </Canvas>
-
-            <Image
-              source={{
-                uri: data[0].image,
-                width: scale(50),
-                height: scale(50),
-              }}
-              style={styles.userProfile}
-            />
-          </View>
-
-          <View style={styles.trendingUser}>
-            <Canvas
-              style={{
-                height: '100%',
-                width: '100%',
-                position: 'absolute',
-                top: 0,
-              }}
-              mode="continuous">
-              <Box
-                box={rrect(rect(0, 0, scale(100), verticalScale(120)), 20, 20)}>
-                <LinearGradient
-                  start={vec(100, 0)}
-                  end={vec(0, 100)}
-                  colors={['#FDFEFE', '#FDFEFE']}
-                />
-              </Box>
-            </Canvas>
-
-            <Image
-              source={{
-                uri: data[0].image,
-                width: scale(50),
-                height: scale(50),
-              }}
-              style={styles.userProfile}
-            />
-          </View>
-
-          <View style={[styles.trendingUser, {height: verticalScale(80)}]}>
-            <Canvas
-              style={{
-                height: '100%',
-                width: '100%',
-                position: 'absolute',
-                top: 0,
-              }}
-              mode="continuous">
-              <Box
-                box={rrect(rect(0, 0, scale(100), verticalScale(120)), 20, 20)}>
-                <LinearGradient
-                  start={vec(100, 0)}
-                  end={vec(0, 100)}
-                  colors={['#FDFEFE', '#FDFEFE']}
-                />
-              </Box>
-            </Canvas>
-
-            <Image
-              source={{
-                uri: data[0].image,
-                width: scale(50),
-                height: scale(50),
-              }}
-              style={styles.userProfile}
-            />
-          </View>
-        </View>
-
         <FlatList
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingHorizontal: scale(16),
-            paddingVertical: verticalScale(16),
+            paddingTop: verticalScale(16),
+            paddingBottom: verticalScale(100),
           }}
-          horizontal
-          data={data}
-          keyExtractor={item => item.image}
-          showsHorizontalScrollIndicator={false}
-          onScroll={onScroll}
           scrollEventThrottle={16}
           bounces={false}
-          initialScrollIndex={data.length / 2}
-          ItemSeparatorComponent={() => <View style={{width: scale(8)}} />}
+          data={data}
+          keyExtractor={item => item.image}
+          ItemSeparatorComponent={() => (
+            <View style={{height: verticalScale(16)}} />
+          )}
           renderItem={({item, index}) => {
             return (
-              <AnimatedCarauselItem
-                image={item.image}
-                index={index}
-                scrollX={scrollX}
-                dataLength={data.length}
-              />
+              <View style={styles.leaderboaderCard} key={index}>
+                <AppText lineHeight={14} style={styles.numbers}>
+                  {index + 1}
+                </AppText>
+                <View style={styles.profileImageContainer}>
+                  <Canvas
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      position: 'absolute',
+                      top: 0,
+                    }}
+                    mode="continuous">
+                    <Box box={rrect(rect(0, 0, scale(54), scale(54)), 30, 30)}>
+                      <LinearGradient
+                        start={vec(100, 10)}
+                        end={vec(0, 0)}
+                        colors={['#C70039', '#9333FF']}
+                      />
+                    </Box>
+                  </Canvas>
+
+                  <Image
+                    source={{
+                      uri: item.image,
+                      width: 50,
+                      height: 50,
+                    }}
+                    style={styles.profileImage}
+                  />
+                </View>
+                <View style={styles.userContainer}>
+                  <AppText lineHeight={14} style={styles.userName}>
+                    @rahul56
+                  </AppText>
+                  <AppText lineHeight={14} style={styles.userFullName}>
+                    rahul singh
+                  </AppText>
+                </View>
+              </View>
             );
           }}
         />

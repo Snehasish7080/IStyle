@@ -1,10 +1,10 @@
-import {API_BASE_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {ILink} from '../../interface/linkInterface';
 import {IStyle} from '../../interface/styleInterface';
 import {ITag} from '../../interface/tagInterface';
 import {IUserStyleLink} from '../../interface/userStyleLinkInterface';
+import {API_BASE_URL} from '../../utils/appConfig';
 
 type getUploadStyleUrlResponse = {
   data: {

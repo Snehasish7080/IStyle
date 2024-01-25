@@ -1,7 +1,7 @@
-import {API_BASE_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {ISearchStyle} from '../../interface/searchStyle';
+import {API_BASE_URL} from '../../utils/appConfig';
 
 type searchResponse = {
   data: {

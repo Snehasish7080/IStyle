@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {API_BASE_URL} from '@env';
+import {API_BASE_URL} from '../../utils/appConfig';
 
 type loginBody = {
   email: string;
@@ -37,9 +37,8 @@ type signUpResponse = {
   message: string;
 };
 
-const Url = API_BASE_URL;
 export const authApi = createApi({
-  baseQuery: fetchBaseQuery({baseUrl: `${Url}/auth`}),
+  baseQuery: fetchBaseQuery({baseUrl: `${API_BASE_URL}/auth`}),
   tagTypes: ['Auth'],
   endpoints: build => ({
     login: build.mutation<loginResponse, loginBody>({
