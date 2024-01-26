@@ -69,7 +69,10 @@ const LeaderboardScreen = () => {
                       <LinearGradient
                         start={vec(100, 10)}
                         end={vec(0, 0)}
-                        colors={['#C70039', '#9333FF']}
+                        colors={[
+                          Colors.topStylistSecondary,
+                          Colors.topStylistPrimary,
+                        ]}
                       />
                     </Box>
                   </Canvas>

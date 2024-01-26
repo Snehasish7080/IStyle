@@ -15,6 +15,8 @@ export const Colors = {
   sectionBorder: 'rgba(39, 40, 41,0.1)',
   link: '#2E86C1',
   containerBackground: '#F4F6F7',
+  topStylistSecondary: '#C70039',
+  topStylistPrimary: '#9333FF',
 
   error: '#CC002E',
   textInputBackground: 'rgba(0, 0, 0, 0.03)',

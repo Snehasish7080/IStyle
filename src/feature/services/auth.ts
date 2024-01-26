@@ -36,7 +36,6 @@ type signUpResponse = {
   success: boolean;
   message: string;
 };
-
 export const authApi = createApi({
   baseQuery: fetchBaseQuery({baseUrl: `${API_BASE_URL}/auth`}),
   tagTypes: ['Auth'],
