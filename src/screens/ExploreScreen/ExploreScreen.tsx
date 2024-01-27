@@ -59,7 +59,8 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
               position: 'absolute',
               top: 60,
               zIndex: 1,
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.containerBackground,
+              paddingTop: verticalScale(20),
             },
             animatedSearch,
           ]}>
@@ -140,7 +141,7 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
               contentContainerStyle={{
                 paddingRight: 5,
                 paddingBottom: verticalScale(200),
-                paddingTop: verticalScale(300),
+                paddingTop: verticalScale(320),
               }}
               id={'first'}
               showsVerticalScrollIndicator={false}
@@ -171,7 +172,7 @@ const ExploreScreen: React.FC<ExploreNavProps<'ExploreScreen'>> = ({
               contentContainerStyle={{
                 paddingLeft: 5,
                 paddingBottom: verticalScale(200),
-                paddingTop: verticalScale(300),
+                paddingTop: verticalScale(320),
               }}
               id={'second'}
               showsVerticalScrollIndicator={false}

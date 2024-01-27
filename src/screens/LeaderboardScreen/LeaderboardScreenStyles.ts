@@ -7,7 +7,7 @@ export const styles = ScaledSheet.create({
     paddingHorizontal: '16@s',
   },
   heading: {
-    fontSize: 18,
+    fontSize: getFontSize(18),
     fontFamily: FontFamily.KalamRegular,
   },
 
@@ -17,6 +17,8 @@ export const styles = ScaledSheet.create({
     paddingHorizontal: '16@s',
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.containerBackground,
   },
   leaderboaderCard: {
     backgroundColor: Colors.white,
@@ -27,6 +29,7 @@ export const styles = ScaledSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
+    justifyContent: 'space-between',
   },
   profileImage: {
     width: '50@s',
@@ -50,12 +53,35 @@ export const styles = ScaledSheet.create({
     marginLeft: '16@s',
   },
   userName: {
-    fontSize: 14,
+    fontSize: getFontSize(14),
     fontFamily: FontFamily.LatoBold,
   },
   userFullName: {
-    fontSize: 12,
+    fontSize: getFontSize(12),
     fontFamily: FontFamily.LatoRegular,
     color: Colors.placeholder,
+  },
+  followerTitle: {
+    fontSize: getFontSize(10),
+  },
+  followerCount: {
+    fontSize: getFontSize(12),
+    fontFamily: FontFamily.LatoBold,
+  },
+  scoreCount: {
+    fontSize: getFontSize(12),
+    fontFamily: FontFamily.LatoBold,
+    color: Colors.topStylistSecondary,
+  },
+  followerContainer: {
+    alignItems: 'center',
+    marginLeft: '10@s',
+  },
+  leaderDetailContainer: {
+    flexDirection: 'row',
+  },
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

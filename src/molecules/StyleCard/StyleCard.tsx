@@ -35,6 +35,8 @@ import OptionsIcon from '../../atoms/OptionsIcon/OptionsIcon';
 import OptionsModal from '../../organisms/OptionsModal/OptionsModal';
 import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import moment from 'moment';
+import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
+import CommentModal from '../CommentModal/CommentModal';
 
 type StyleCardProps = {
   id: string;
@@ -71,6 +73,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
   const [follow, setFollow] = useState(user.isFollowing);
   const [markTrend, setMarkTrend] = useState(isMarked);
   const [showOptions, setShowOptions] = useState(false);
+  const [showAddComment, setShowAddComment] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -221,6 +224,13 @@ const StyleCard: React.FC<StyleCardProps> = ({
           onPress={() => handleMarkTrend(!markTrend)}>
           <HeartIcon isMarked={markTrend} />
         </Pressable>
+        <Pressable
+          style={[styles.icon, {marginLeft: scale(16)}]}
+          onPress={() => {
+            setShowAddComment(true);
+          }}>
+          <CommentIcon />
+        </Pressable>
         <View style={[styles.icon, {marginLeft: scale(16)}]}>
           <ShareIcon />
         </View>
@@ -228,7 +238,13 @@ const StyleCard: React.FC<StyleCardProps> = ({
       <View style={styles.linkContainer}>
         <View style={styles.countContainer}>
           <AppText lineHeight={11} style={styles.trendCount}>
-            {trendCount} marked trend
+            {trendCount} {trendCount === 1 ? 'like' : 'likes'}
+          </AppText>
+          <AppText lineHeight={11} style={styles.bullet}>
+            •
+          </AppText>
+          <AppText lineHeight={11} style={styles.trendCount}>
+            {trendCount} {trendCount === 1 ? 'comment' : 'comments'}
           </AppText>
           <AppText lineHeight={11} style={styles.bullet}>
             •
@@ -272,6 +288,12 @@ const StyleCard: React.FC<StyleCardProps> = ({
         visible={showOptions}
         handleClose={() => {
           setShowOptions(false);
+        }}
+      />
+      <CommentModal
+        visible={showAddComment}
+        handleClose={() => {
+          setShowAddComment(false);
         }}
       />
     </View>

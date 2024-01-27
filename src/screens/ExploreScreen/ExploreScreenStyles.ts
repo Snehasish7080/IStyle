@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   container: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.containerBackground,
     borderRadius: 35,
     overflow: 'hidden',
     height: Dimensions.get('window').height - 72,
@@ -21,10 +21,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: 40,
     borderRadius: 15,
-    borderColor: Colors.dark,
+    borderColor: Colors.textInputBackground,
     alignItems: 'center',
     flexDirection: 'row',
     marginHorizontal: 20,
+    borderWidth: 1,
   },
   search: {
     color: Colors.placeholder,

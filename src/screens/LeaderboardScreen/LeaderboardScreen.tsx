@@ -53,46 +53,67 @@ const LeaderboardScreen = () => {
           renderItem={({item, index}) => {
             return (
               <View style={styles.leaderboaderCard} key={index}>
-                <AppText lineHeight={14} style={styles.numbers}>
-                  {index + 1}
-                </AppText>
-                <View style={styles.profileImageContainer}>
-                  <Canvas
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                      position: 'absolute',
-                      top: 0,
-                    }}
-                    mode="continuous">
-                    <Box box={rrect(rect(0, 0, scale(54), scale(54)), 30, 30)}>
-                      <LinearGradient
-                        start={vec(100, 10)}
-                        end={vec(0, 0)}
-                        colors={[
-                          Colors.topStylistSecondary,
-                          Colors.topStylistPrimary,
-                        ]}
-                      />
-                    </Box>
-                  </Canvas>
+                <View style={styles.profileContainer}>
+                  <AppText lineHeight={14} style={styles.numbers}>
+                    {index + 1}
+                  </AppText>
+                  <View style={styles.profileImageContainer}>
+                    <Canvas
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                        position: 'absolute',
+                        top: 0,
+                      }}
+                      mode="continuous">
+                      <Box
+                        box={rrect(rect(0, 0, scale(54), scale(54)), 30, 30)}>
+                        <LinearGradient
+                          start={vec(100, 10)}
+                          end={vec(0, 0)}
+                          colors={[
+                            Colors.topStylistSecondary,
+                            Colors.topStylistPrimary,
+                          ]}
+                        />
+                      </Box>
+                    </Canvas>
 
-                  <Image
-                    source={{
-                      uri: item.image,
-                      width: 50,
-                      height: 50,
-                    }}
-                    style={styles.profileImage}
-                  />
+                    <Image
+                      source={{
+                        uri: item.image,
+                        width: 50,
+                        height: 50,
+                      }}
+                      style={styles.profileImage}
+                    />
+                  </View>
+                  <View style={styles.userContainer}>
+                    <AppText lineHeight={14} style={styles.userName}>
+                      @rahul56
+                    </AppText>
+                    <AppText lineHeight={14} style={styles.userFullName}>
+                      rahul singh
+                    </AppText>
+                  </View>
                 </View>
-                <View style={styles.userContainer}>
-                  <AppText lineHeight={14} style={styles.userName}>
-                    @rahul56
-                  </AppText>
-                  <AppText lineHeight={14} style={styles.userFullName}>
-                    rahul singh
-                  </AppText>
+                <View style={styles.leaderDetailContainer}>
+                  <View style={styles.followerContainer}>
+                    <AppText lineHeight={14} style={styles.followerCount}>
+                      1.1K
+                    </AppText>
+                    <AppText lineHeight={14} style={styles.followerTitle}>
+                      Followers
+                    </AppText>
+                  </View>
+                  <View style={styles.followerContainer}>
+                    <AppText lineHeight={14} style={styles.scoreCount}>
+                      8.5
+                    </AppText>
+                    <AppText lineHeight={14} style={styles.followerTitle}>
+                      score
+                    </AppText>
+                  </View>
                 </View>
               </View>
             );
