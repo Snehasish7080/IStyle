@@ -121,7 +121,7 @@ const ProfileScreen: React.FC<ProfileNavProps<'ProfileScreen'>> = ({
                 <AppText lineHeight={16} style={styles.tendingCount}>
                   10
                 </AppText>
-                <TrendIcon />
+                <TrendIcon color={Colors.primary} />
                 <AppText lineHeight={14} style={styles.tendingTitle}>
                   Styles
                 </AppText>

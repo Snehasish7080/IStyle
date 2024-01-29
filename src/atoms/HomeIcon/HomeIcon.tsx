@@ -22,19 +22,21 @@ const Icon = Skia.SVG.MakeFromString(
 
 const HomeIcon: React.FC<HomeIconProps> = ({isFocused}) => {
   const src = rect(0, 0, 20, 20);
-  const dst = rect(0, 0, 18, 18);
+  const dst = rect(0, 0, 16, 16);
 
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.placeholder), BlendMode.SrcIn),
   );
-  const emptyPaint = useMemo(() => Skia.Paint(), []);
-  emptyPaint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+  const focusedPaint = useMemo(() => Skia.Paint(), []);
+  focusedPaint.setColorFilter(
+    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.dark), BlendMode.SrcIn),
   );
   return (
     <Canvas style={{width: 20, height: 20}}>
-      <Group layer={paint} transform={fitbox('contain', src, dst)}>
+      <Group
+        layer={isFocused ? focusedPaint : paint}
+        transform={fitbox('contain', src, dst)}>
         <ImageSVG svg={Icon} x={0} y={0} width={20} height={20} />
       </Group>
     </Canvas>

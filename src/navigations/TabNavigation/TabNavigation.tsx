@@ -7,6 +7,7 @@ import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import AppBottomTabBar from '../../molecules/AppBottomTabBar/AppBottomTabBar';
 import HomeScreen from '../../screens/HomeScreen/HomeScreen';
 import LeaderboardScreen from '../../screens/LeaderboardScreen/LeaderboardScreen';
+import {Colors} from '../../utils/theme';
 import ExploreNavigation from '../ExploreNavigation/ExploreNavigation';
 import ProfileNavigation from '../ProfileNavigation/ProfileNavigation';
 import {TabNavigationRouteList} from './TabNavigationTypes';
@@ -44,7 +45,12 @@ const TabNavigation = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => {
-            return <TrendIcon />;
+            return (
+              <TrendIcon
+                color={focused ? Colors.dark : Colors.placeholder}
+                size={22}
+              />
+            );
           },
         }}
       />
@@ -56,7 +62,7 @@ const TabNavigation = () => {
           headerShown: false,
           title: 'Profile',
           tabBarIcon: ({focused}) => {
-            return <ProfileIcon isFocused={focused} />;
+            return <ProfileIcon isFocused={focused} size={18} />;
           },
         }}
       />

@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   FlatList,
   Image,
   ScrollView,
@@ -25,15 +24,14 @@ import TrendIcon from '../../atoms/TrendIcon/TrendIcon';
 import {horizontalScale} from '../../utils/scale';
 import {data as dummyData} from '../../utils/dummyData';
 import {IStyle} from '../../interface/styleInterface';
-import {
-  useGetUserStylesByUserNameQuery,
-  useLazyGetUserStylesByUserNameQuery,
-} from '../../feature/services/style';
+import {useLazyGetUserStylesByUserNameQuery} from '../../feature/services/style';
 import {useAppDispatch} from '../../feature/hooks';
 import {
   setFeedOnFollow,
   setFeedOnUnFollow,
 } from '../../feature/slice/feedSlice';
+import AppButton from '../../atoms/AppButton/AppButton';
+import {scale} from 'react-native-size-matters';
 
 const CreatorProfileScreen: React.FC<
   ParentNavProps<'CreatorProfileScreen'>
@@ -108,6 +106,7 @@ const CreatorProfileScreen: React.FC<
       <AppHeader hideSetting={false} hideChat={true} />
       <View style={styles.mainContainer}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <View>
               <View style={styles.profileContainer}>
@@ -161,15 +160,18 @@ const CreatorProfileScreen: React.FC<
                       </AppText>
                     </View>
                   </View>
-                  <TouchableOpacity
-                    style={styles.editBtn}
+                  <AppButton
                     onPress={() => {
                       handleFollowUser(!follow);
-                    }}>
-                    <AppText lineHeight={14} style={styles.editText}>
-                      {follow ? 'Following' : 'Follow'}
-                    </AppText>
-                  </TouchableOpacity>
+                    }}
+                    style={styles.editBtn}
+                    width={scale(200)}
+                    height={40}
+                    textStyle={styles.editText}
+                    hideShadow={true}
+                    radius={12}>
+                    {follow ? 'Following' : 'Follow'}
+                  </AppButton>
                 </View>
               </View>
               <View style={styles.nameContainer}>
@@ -187,7 +189,7 @@ const CreatorProfileScreen: React.FC<
                 <AppText lineHeight={16} style={styles.tendingCount}>
                   10
                 </AppText>
-                <TrendIcon />
+                <TrendIcon color={Colors.primary} />
                 <AppText lineHeight={14} style={styles.tendingTitle}>
                   Styles
                 </AppText>

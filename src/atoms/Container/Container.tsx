@@ -12,11 +12,7 @@ const Container: React.FC<ContainerProps> = ({
   style,
   mainContainerStyle,
 }) => {
-  return (
-    <View style={[styles.mainContainer, mainContainerStyle]}>
-      <View style={[styles.container, style]}>{children}</View>
-    </View>
-  );
+  return <View style={[styles.container, style]}>{children}</View>;
 };
 
 export default Container;

@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {FlatList, View} from 'react-native';
 import Animated from 'react-native-reanimated';
+import {scale, verticalScale} from 'react-native-size-matters';
 import AppText from '../../atoms/AppText/AppText';
+import Container from '../../atoms/Container/Container';
 import {useAppSelector} from '../../feature/hooks';
 import {
   useGetUserFeedQuery,
@@ -27,59 +29,57 @@ const HomeScreen = () => {
   const [isScrollStart, setIsScrollStart] = useState(false);
 
   return (
-    <View style={styles.mainContainer}>
-      <Animated.View style={[styles.container]}>
-        <AppHeader />
+    <Container>
+      <AppHeader />
 
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={
-            <View style={styles.tagLineContainer}>
-              <AppText lineHeight={18} style={styles.tagLine}>
-                Ready to
-              </AppText>
-              <AppText lineHeight={18} style={styles.goTagLine}>
-                Go
-              </AppText>
-            </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View style={styles.tagLineContainer}>
+            <AppText lineHeight={18} style={styles.tagLine}>
+              Ready to
+            </AppText>
+            <AppText lineHeight={18} style={styles.goTagLine}>
+              Go
+            </AppText>
+          </View>
+        }
+        data={userFeed}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => {
+          return <StyleCard {...item} />;
+        }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: verticalScale(100),
+          paddingHorizontal: scale(20),
+        }}
+        ItemSeparatorComponent={() => (
+          <View
+            style={{
+              height: 20,
+            }}
+          />
+        )}
+        scrollEventThrottle={16}
+        decelerationRate="fast"
+        onMomentumScrollBegin={() => {
+          setIsScrollStart(true);
+        }}
+        onEndReached={() => {
+          if (userFeed.length > 0 && isScrollStart) {
+            getUserFeed({
+              cursor: userFeed[userFeed.length - 1].created_at,
+            }).finally(() => {
+              setIsScrollStart(false);
+            });
           }
-          data={userFeed}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return <StyleCard {...item} />;
-          }}
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 100,
-            paddingHorizontal: 20,
-          }}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                height: 20,
-              }}
-            />
-          )}
-          scrollEventThrottle={16}
-          decelerationRate="fast"
-          onMomentumScrollBegin={() => {
-            setIsScrollStart(true);
-          }}
-          onEndReached={() => {
-            if (userFeed.length > 0 && isScrollStart) {
-              getUserFeed({
-                cursor: userFeed[userFeed.length - 1].created_at,
-              }).finally(() => {
-                setIsScrollStart(false);
-              });
-            }
-          }}
-        />
-      </Animated.View>
+        }}
+      />
 
       <VerifyMobileModal visible={!user?.isMobileVerified} />
       <StyleTagModal visible={!user?.isComplete} />
-    </View>
+    </Container>
   );
 };
 

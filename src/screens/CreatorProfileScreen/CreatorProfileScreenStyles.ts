@@ -99,12 +99,9 @@ export const styles = StyleSheet.create({
     marginLeft: 20,
   },
   editBtn: {
-    borderWidth: 1,
-    paddingVertical: 5,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 10,
-    borderColor: Colors.dark,
     marginLeft: 15,
   },
   editText: {

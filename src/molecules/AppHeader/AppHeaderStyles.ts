@@ -1,22 +1,23 @@
-import {StyleSheet} from 'react-native';
+import {ScaledSheet} from 'react-native-size-matters';
+import {getFontSize} from '../../utils/getFontSize';
 import {Colors, FontFamily} from '../../utils/theme';
 
-export const styles = StyleSheet.create({
+export const styles = ScaledSheet.create({
   mainContainer: {
-    height: 60,
+    height: '50@vs',
     width: '100%',
     alignItems: 'center',
-    borderTopRightRadius: 35,
-    borderTopLeftRadius: 35,
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    paddingHorizontal: '20@s',
     justifyContent: 'space-between',
     zIndex: 10,
     backgroundColor: Colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.containerBackground,
   },
   rightSection: {
     flexDirection: 'row',
-    width: 60,
+    width: '60@s',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
@@ -24,10 +25,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 90,
+    width: '90@s',
   },
   logoTitle: {
-    fontSize: 19,
+    fontSize: getFontSize(19),
     fontFamily: FontFamily.SatisfyRegular,
     color: Colors.dark,
   },

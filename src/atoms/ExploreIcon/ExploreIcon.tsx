@@ -24,19 +24,21 @@ type ExploreIconProps = {
 };
 const ExploreIcon: React.FC<ExploreIconProps> = ({isFocused}) => {
   const src = rect(0, 0, 24, 24);
-  const dst = rect(0, 0, 24, 24);
+  const dst = rect(0, 0, 20, 20);
 
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.placeholder), BlendMode.SrcIn),
   );
   const emptyPaint = useMemo(() => Skia.Paint(), []);
   emptyPaint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.dark), BlendMode.SrcIn),
   );
   return (
     <Canvas style={{width: 24, height: 24}}>
-      <Group layer={paint} transform={fitbox('contain', src, dst)}>
+      <Group
+        layer={isFocused ? emptyPaint : paint}
+        transform={fitbox('contain', src, dst)}>
         <ImageSVG svg={Icon} x={0} y={0} width={20} height={20} />
       </Group>
     </Canvas>

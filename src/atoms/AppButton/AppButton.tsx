@@ -30,6 +30,7 @@ type AppButtonProps = TouchableOpacityProps & {
   children: ReactNode;
   textStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
+  hideShadow?: boolean;
 };
 
 const referenceWidth = horizontalScale(302);
@@ -40,6 +41,7 @@ const AppButton: React.FC<AppButtonProps> = ({
   textStyle,
   style,
   radius = 16,
+  hideShadow = false,
   ...props
 }) => {
   const widthDiff = width + 45 - width;
@@ -60,20 +62,22 @@ const AppButton: React.FC<AppButtonProps> = ({
           justifyContent: 'center',
         },
       ]}>
-      <Canvas
-        style={{
-          height: height * 2.5,
-          width: width + 45,
-          position: 'absolute',
-          top: -18,
-        }}
-        mode="continuous">
-        <Box
-          box={rrect(rect(widthDiff / 2, 10, width, height), radius, radius)}
-          color="transparent">
-          <BoxShadow dx={0} dy={15} blur={10} color={Colors.shadow} />
-        </Box>
-      </Canvas>
+      {!hideShadow && (
+        <Canvas
+          style={{
+            height: height * 2.5,
+            width: width + 45,
+            position: 'absolute',
+            top: -18,
+          }}
+          mode="continuous">
+          <Box
+            box={rrect(rect(widthDiff / 2, 10, width, height), radius, radius)}
+            color="transparent">
+            <BoxShadow dx={0} dy={15} blur={10} color={Colors.shadow} />
+          </Box>
+        </Canvas>
+      )}
       <TouchableOpacity
         {...props}
         activeOpacity={0.8}

@@ -25,14 +25,20 @@ const tIcon = Skia.SVG.MakeFromString(
 
 type TrendIconProps = {
   isMarked?: boolean;
+  color?: string;
+  size?: number;
 };
-const TrendIcon = ({isMarked = false}: TrendIconProps) => {
+const TrendIcon = ({
+  isMarked = false,
+  color = Colors.white,
+  size = 24,
+}: TrendIconProps) => {
   const src = rect(0, 0, 24, 24);
-  const dst = rect(0, 0, 23, 24);
+  const dst = rect(0, 0, size, size);
 
   const paint = useMemo(() => Skia.Paint(), []);
   paint.setColorFilter(
-    Skia.ColorFilter.MakeBlend(Skia.Color(Colors.white), BlendMode.SrcIn),
+    Skia.ColorFilter.MakeBlend(Skia.Color(color), BlendMode.SrcIn),
   );
 
   return (

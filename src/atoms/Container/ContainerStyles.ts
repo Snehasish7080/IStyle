@@ -1,18 +1,13 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {horizontalScale} from '../../utils/scale';
-import {Colors, FontFamily} from '../../utils/theme';
+import {StyleSheet} from 'react-native';
+import {Colors} from '../../utils/theme';
 
 export const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: Colors.black,
-    paddingHorizontal: 2,
-    paddingVertical: 2,
+    backgroundColor: Colors.containerBackground,
   },
   container: {
     backgroundColor: Colors.containerBackground,
-    borderRadius: 35,
-    overflow: 'hidden',
-    height: Dimensions.get('window').height - 72,
+    flex: 1,
   },
 });

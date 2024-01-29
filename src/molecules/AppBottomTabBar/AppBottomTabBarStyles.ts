@@ -1,14 +1,17 @@
-import {StyleSheet} from 'react-native';
+import {ScaledSheet} from 'react-native-size-matters';
 import {Colors} from '../../utils/theme';
 
-export const styles = StyleSheet.create({
+export const styles = ScaledSheet.create({
   mainContainer: {
-    height: 60,
+    height: '50@vs',
     width: '100%',
     alignItems: 'center',
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.white,
     position: 'absolute',
     bottom: 0,
+    borderTopLeftRadius: '16@s',
+    overflow: 'hidden',
+    borderTopRightRadius: '16@s',
   },
   container: {
     width: '100%',
@@ -16,9 +19,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 50,
     justifyContent: 'space-between',
-    height: 60,
-    backgroundColor: Colors.black,
-    marginTop: 1,
+    height: '50@vs',
+    backgroundColor: Colors.white,
   },
   tab: {
     alignItems: 'center',

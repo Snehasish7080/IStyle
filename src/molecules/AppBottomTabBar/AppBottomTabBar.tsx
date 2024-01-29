@@ -83,9 +83,9 @@ const AppBottomTabBar: React.FC<AppBottomTabBarProps> = ({
               key={route.name}
               style={[
                 styles.tab,
-                {
-                  backgroundColor: isFocused ? Colors.primary : Colors.black,
-                },
+                // {
+                //   backgroundColor: isFocused ? Colors.primary : Colors.black,
+                // },
               ]}
               activeOpacity={0.7}>
               {icons()}
