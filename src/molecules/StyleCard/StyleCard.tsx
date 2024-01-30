@@ -37,6 +37,7 @@ import HeartIcon from '../../atoms/HeartIcon/HeartIcon';
 import moment from 'moment';
 import CommentIcon from '../../atoms/CommentIcon/CommentIcon';
 import CommentModal from '../CommentModal/CommentModal';
+import LikedUserModal from '../../organisms/LinkedUserModal/LikedUserModal';
 
 type StyleCardProps = {
   id: string;
@@ -74,6 +75,7 @@ const StyleCard: React.FC<StyleCardProps> = ({
   const [markTrend, setMarkTrend] = useState(isMarked);
   const [showOptions, setShowOptions] = useState(false);
   const [showAddComment, setShowAddComment] = useState(false);
+  const [showLikedusers, setShowLikedUsers] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -237,9 +239,11 @@ const StyleCard: React.FC<StyleCardProps> = ({
       </View>
       <View style={styles.linkContainer}>
         <View style={styles.countContainer}>
-          <AppText lineHeight={11} style={styles.trendCount}>
-            {trendCount} {trendCount === 1 ? 'like' : 'likes'}
-          </AppText>
+          <Pressable onPress={() => setShowLikedUsers(true)}>
+            <AppText lineHeight={11} style={styles.trendCount}>
+              {trendCount} {trendCount === 1 ? 'like' : 'likes'}
+            </AppText>
+          </Pressable>
           <AppText lineHeight={11} style={styles.bullet}>
             •
           </AppText>
@@ -294,6 +298,12 @@ const StyleCard: React.FC<StyleCardProps> = ({
         visible={showAddComment}
         handleClose={() => {
           setShowAddComment(false);
+        }}
+      />
+      <LikedUserModal
+        visible={showLikedusers}
+        handleClose={() => {
+          setShowLikedUsers(false);
         }}
       />
     </View>

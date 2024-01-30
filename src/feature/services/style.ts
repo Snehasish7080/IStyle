@@ -78,6 +78,15 @@ type clickedStyleResponse = {
   success: boolean;
 };
 
+type getAllLikedUsersByIdResponse = {
+  data: {
+    userName: string;
+    profilePic: string;
+  }[];
+  message: string;
+  success: boolean;
+};
+
 export const styleApi = createApi({
   reducerPath: 'styleApi',
   baseQuery: fetchBaseQuery({
@@ -174,6 +183,11 @@ export const styleApi = createApi({
         method: 'Post',
       }),
     }),
+    getAllLikedUsersById: build.query<getAllLikedUsersByIdResponse, string>({
+      query: id => ({
+        url: `/${id}`,
+      }),
+    }),
   }),
 });
 
@@ -189,4 +203,5 @@ export const {
   useUnmarkTrendMutation,
   useLazyGetStyleByIdQuery,
   useClickStyleMutation,
+  useGetAllLikedUsersByIdQuery,
 } = styleApi;
